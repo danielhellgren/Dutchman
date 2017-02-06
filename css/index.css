@@ -1,6 +1,34 @@
 .header {
     background: red;
-    height: 100px;
+    height: 50px;
+    line-height:50px;
+
+}
+
+.header-text {
+    display:inline-block;
+    /*vertical-align: top;*/
+    margin-top:0;
+    margin-left:5px;
+
+}
+button:hover{
+    cursor:pointer;
+}
+
+.login {
+    float: right;
+    height:50px;
+    width:90px;
+
+}
+.language{
+    position:relative;
+    float:right;
+    height:40px;
+    width:80px;
+    background:green;
+
 }
 
 .main {

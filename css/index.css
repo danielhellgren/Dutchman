@@ -1,0 +1,24 @@
+.header {
+    background: red;
+    height: 100px;
+}
+
+.main {
+    display: flex;
+    flex-flow: row;
+}
+
+.drinks,
+.order-summary {
+    display: inline-block;
+    height: 300px;
+    width: 49%;
+}
+
+.drinks {
+    background: green;
+}
+
+.order-summary {
+    background: blue;
+}

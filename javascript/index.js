@@ -4,6 +4,7 @@
 
 $(document).ready(function() {
     getBeer();
+    createEventHandlers();
 });
 
 //Call the API so that we can use the inventory information
@@ -35,4 +36,11 @@ function parseBeer(beers) {
         document.getElementsByClassName("drinks-grid")[0]
             .appendChild(beerDiv);
     }
+}
+
+function createEventHandlers() {
+    $('.drink').on('click', function() {
+        var beerId = this.getAttribute('data-beer-id');
+        alert("You clicked on a drink - " + beerId);
+    });
 }

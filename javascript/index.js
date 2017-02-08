@@ -39,7 +39,7 @@ function parseBeer(beers) {
 }
 
 function createEventHandlers() {
-    $('.drink').on('click', function() {
+    $(document).on('click', '.drink', function() {
         var beerId = this.getAttribute('data-beer-id');
         alert("You clicked on a drink - " + beerId);
     });

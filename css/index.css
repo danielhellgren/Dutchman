@@ -100,4 +100,15 @@ button:hover{
     background: blue;
 }
 .order-summary ul{list-style-type:none;}
-.order-summary span.orderQuantity{float:right;}
+.order-summary span.orderQuantity{
+    float:right;
+    width:100px;
+    text-align:center;
+}
+
+.order-summary span.orderQuantity button[type=decrease]{
+    float:left;
+}
+.order-summary span.orderQuantity button[type=increase]{
+    float:right;
+}

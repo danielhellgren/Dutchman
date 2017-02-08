@@ -18,11 +18,12 @@ function getBeer() {
   This has to be done to show the selection of drinks */
 function parseBeer(beers) {
     for (var i = 0; i < beers.length; i++) {
-        if (beers[i].namn == "") {
+        if (beers[i].namn == "") { //Beers with no name is named "Unknown"
             beers[i].namn = "Unknown";
         }
         var beerDiv = document.createElement('div');
         beerDiv.className = "drink";
+        beerDiv.setAttribute("data-beer-id",beers[i].beer_id);
 
         var beerNameDiv = document.createElement('div');
         beerNameDiv.className = "drink-name";

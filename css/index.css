@@ -22,3 +22,5 @@
 .order-summary {
     background: blue;
 }
+.order-summary ul{list-style-type:none;}
+.order-summary span.orderQuantity{float:right;}

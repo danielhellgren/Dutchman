@@ -1,3 +1,14 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
 .header {
     background: red;
     height: 50px;
@@ -33,20 +44,58 @@ button:hover{
 
 .main {
     display: flex;
-    flex-flow: row;
+    flex-grow: 1;
 }
 
 .drinks,
 .order-summary {
-    display: inline-block;
-    height: 300px;
-    width: 49%;
+    flex-grow: 1;
 }
 
 .drinks {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    padding: 20px;
     background: green;
 }
 
+.drinks-categories {
+    display: flex;
+    flex-shrink: 0;
+    height: 50px;
+    background: yellow;
+}
+
+.category {
+    flex-grow: 1;
+}
+
+.drinks-grid {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: purple;
+    overflow: scroll;
+}
+
+.drink {
+    width: 150px;
+    height: 200px;
+    margin: 10px;
+    background: orange;
+}
+
+.drink-name {}
+
+.drink-image {
+    display: block;
+    height: 160px;
+    margin: 0 auto;
+}
+
 .order-summary {
+    width: 35%;
     background: blue;
 }

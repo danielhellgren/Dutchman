@@ -3,10 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Login!</title>
+    <link rel="stylesheet" href="css/login.css">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="javascript/login.js"></script>
 </head>
+
 <body>
-    <a class="back" href="index.html">
-        <button type = "button" class = "back">Back</button>
-    </a>
+    <div class="header">
+
+        <a class="back" href="index.html">
+            <h1 class="header-text">The Flying Dutchman</h1>
+        </a>
+    </div>
+    <div class="login-box">
+        <h1 class="login-text">
+            Please enter your login information to continue!
+        </h1>
+        <!--<form name="loginform" onSubmit="return validateForm();"-->
+              <!--action="main.html" method="post">-->
+            <input type="text" class="username-field" placeholder="Enter Username" name="uname" required>
+
+            <input type="password" class="password-field" placeholder="Enter Password" name="psw" required>
+            <button type="submit" class="login-button">Login</button>
+        <!--</form>-->
+        <div class="error-msg"></div>
+    </div>
 </body>
 </html>

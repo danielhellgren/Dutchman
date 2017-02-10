@@ -39,7 +39,9 @@ function validateUP(users, uname, pword) {
             pword === users[i].username &&
             uname != "" && pword != "") {
             if (users[i].credentials != 0) {
-                window.location.href = 'indexDana.html'; //send to new website where the user is logged in
+               //var userId = users[i].user_id;
+                createCookie('uid',uname,7);
+                window.location.href = 'index.html'; //send to new website where the user is logged in
                 return false;
             }
             else {
@@ -51,6 +53,20 @@ function validateUP(users, uname, pword) {
     errorUP()
 }
 /*
+ create a cookie containing the user_id
+*/
+function createCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+
+/*
 If something of the if statements above are false the input
 fields will be cleared and an error message will be displayed.
 This will happen in a loop until the user goes backwards or enters
@@ -61,4 +77,11 @@ function errorUP() {
     document.getElementsByClassName("password-field")[0].value= "";
     var errorMsg = "*Wrong username or password";
     document.getElementsByClassName("error-msg")[0].innerHTML =errorMsg;
+}
+/*
+Erase a cookie by putting the expiration date to a date that
+has already been.
+ */
+function eraseCookie(name) {
+    createCookie(name,"",-1);
 }

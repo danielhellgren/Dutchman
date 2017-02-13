@@ -99,6 +99,14 @@ button:hover{
     width: 35%;
     background: blue;
 }
+
+.currentOrder {
+    border-radius:10px;
+    background:white;
+    margin:5px;
+    padding:5px;
+}
+
 .order-summary ul{list-style-type:none;}
 .order-summary span.orderQuantity{
     float:right;

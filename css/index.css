@@ -112,6 +112,12 @@ button:hover{
 .order-summary {
     width: 35%;
     background: blue;
+    display:flex;
+    flex-direction: column;
+}
+
+.currentOrder, .summary-control {
+    flex-grow: 1;
 }
 
 .currentOrder {
@@ -119,6 +125,7 @@ button:hover{
     background:white;
     margin:5px;
     padding:5px;
+    flex-basis: 85%;
 }
 
 .order-summary ul{list-style-type:none;}
@@ -132,5 +139,14 @@ button:hover{
     float:left;
 }
 .order-summary span.orderQuantity button[type=increase]{
+    float:right;
+}
+
+.summary-control{
+    align-self:flex-end;
+}
+
+
+.order-summary .summary-control button{
     float:right;
 }

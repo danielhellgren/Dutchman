@@ -1,12 +1,36 @@
 html,
 body {
     height: 100%;
+    font-family: sans-serif;
 }
 
 body {
     display: flex;
     flex-direction: column;
     margin: 0;
+    background: #EEE;
+}
+
+/* Reusable class to give each section a card-style look */
+.card {
+    background: #FFF;
+    border: 2px solid #BBB;
+    box-shadow: 0 0 2px #EEE;
+    border-radius: 3px;
+}
+
+.info-button {
+    height: 30px;
+    width: 30px;
+    float: right;
+    margin-right: 2px;
+    margin-top: 2px;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    border-radius: 15px;
+    background: #5298e6;
+    color: #fff;
 }
 
 /*the overlay for info box*/
@@ -43,10 +67,19 @@ body {
 .info-box-header {
     display: flex;
     height: 40px;
+    line-height: 40px;
     /*padding: 2px 16px;*/
     /*font-size: 30px;*/
-    background-color: lightblue;
+    background-color: #EEE;
     color: black;
+}
+
+.info-header {
+    margin: 0 10px;
+}
+
+.info-sub-header {
+
 }
 
 /*the close button for info window*/
@@ -54,9 +87,13 @@ body {
     color: #aaa;
     /*position: fixed;*/
     float: right;
-    margin-top: -5px;
+    /*margin-top: -5px;*/
     font-size: 36px;
     font-weight: bold;
+    width: 40px;
+    text-align: center;
+    background: #cecece;
+    color: #fb1414;
 }
 
 /*what to do on hover over close button*/
@@ -70,19 +107,22 @@ body {
 /*the main body of the info box*/
 .info-box-body{
     display: flex;
-    padding: 5px;
+    padding: 10px;
     /*flex-grow: 1;*/
     font-size: 20px;
     height: calc(100% - 10px);
-    width: calc(100% - 10px);
-    background-color: darkorange;
+    width: calc(100% - 20px);
     color: black;
 }
 
 .header {
-    background: red;
+    background: #FFF;
     height: 50px;
     line-height:50px;
+    /* Cancel out unneeded .card properties */
+    border-width: 0 0 3px 0;
+    border-radius: 0;
+    padding-left: 20px;
 }
 
 .header-text {
@@ -139,8 +179,8 @@ button:hover{
     display: flex;
     flex-direction: column;
     width: 65%;
-    padding: 20px;
-    background: green;
+    margin: 20px;
+    /*background: green;*/
 }
 
 .drinks-categories {
@@ -152,6 +192,7 @@ button:hover{
 
 .category {
     flex-grow: 1;
+    font-size: 20px;
 }
 
 .drinks-grid {
@@ -159,7 +200,6 @@ button:hover{
     flex-grow: 1;
     flex-wrap: wrap;
     justify-content: center;
-    background: purple;
     overflow-y: scroll;
 }
 
@@ -167,10 +207,14 @@ button:hover{
     width: 150px;
     height: 200px;
     margin: 10px;
-    background: orange;
+    background: #EEE;
+    border: 3px solid #BBB;
 }
 
-.drink-name {}
+.drink-name {
+    margin-right: 32px; /* Prevent it being hidden by .info-button */
+    padding: 5px 0 0 5px;
+}
 
 .drink-image {
     display: block;
@@ -178,11 +222,33 @@ button:hover{
     margin: 0 auto;
 }
 
+.drink-quantity {
+    display: flex;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.change-quantity {
+    width: 40px;
+    height: 40px;
+}
+.change-quantity.decrease {
+    /*float: left;*/
+}
+
+.current-quantity {
+    flex-grow: 1;
+}
+
+.change-quantity.increase {
+    /*float: right;*/
+}
+
 .order-summary {
     width: 35%;
-    background: blue;
     display:flex;
     flex-direction: column;
+    margin: 20px 20px 20px 0;
 }
 
 .currentOrder, .summary-control {
@@ -192,9 +258,21 @@ button:hover{
 .currentOrder {
     border-radius:10px;
     background:white;
-    margin:5px;
-    padding:5px;
+    /*margin:5px;*/
+    padding: 20px;
     flex-basis: 85%;
+}
+
+.currentOrder ul {
+    margin: 0;
+    padding: 0;
+}
+
+.currentOrder li {
+    background: #EEE;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #CCC;
 }
 
 .order-summary ul{list-style-type:none;}

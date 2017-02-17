@@ -67,6 +67,11 @@ function parseBeer(beers) {
         beerNameDiv.innerHTML = beers[i].namn + "<br>";
         beerNameDiv.innerHTML += beers[i].namn2;
 
+        var infoButtonDiv = document.createElement('div');
+        infoButtonDiv.className = 'info-button';
+        infoButtonDiv.innerHTML = '?';
+
+        beerDiv.appendChild(infoButtonDiv);
         beerDiv.appendChild(beerNameDiv);
 
         document.getElementsByClassName("drinks-grid")[0]
@@ -107,11 +112,13 @@ function parseBeerInfo(beer_info){
 
     var infoHeader = document.createElement('div');
     var infoSubHeader = document.createElement('div');
+    infoSubHeader.className = 'info-sub-header';
     infoHeader.className = "info-header";
     infoHeader.style.fontSize = "30px";
     infoHeader.innerHTML = beer_info[0].namn;
     if(beer_info[0].namn2.length > 0){
-        infoSubHeader.innerHTML += "<br>" + beer_info[0].namn2;
+        //infoSubHeader.innerHTML += "<br>" + beer_info[0].namn2;
+        infoSubHeader.innerHTML += beer_info[0].namn2;
     }
 
     // add everything to header
@@ -125,17 +132,17 @@ function parseBeerInfo(beer_info){
     // alert("ekologisk: " + beer_info[0].ekologisk);
     infoBody.innerHTML = "Ecological: ";
     if(beer_info[0].ekologisk == "1"){
-        infoBody.innerHTML += "Yes";
+        infoBody.innerHTML += "<b>Yes</b>";
     }
     else {
-        infoBody.innerHTML += "No";
+        infoBody.innerHTML += "<b>No</b>";
     }
 
-    infoBody.innerHTML += "<br><br>Alcohol: " + beer_info[0].alkoholhalt;
+    infoBody.innerHTML += "<br><br>Alcohol: <b>" + beer_info[0].alkoholhalt + "</b>";
     // GROUP
-    infoBody.innerHTML += "<br><br>Group: " + beer_info[0].varugrupp;
+    infoBody.innerHTML += "<br><br>Group: <b>" + beer_info[0].varugrupp + "</b>";
     //Origin country
-    infoBody.innerHTML += "<br><br>Country: " + beer_info[0].ursprunglandnamn;
+    infoBody.innerHTML += "<br><br>Country: <b>" + beer_info[0].ursprunglandnamn + "</b>";
 
     //add final resuilt
     document.getElementsByClassName("info-box-body")[0].appendChild(infoBody);
@@ -182,8 +189,8 @@ function hideInfo() {
 function createEventHandlers() {
 
     //on click on one of the beers
-    $(document).on('click', '.drink', function() {
-        var beerId = this.getAttribute('data-beer-id');
+    $(document).on('click', '.info-button', function() {
+        var beerId = $(this).parent()[0].getAttribute('data-beer-id');
         getBeerInfo(beerId);
         showInfo();
         // alert("You clicked on a drink - " + beerId);

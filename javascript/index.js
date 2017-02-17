@@ -74,10 +74,128 @@ function parseBeer(beers) {
     }
 }
 
+function parseBeerInfo(beer_info){
+    // beeer info:
+    //
+    //     nr: "197702",
+    //     artikelid: "644574",
+    //     varnummer: "1977",
+    //     namn: "BEO",
+    //     namn2: "Apple Green Tea",
+    //     prisinklmoms: "12.90",
+    //     volymiml: "",
+    //     prisperliter: "",
+    //     saljstart: "2012-06-01",
+    //     slutlev: " ",
+    //     varugrupp: "Alkoholfritt, Övrigt",
+    //     forpackning: "Flaska",
+    //     forslutning: "",
+    //     ursprung: "",
+    //     ursprunglandnamn: "Danmark",
+    //     producent: "Carlsberg Sverige AB",
+    //     leverantor: "Carlsberg Sverige AB",
+    //     argang: "",
+    //     provadargang: "",
+    //     alkoholhalt: "0.1%",
+    //     modul: "",
+    //     sortiment: "FSÖ",
+    //     ekologisk: "0",
+    //     koscher: "0"
+
+    /* Get beer name and name2 into header
+     * two different divs because namn should be in bigger font than namn2 */
+
+    var infoHeader = document.createElement('div');
+    var infoSubHeader = document.createElement('div');
+    infoHeader.className = "info-header";
+    infoHeader.style.fontSize = "30px";
+    infoHeader.innerHTML = beer_info[0].namn;
+    if(beer_info[0].namn2.length > 0){
+        infoSubHeader.innerHTML += "<br>" + beer_info[0].namn2;
+    }
+
+    // add everything to header
+    document.getElementsByClassName("info-box-header")[0].appendChild(infoHeader);
+    document.getElementsByClassName("info-box-header")[0].appendChild(infoSubHeader);
+
+    /* get everything else and add it to the main body of infobox*/
+    var infoBody = document.createElement('div');
+    infoBody.className= "info-body";
+    // Ecological
+    // alert("ekologisk: " + beer_info[0].ekologisk);
+    infoBody.innerHTML = "Ecological: ";
+    if(beer_info[0].ekologisk == "1"){
+        infoBody.innerHTML += "Yes";
+    }
+    else {
+        infoBody.innerHTML += "No";
+    }
+    // GROUP
+    infoBody.innerHTML += "<br><br>Group: " + beer_info[0].varugrupp;
+    //Origin country
+    infoBody.innerHTML += "<br><br>Country: " + beer_info[0].ursprunglandnamn;
+
+    //add final resuilt
+    document.getElementsByClassName("info-box-body")[0].appendChild(infoBody);
+}
+
+function getBeerInfo(beer_id){
+    // alert("You clicked on a drink - " + beer_id);
+    $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
+        + beer_id, function(data) {
+        parseBeerInfo(data.payload);
+        });
+}
+
+// shows the overlay and information box
+function showInfo(overlay) {
+    // alert("Trying to show info");
+    var overlay = document.getElementsByClassName("overlay")[0];
+    overlay.style.display = "block";
+}
+
+
+// hide infobox and clear contents
+function hideInfo() {
+    // alert("Trying to hide info");
+    // get classes
+    var headerDiv = document.getElementsByClassName("info-box-header");
+    var bodyDiv = document.getElementsByClassName("info-box-body");
+    var overlay = document.getElementsByClassName("overlay")[0];
+
+    // delete subdivs
+    while(headerDiv[0].firstChild) {
+        headerDiv[0].removeChild(headerDiv[0].firstChild);
+    }
+    while(bodyDiv[0].firstChild){
+        bodyDiv[0].removeChild(bodyDiv[0].firstChild);
+    }
+
+    // hide overlay
+    overlay.style.display = "none";
+}
+
+
+//EVENT handlers
 function createEventHandlers() {
+
+    //on click on one of the beers
     $(document).on('click', '.drink', function() {
         var beerId = this.getAttribute('data-beer-id');
-        alert("You clicked on a drink - " + beerId);
+        getBeerInfo(beerId);
+        showInfo();
+        // alert("You clicked on a drink - " + beerId);
+    });
+    $(document).on('click', '.close-info-box', function() {
+        hideInfo();
+    });
+
+    $(document).on('click', 'window', function(event) {
+        var overlay = document.getElementsByClassName("overlay")[0];
+        if(event.target == overlay){
+            hideInfo(overlay);
+        }
+
     });
 }
 

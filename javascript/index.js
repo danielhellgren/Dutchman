@@ -130,6 +130,8 @@ function parseBeerInfo(beer_info){
     else {
         infoBody.innerHTML += "No";
     }
+
+    infoBody.innerHTML += "<br><br>Alcohol: " + beer_info[0].alkoholhalt;
     // GROUP
     infoBody.innerHTML += "<br><br>Group: " + beer_info[0].varugrupp;
     //Origin country

@@ -45,6 +45,7 @@ function validateUP(users, uname, pword) {
                 return false;
             }
             else {
+                createCookie('uid',uname,7);
                 window.location.href = 'adminindex.html';
                 return false;
             }

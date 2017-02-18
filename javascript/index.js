@@ -4,9 +4,10 @@
 
 $(document).ready(function() {
     changeLoginButton();
-    getBeer();
+    getDrinks();
     createEventHandlers();
     createEventHandlers2();
+    createEventHandlers3();
 });
 
 /*
@@ -43,24 +44,60 @@ function getCredits(loggedInUser) {
         });
 }
 
-//Call the API so that we can use the inventory information
-function getBeer() {
+/*Call the API so that we can use the inventory information.
+For each drink we have to get its information so that we know
+in which tab we are gonna put it.
+*/
+
+function getDrinks() {
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=inventory_get",
     function(data) {
-       parseBeer(data.payload);
+        var drinkId = [];
+        for (var i = 0; i< data.payload.length; i++) {
+            if (data.payload[i].namn !=="") { //remove drinks with no name.
+                drinkId[i-7] = data.payload[i].beer_id;
+            }
+        }
+        getDrinksInfo(drinkId);
     });
+}
+/*
+Get the drink information from each drink. Compare it to the
+type of drink it is in the database. Depending on what type of
+drink it is call different functions that puts the drink into
+different tabs on the webpage. The parsing into tabs is done
+by four different functions - one for each tab.
+ */
+function getDrinksInfo(drinkId) {
+    for (var j = 0; j < drinkId.length; j++) {
+        $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
+            + drinkId[j], function(data) {
+            var drinkTypeReal =data.payload[0].varugrupp;
+            var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
+            if (drinkType == "Öl") {
+                parseBeer(data.payload);
+            }
+            else if (drinkType == "Rött vin" || drinkType == "Vitt vin") {
+                parseWine(data.payload);
+            }
+            else if (drinkType == "Cider" || drinkType == "Blanddrycker") {
+                parseCider(data.payload);
+            }
+            else if (drinkType == "Alkoholfritt") {
+                parseNonAlcoholic(data.payload);
+            }
+        });
+    }
 }
 
 /* Loop each item in the inventory and add it to the html.
   This has to be done to show the selection of drinks */
 function parseBeer(beers) {
     for (var i = 0; i < beers.length; i++) {
-        if (beers[i].namn == "") { //Beers with no name is named "Unknown"
-            beers[i].namn = "Unknown";
-        }
         var beerDiv = document.createElement('div');
         beerDiv.className = "drink";
-        beerDiv.setAttribute("data-beer-id",beers[i].beer_id);
+        var beerId = beers[i].nr;
+        beerDiv.setAttribute("data-beer-id",beerId);
 
         var beerNameDiv = document.createElement('div');
         beerNameDiv.className = "drink-name";
@@ -76,6 +113,80 @@ function parseBeer(beers) {
 
         document.getElementsByClassName("drinks-grid")[0]
             .appendChild(beerDiv);
+        }
+
+
+}
+
+function parseWine(wines) {
+    for (var i = 0; i < wines.length; i++) {
+        var wineDiv = document.createElement('div');
+        wineDiv.className = "drink";
+        var beerId = wines[i].nr;
+        wineDiv.setAttribute("data-beer-id",beerId);
+
+        var wineNameDiv = document.createElement('div');
+        wineNameDiv.className = "drink-name";
+        wineNameDiv.innerHTML = wines[i].namn + "<br>";
+        wineNameDiv.innerHTML += wines[i].namn2;
+
+        var infoButtonDiv = document.createElement('div');
+        infoButtonDiv.className = 'info-button';
+        infoButtonDiv.innerHTML = '?';
+
+        wineDiv.appendChild(infoButtonDiv);
+        wineDiv.appendChild(wineNameDiv);
+
+        document.getElementsByClassName("wine-grid")[0]
+                .appendChild(wineDiv);
+        }
+}
+
+function parseCider(ciders) {
+    for (var i = 0; i < ciders.length; i++) {
+        var ciderDiv = document.createElement('div');
+        ciderDiv.className = "drink";
+        var beerId = ciders[i].nr;
+        ciderDiv.setAttribute("data-beer-id",beerId);
+
+        var ciderNameDiv = document.createElement('div');
+        ciderNameDiv.className = "drink-name";
+        ciderNameDiv.innerHTML = ciders[i].namn + "<br>";
+        ciderNameDiv.innerHTML += ciders[i].namn2;
+
+        var infoButtonDiv = document.createElement('div');
+        infoButtonDiv.className = 'info-button';
+        infoButtonDiv.innerHTML = '?';
+
+        ciderDiv.appendChild(infoButtonDiv);
+        ciderDiv.appendChild(ciderNameDiv);
+
+        document.getElementsByClassName("cider-grid")[0]
+            .appendChild(ciderDiv);
+    }
+}
+
+function parseNonAlcoholic(nas) {
+    for (var i = 0; i < nas.length; i++) {
+        var nasDiv = document.createElement('div');
+        nasDiv.className = "drink";
+        var beerId = nas[i].nr;
+        nasDiv.setAttribute("data-beer-id",beerId);
+
+        var nasNameDiv = document.createElement('div');
+        nasNameDiv.className = "drink-name";
+        nasNameDiv.innerHTML = nas[i].namn + "<br>";
+        nasNameDiv.innerHTML += nas[i].namn2;
+
+        var infoButtonDiv = document.createElement('div');
+        infoButtonDiv.className = 'info-button';
+        infoButtonDiv.innerHTML = '?';
+
+        nasDiv.appendChild(infoButtonDiv);
+        nasDiv.appendChild(nasNameDiv);
+
+        document.getElementsByClassName("na-grid")[0]
+            .appendChild(nasDiv);
     }
 }
 
@@ -149,7 +260,7 @@ function parseBeerInfo(beer_info){
 }
 
 function getBeerInfo(beer_id){
-    // alert("You clicked on a drink - " + beer_id);
+     // alert("You clicked on a drink - " + beer_id);
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
         + beer_id, function(data) {
         parseBeerInfo(data.payload);
@@ -183,6 +294,7 @@ function hideInfo() {
     // hide overlay
     overlay.style.display = "none";
 }
+
 
 
 //EVENT handlers
@@ -223,6 +335,54 @@ function createEventHandlers2() {
         }
         eraseCookie("uid");
     });
+}
+
+/*
+This event handler listens to the category buttons and if one of
+them is pressed it has to change the view and change the color
+of the highlighted button.
+ */
+function createEventHandlers3() {
+    $(document).on('click', '.category', function() {
+        changeCategoryColor(this.id);
+    });
+
+}
+/*
+Remove the selected class from all category buttons and then
+add it to the pressed button so that it gets highlighted
+ */
+function changeCategoryColor(buttonId) {
+    // $('.category').each(function(){
+        $('.category').removeClass('selected');
+    // });
+    $('#' +buttonId).addClass('selected');
+    showCorrectCategory(buttonId);
+}
+
+/*
+The function first hides all the different drink category grids.
+It then checks which button the user pressed on so that it can
+show the appropriate grid.
+ */
+function showCorrectCategory(buttonId) {
+    document.getElementsByClassName("drinks-grid")[0].style.display="none";
+    document.getElementsByClassName("wine-grid")[0].style.display="none";
+    document.getElementsByClassName("cider-grid")[0].style.display="none";
+    document.getElementsByClassName("na-grid")[0].style.display="none";
+
+    if (buttonId == "b-category") {
+        document.getElementsByClassName("drinks-grid")[0].style.display="flex";
+    }
+    else if (buttonId == "w-category") {
+        document.getElementsByClassName("wine-grid")[0].style.display="flex";
+    }
+    else if (buttonId == "c-category") {
+        document.getElementsByClassName("cider-grid")[0].style.display = "flex";
+    }
+    else if (buttonId == "na-category") {
+        document.getElementsByClassName("na-grid")[0].style.display = "flex";
+    }
 }
 
 /*

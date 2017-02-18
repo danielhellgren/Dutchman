@@ -195,12 +195,44 @@ button:hover{
     font-size: 20px;
 }
 
+.selected {
+    background: #5298e6;
+}
+
 .drinks-grid {
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
     justify-content: center;
     overflow-y: scroll;
+
+}
+
+.wine-grid {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: scroll;
+    display: none;
+}
+
+.cider-grid {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: scroll;
+    display: none;
+}
+
+.na-grid {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: scroll;
+    display: none;
 }
 
 .drink {

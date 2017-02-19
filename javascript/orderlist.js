@@ -20,10 +20,11 @@ $(document).ready(function() {
     console.log("undo" + JSON.stringify(orders.debugUndo()));
     console.log("redo" + JSON.stringify(orders.debugRedo()));
 
-    orders.cancelOrder();
+    //orders.cancelOrder();
     console.log("orders" + JSON.stringify(orders.showItems()));
     console.log("undo" + JSON.stringify(orders.debugUndo()));
     console.log("redo" + JSON.stringify(orders.debugRedo()));
+    drawOrderList(orders.showItems());
 });
 
 function Beverage(id,name,quantity){
@@ -58,15 +59,20 @@ function Orderlist(){
     }
 
     this.undo = function(){
-        temp = undoBuffer.pop();
-        redoBuffer.push(temp);
-        cart = undoBuffer[undoBuffer.length-1];
+        if (undoBuffer.length !=0){
+            temp = undoBuffer.pop();
+            redoBuffer.push(temp);
+            cart = undoBuffer[undoBuffer.length-1];
+        }
     }
 
     this.redo = function(){
-        temp = redoBuffer.pop();
-        undoBuffer.push(temp);
-        cart = temp;
+        //add check to see if buffer is emtpy
+        if (redoBuffer.length != 0){
+            temp = redoBuffer.pop();
+            undoBuffer.push(temp);
+            cart = temp;
+        }
     }
 
 
@@ -106,5 +112,38 @@ function Orderlist(){
 
     this.debugRedo = function(){
         return(redoBuffer);
+    }
+}
+
+function drawOrderList(list){
+    for (i = 0; i<list.length;i++){
+        var bevId = list[i].id;
+        console.log(bevId);
+        var bevRow = document.createElement("li");
+        bevRow.setAttribute("beverageId",bevId);
+        var bevButtonDelete = document.createElement('button');
+        bevButtonDelete.setAttribute("type", "remove");
+        bevButtonDelete.innerHTML = "X";
+        var bevName = document.createElement("span");
+        bevName.setAttribute("class", "beerName");
+        bevName.innerHTML = list[i].name;
+        var qspan = document.createElement("span");
+        qspan.setAttribute("class", "orderQuantity");
+        var bevButtonDecrease = document.createElement('button');
+        bevButtonDecrease.setAttribute("type", "decrease");
+        bevButtonDecrease.innerHTML = "-";
+        var quantity = document.createElement("span");
+        quantity.setAttribute("class", "quantity");
+        quantity.innerHTML = list[i].quantity;
+        var bevButtonIncrease = document.createElement('button');
+        bevButtonIncrease.setAttribute("type", "increase");
+        bevButtonIncrease.innerHTML = "+";
+        bevRow.appendChild(bevButtonDelete);
+        bevRow.appendChild(bevName);
+        qspan.appendChild(bevButtonDecrease);
+        qspan.appendChild(quantity);
+        qspan.appendChild(bevButtonIncrease);
+        bevRow.appendChild(qspan);
+        document.getElementsByClassName("orderList")[0].appendChild(bevRow);
     }
 }

@@ -223,42 +223,59 @@ function parseBeerInfo(beer_info){
     /* Get beer name and name2 into header
      * two different divs because namn should be in bigger font than namn2 */
 
-    var infoHeader = document.createElement('div');
-    var infoSubHeader = document.createElement('div');
-    infoSubHeader.className = 'info-sub-header';
-    infoHeader.className = "info-header";
-    infoHeader.style.fontSize = "30px";
-    infoHeader.innerHTML = beer_info[0].namn;
-    if(beer_info[0].namn2.length > 0){
-        //infoSubHeader.innerHTML += "<br>" + beer_info[0].namn2;
-        infoSubHeader.innerHTML += beer_info[0].namn2;
+    var namn = beer_info[0].namn;
+    var nameString = "<span class = 'namn'>" + namn + "</span>";
+
+    var namn2 = beer_info[0].namn2;
+
+    if(namn2.length > 0){
+        nameString += "<span class = 'namn2'> " + namn2 + "</span>";
     }
 
-    // add everything to header
-    document.getElementsByClassName("info-box-header")[0].appendChild(infoHeader);
-    document.getElementsByClassName("info-box-header")[0].appendChild(infoSubHeader);
+    document.getElementsByClassName("info-box-header")[0].innerHTML = nameString;
 
-    /* get everything else and add it to the main body of infobox*/
-    var infoBody = document.createElement('div');
-    infoBody.className= "info-body";
-    // Ecological
-    // alert("ekologisk: " + beer_info[0].ekologisk);
-    infoBody.innerHTML = "Ecologic: ";
+    var bodyString = " Ecological: ";
     if(beer_info[0].ekologisk == "1"){
-        infoBody.innerHTML += "<b>Yes</b>";
+            bodyString += "Yes";
     }
     else {
-        infoBody.innerHTML += "<b>No</b>";
+        bodyString +=  "No";
     }
 
-    infoBody.innerHTML += "<br><br>Alcohol: <b>" + beer_info[0].alkoholhalt + "</b>";
-    // GROUP
-    infoBody.innerHTML += "<br><br>Tags: <b>" + beer_info[0].varugrupp + "</b>";
-    //Origin country
-    infoBody.innerHTML += "<br><br>Country: <b>" + beer_info[0].ursprunglandnamn + "</b>";
+    //Alcoholic percent
+    bodyString += "<br><br>Alcohol: " + beer_info[0].alkoholhalt;
+    // // GROUP
+    bodyString += "<br><br>Tags: " + beer_info[0].varugrupp;
+    // //Origin country
+    bodyString += "<br><br>Country: " + beer_info[0].ursprunglandnamn ;
 
-    //add final resuilt
-    document.getElementsByClassName("info-box-body")[0].appendChild(infoBody);
+    document.getElementsByClassName("info-box-body")[0].innerHTML = bodyString;
+
+    var drinkTypeReal = beer_info[0].varugrupp;
+    var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
+
+    /*check drink type and decide which image to use*/
+    if (drinkType == "Rött vin" || drinkType == "Vitt vin") {
+        // set image to wine
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/wine.png' height='300px' width='120px'/>";
+        //  infoImage.innerHTML = "<img src='resources/wine.png' height='300px' width='120px'/>";
+    }
+    else if (drinkType == "Cider" || drinkType == "Blanddrycker") {
+        // set iamge to cider
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/cider.png' height='300px' width='120px'/>";
+        // infoImage.innerHTML = "<img src='resources/cider.png' height='300px' width='120px'/>";
+    }
+    else if (drinkType == "Alkoholfritt") {
+        // set image to non-alco
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/soda.png' height='300px' width='120px'/>";
+        // infoImage.innerHTML = "<img src='resources/soda.png' height='300px' width='120px'/>";
+    }
+    else {
+        // alert("SETTING TO BEER IMG");
+        // set image to beer
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/beer.png' height='300px' width='120px'/>";
+        // infoImage.innerHTML = "<img src='resources/beer.png'  height='300px' width='120px'/>";
+    }
 }
 
 // gets the info from beer_data_get for a beer_id
@@ -282,17 +299,21 @@ function showInfo(overlay) {
 function hideInfo() {
     // alert("Trying to hide info");
     // get classes
-    var headerDiv = document.getElementsByClassName("info-box-header");
-    var bodyDiv = document.getElementsByClassName("info-box-body");
+    // var headerDiv = document.getElementsByClassName("info-box-header");
+    // var bodyDiv = document.getElementsByClassName("info-box-body");
+    // var imageDiv = document.getElementsByClassName("info-image");
     var overlay = document.getElementsByClassName("overlay")[0];
-
-    // delete subdivs
-    while(headerDiv[0].firstChild) {
-        headerDiv[0].removeChild(headerDiv[0].firstChild);
-    }
-    while(bodyDiv[0].firstChild){
-        bodyDiv[0].removeChild(bodyDiv[0].firstChild);
-    }
+    //
+    // // delete subdivs
+    // while(headerDiv[0].firstChild) {
+    //     headerDiv[0].removeChild(headerDiv[0].firstChild);
+    // }
+    // while(imageDiv[0].firstChild) {
+    //     imageDiv[0].removeChild(imageDiv[0].firstChild);
+    // }
+    // while(bodyDiv[0].firstChild){
+    //     bodyDiv[0].removeChild(bodyDiv[0].firstChild);
+    // }
 
     // hide overlay
     overlay.style.display = "none";
@@ -314,13 +335,13 @@ function createEventHandlers() {
         hideInfo();
     });
 
-    $(document).on('click', 'window', function(event) {
-        var overlay = document.getElementsByClassName("overlay")[0];
-        if(event.target == overlay){
-            hideInfo(overlay);
-        }
-
-    });
+    // $(document).on('click', 'window', function(event) {
+    //     var overlay = document.getElementsByClassName("overlay")[0];
+    //     if(event.target == overlay){
+    //         hideInfo(overlay);
+    //     }
+    //
+    // });
 }
 
 /*

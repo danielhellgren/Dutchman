@@ -116,6 +116,9 @@ function Orderlist(){
 }
 
 function drawOrderList(list){
+    var bevList = document.createElement('ul');
+    bevList.setAttribute("class","orderList");
+    document.getElementsByClassName("currentOrder")[0].appendChild(bevList);
     for (i = 0; i<list.length;i++){
         var bevId = list[i].id;
         console.log(bevId);

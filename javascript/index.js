@@ -2,12 +2,18 @@
  we have to make a JSON query and from there add each
    beer name to divs with class=drink*/
 
+var orders = new Orderlist();
+
 $(document).ready(function() {
     changeLoginButton();
     getDrinks();
     createEventHandlers();
     createEventHandlers2();
     createEventHandlers3();
+    //just some stuff to fill the orderlist for now
+    var testbev = new Beverage(999,"test",5);
+    orders.addItem(testbev);
+    drawOrderList(orders.showItems());
 });
 
 /*
@@ -335,6 +341,7 @@ function createEventHandlers() {
         hideInfo();
     });
 
+<<<<<<< HEAD
     // $(document).on('click', 'window', function(event) {
     //     var overlay = document.getElementsByClassName("overlay")[0];
     //     if(event.target == overlay){
@@ -342,6 +349,35 @@ function createEventHandlers() {
     //     }
     //
     // });
+=======
+    $(document).on('click', 'window', function(event) {
+        var overlay = document.getElementsByClassName("overlay")[0];
+        if(event.target == overlay){
+            hideInfo(overlay);
+        }
+
+    });
+    //on click increase quantity for one line in orderlist
+    $(document).on('click', '.increase', function(){
+        var bevId = $(this).parent().parent().attr('beverageid');
+        orders.increase(bevId);
+        drawOrderList(orders.showItems());
+    })
+
+    //on click decrease quantity for one line in orderlist
+    $(document).on('click', '.decrease', function(){
+        var bevId = $(this).parent().parent().attr('beverageid');
+        orders.decrease(bevId);
+        drawOrderList(orders.showItems());
+    })
+    //on click to completely remove a beverage from orderlist
+    $(document).on('click', '.remove', function(){
+        var bevId = $(this).parent().attr('beverageid');
+        orders.removeItem(bevId);
+        console.log(bevId);
+        drawOrderList(orders.showItems());
+    })
+>>>>>>> origin/master
 }
 
 /*
@@ -441,4 +477,160 @@ function createCookie(name,value,days) {
 
 function eraseCookie(name) {
     createCookie(name,"",-1);
+}
+
+//Orderlist
+function Beverage(id,name,quantity){
+    this.id = id;
+    this.name = name;
+    this.quantity = quantity;
+}
+
+function Orderlist(){
+    var cart = [];
+    var undoBuffer = [];
+    var redoBuffer = [];
+
+    this.addItem = function(bev){
+        cart.push(bev);
+        this._updateUndoRedo();
+    }
+
+    this.removeItem = function(bev){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i].id == bev){
+                cart.splice(i,1);
+                console.log("removed " + bev);
+            }
+        }
+        this._updateUndoRedo();
+    }
+
+    this.showItems = function(){
+        return(cart);
+    }
+
+    this.undo = function(){
+        if (undoBuffer.length !=0){
+            temp = undoBuffer.pop();
+            redoBuffer.push(temp);
+            cart = undoBuffer[undoBuffer.length-1];
+        }
+    }
+
+    this.redo = function(){
+        //add check to see if buffer is emtpy
+        if (redoBuffer.length != 0){
+            temp = redoBuffer.pop();
+            undoBuffer.push(temp);
+            cart = temp;
+        }
+    }
+
+
+
+    this.increase = function(bevid){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i].id == bevid){
+                cart[i].quantity++;
+                var q = cart[i];
+
+            }
+        }
+        this._updateUndoRedo();
+        return q
+    }
+
+    this.decrease = function(bevid){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i].id == bevid){
+                if (cart[i].quantity > 0){
+                    cart[i].quantity--;
+                    var q = cart[i];
+                }
+            }
+        }
+        this._updateUndoRedo();
+        return q;
+    }
+
+    this.sendOrder = function(){
+
+    }
+
+    this.cancelOrder= function(){
+        cart.length = 0;
+        redoBuffer.length = 0;
+        undoBuffer.length = 0;
+    }
+
+    this._updateUndoRedo = function(){
+        if (undoBuffer.length == 10){
+            undoBuffer.splice(0,1); //limits undoBuffer to last 10 values
+        }
+        undoBuffer.push(cart.slice());
+        if (redoBuffer.length > 0){
+            redoBUffer.length = 0;
+        }
+    }
+
+//just some debugfunctions
+    this.debugUndo = function(){
+        return(undoBuffer);
+    }
+
+    this.debugRedo = function(){
+        return(redoBuffer);
+    }
+}
+/*Removes and redraws the orderlist*/
+function drawOrderList(list){
+    $("ul").remove(".orderList");
+    var bevList = document.createElement('ul');
+    bevList.setAttribute("class","orderList");
+    document.getElementsByClassName("currentOrder")[0].appendChild(bevList);
+ /*   var template = "<li beverageid = " + bevId + ">"
+                    + " <span class = remove>X</span>
+                        <span class = beername>" + bName + "</span>
+                        <span class = orderQuantity>
+                            <span class = decrease>-</span>
+                            <span class = quantity> " + q + "</span>
+                            <span class = increase>+</span>
+                        </span>
+                    </li>"
+*/
+    for (i = 0; i<list.length;i++){
+        var bevId = list[i].id;
+        var bName = list[i].name;
+        var q = list[i].quantity;
+        var bevRow = document.createElement("li");
+        bevRow.setAttribute("beverageId",bevId);
+        var bevButtonDelete = document.createElement('span');
+        bevButtonDelete.setAttribute("class", "remove");
+        bevButtonDelete.innerHTML = "X";
+        var bevName = document.createElement("span");
+        bevName.setAttribute("class", "beerName");
+        bevName.innerHTML = list[i].name;
+        var qspan = document.createElement("span");
+        qspan.setAttribute("class", "orderQuantity");
+        var bevButtonDecrease = document.createElement('span');
+        bevButtonDecrease.setAttribute("class", "decrease");
+        bevButtonDecrease.innerHTML = "-";
+        var quantity = document.createElement("span");
+        quantity.setAttribute("class", "quantity");
+        quantity.innerHTML = q;
+        var bevButtonIncrease = document.createElement('span');
+        bevButtonIncrease.setAttribute("class", "increase");
+        bevButtonIncrease.innerHTML = "+";
+        bevRow.appendChild(bevButtonDelete);
+        bevRow.appendChild(bevName);
+        qspan.appendChild(bevButtonDecrease);
+        qspan.appendChild(quantity);
+        qspan.appendChild(bevButtonIncrease);
+        bevRow.appendChild(qspan);
+        document.getElementsByClassName("orderList")[0].appendChild(bevRow);
+    }
 }

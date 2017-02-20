@@ -331,10 +331,10 @@ button:hover{
     text-align:center;
 }
 
-.order-summary span.orderQuantity button[type=decrease]{
+.order-summary span.orderQuantity span.decrease{
     float:left;
 }
-.order-summary span.orderQuantity button[type=increase]{
+.order-summary span.orderQuantity span.increase{
     float:right;
 }
 
@@ -345,4 +345,13 @@ button:hover{
 
 .order-summary .summary-control button{
     float:right;
+}
+
+.remove, .increase, .decrease{
+    color: #aaa;
+    font-size: 20px;
+    font-weight: bold;
+    width: 20px;
+    text-align: center;
+    background: #cecece;
 }

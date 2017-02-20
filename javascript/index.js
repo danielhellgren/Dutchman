@@ -351,8 +351,8 @@ function createEventHandlers3() {
     $(document).on('click', '.category', function() {
         changeCategoryColor(this.id);
     });
-
 }
+
 /*
 Remove the selected class from all category buttons and then
 add it to the pressed button so that it gets highlighted

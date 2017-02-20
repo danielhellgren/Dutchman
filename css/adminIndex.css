@@ -166,7 +166,28 @@
 .drinks-grid .drink:first-child {
     font-weight: bold;
 }
+.wine-grid .drink:first-child {
+    font-weight: bold;
+}
+.cider-grid .drink:first-child {
+    font-weight: bold;
+}
+.na-grid .drink:first-child {
+    font-weight: bold;
+}
 .drinks-grid .drink:first-child .drink-name {
+    line-height: 30px;
+}
+
+.wine-grid .drink:first-child .drink-name {
+    line-height: 30px;
+}
+
+.cider-grid .drink:first-child .drink-name {
+    line-height: 30px;
+}
+
+.na-grid .drink:first-child .drink-name {
     line-height: 30px;
 }
 
@@ -178,6 +199,7 @@
     margin: 5px;
     background: #FCFCFC;
 }
+
 
 .drink-name {
     height: 100%;

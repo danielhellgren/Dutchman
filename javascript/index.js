@@ -190,6 +190,8 @@ function parseNonAlcoholic(nas) {
     }
 }
 
+/* parses the info from beer_info payload to the infobox - popup
+* */
 function parseBeerInfo(beer_info){
     // beeer info:
     //
@@ -241,7 +243,7 @@ function parseBeerInfo(beer_info){
     infoBody.className= "info-body";
     // Ecological
     // alert("ekologisk: " + beer_info[0].ekologisk);
-    infoBody.innerHTML = "Ecological: ";
+    infoBody.innerHTML = "Ecologic: ";
     if(beer_info[0].ekologisk == "1"){
         infoBody.innerHTML += "<b>Yes</b>";
     }
@@ -251,7 +253,7 @@ function parseBeerInfo(beer_info){
 
     infoBody.innerHTML += "<br><br>Alcohol: <b>" + beer_info[0].alkoholhalt + "</b>";
     // GROUP
-    infoBody.innerHTML += "<br><br>Group: <b>" + beer_info[0].varugrupp + "</b>";
+    infoBody.innerHTML += "<br><br>Tags: <b>" + beer_info[0].varugrupp + "</b>";
     //Origin country
     infoBody.innerHTML += "<br><br>Country: <b>" + beer_info[0].ursprunglandnamn + "</b>";
 
@@ -259,6 +261,7 @@ function parseBeerInfo(beer_info){
     document.getElementsByClassName("info-box-body")[0].appendChild(infoBody);
 }
 
+// gets the info from beer_data_get for a beer_id
 function getBeerInfo(beer_id){
      // alert("You clicked on a drink - " + beer_id);
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="

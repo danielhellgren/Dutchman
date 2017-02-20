@@ -18,14 +18,25 @@ Gets all the different drinks that has a name.
  */
 function getDrinks() {
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=inventory_get",
+        /* Returns array of objects like:
+         {
+             "namn": "BEO",
+             "namn2": "Apple Green Tea",
+             "sbl_price": "12.90",
+             "pub_price": "15",
+             "beer_id": "197702",
+             "count": "-3",
+             "price": "12.90"
+         }, */
         function(data) {
-            var drinkId = [];
+            var drinks = [];
             for (var i = 0; i< data.payload.length; i++) {
                 if (data.payload[i].namn !=="") { //remove drinks with no name.
-                    drinkId[i-7] = data.payload[i].beer_id;
+                    //drinkId[i-7] = data.payload[i].beer_id;
+                    drinks.push(data.payload[i]);
                 }
             }
-            getDrinksInfo(drinkId, data.payload);
+            getDrinksInfo(drinks);
         });
 }
 
@@ -37,64 +48,99 @@ function getDrinks() {
  different tabs on the webpage. The parsing into tabs is done
  by four different functions - one for each tab.
  */
-function getDrinksInfo(drinkId, stockAndPrice) {
-    for (var j = 0; j < drinkId.length; j++) {
-        $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
-            + drinkId[j], function(data) {
-
-            var drinkTypeReal =data.payload[0].varugrupp;
-            var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
-
-            var priceDiv = document.createElement('div');
-            var stockDiv = document.createElement('div');
-            priceDiv.className = "price";
-            stockDiv.className = "stock";
-
-            if (drinkType == "Öl") {
-                parseBeer(data.payload);
-            }
-            else if (drinkType == "Rött vin" || drinkType == "Vitt vin") {
-                parseWine(data.payload);
-
-            }
-            else if (drinkType == "Cider" || drinkType == "Blanddrycker") {
-                parseCider(data.payload);
-            }
-            else if (drinkType == "Alkoholfritt") {
-                parseNonAlcoholic(data.payload);
-            }
-        });
+function getDrinksInfo(drinks) {
+    for (var j = 0; j < drinks.length; j++) {
+        getInfoForIndividualDrink(drinks[j]);
     }
+}
+
+function getInfoForIndividualDrink(inventoryGetDrink) {
+    //var inventoryGetDrink = drinks[j];
+    $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
+        + inventoryGetDrink.beer_id, function(data) {
+
+        /* Returns an array with 1 object like:
+         {
+         "nr": "197702",
+         "artikelid": "644574",
+         "varnummer": "1977",
+         "namn": "BEO",
+         "namn2": "Apple Green Tea",
+         "prisinklmoms": "12.90",
+         "volymiml": "",
+         "prisperliter": "",
+         "saljstart": "2012-06-01",
+         "slutlev": " ",
+         "varugrupp": "Alkoholfritt, Övrigt",
+         "forpackning": "Flaska",
+         "forslutning": "",
+         "ursprung": "",
+         "ursprunglandnamn": "Danmark",
+         "producent": "Carlsberg Sverige AB",
+         "leverantor": "Carlsberg Sverige AB",
+         "argang": "",
+         "provadargang": "",
+         "alkoholhalt": "0.1%",
+         "modul": "",
+         "sortiment": "FSÖ",
+         "ekologisk": "0",
+         "koscher": "0"
+         }*/
+
+        var beerDataGetDrink = data.payload[0];
+        var drinkType = beerDataGetDrink.varugrupp;
+        //var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
+
+        //if (drinkType.includes("Alkoholfritt")) {
+        //    parseNonAlcoholic(beerDataGetDrink);
+        //}
+        //else if (drinkType.includes("Rött vin") || drinkType.includes("Vitt vin")) {
+        //    parseWine(beerDataGetDrink);
+        //}
+        //else if (drinkType.includes("Cider") || drinkType.includes("Blanddrycker")) {
+        //    parseCider(beerDataGetDrink);
+        //}
+        if (drinkType.includes("Öl")) {
+            renderBeer(inventoryGetDrink, beerDataGetDrink);
+        }
+    });
 }
 
 /* Loop each item in the inventory and add it to the html.
  This has to be done to show the selection of drinks */
-function parseBeer(beers) {
-    for (var i = 0; i < beers.length; i++) {
-        var beerDiv = document.createElement('div');
-        beerDiv.className = "drink";
-        //beerDiv.setAttribute("data-beer-id",beers[i].nr);
+function renderBeer(inventoryGetDrink, beerDataGetDrink) {
+    //console.log("In renderBeer()")
+    //console.log(inventoryGetDrink)
+    //console.log(beerDataGetDrink)
 
-        //Get name of beer
-        var beerNameDiv = document.createElement('div');
-        beerNameDiv.className = "drink-name";
-        beerNameDiv.innerHTML = beers[i].namn + "<br>";
-        beerNameDiv.innerHTML += beers[i].namn2;
-        //Add the beer name to div
-        beerDiv.appendChild(beerNameDiv);
+    var beerDiv = document.createElement('div');
+    beerDiv.className = "drink";
+    //beerDiv.setAttribute("data-beer-id",beers[i].nr);
 
-        //Get alcohol % of beer
-        var alcDiv = document.createElement('div');
-        alcDiv.className = "alcohol";
-        alcDiv.innerHTML = beers[i].alkoholhalt;
-        beerDiv.appendChild(alcDiv);
+    var priceDiv = document.createElement('div');
+    var stockDiv = document.createElement('div');
+    priceDiv.className = "price";
+    stockDiv.className = "stock";
 
-        //Get price and stock of beer
-        // getDrinkStockPrice(beers[i].nr),i;
+    //Get name of beer
+    var beerNameDiv = document.createElement('div');
+    beerNameDiv.className = "drink-name";
+    beerNameDiv.innerHTML = beer[i].namn + "<br>";
+    beerNameDiv.innerHTML += beer[i].namn2;
+    //Add the beer name to div
+    beerDiv.appendChild(beerNameDiv);
 
-        document.getElementsByClassName("drinks-grid")[0]
-            .appendChild(beerDiv);
-    }
+    //Get alcohol % of beer
+    var alcDiv = document.createElement('div');
+    alcDiv.className = "alcohol";
+    alcDiv.innerHTML = beer[i].alkoholhalt;
+    beerDiv.appendChild(alcDiv);
+
+    //Get price and stock of beer
+    // getDrinkStockPrice(beers[i].nr),i;
+
+    document.getElementsByClassName("drinks-grid")[0]
+        .appendChild(beerDiv);
 }
 
 function parseWine(wines) {

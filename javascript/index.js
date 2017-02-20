@@ -340,23 +340,7 @@ function createEventHandlers() {
     $(document).on('click', '.close-info-box', function() {
         hideInfo();
     });
-
-<<<<<<< HEAD
-    // $(document).on('click', 'window', function(event) {
-    //     var overlay = document.getElementsByClassName("overlay")[0];
-    //     if(event.target == overlay){
-    //         hideInfo(overlay);
-    //     }
-    //
-    // });
-=======
-    $(document).on('click', 'window', function(event) {
-        var overlay = document.getElementsByClassName("overlay")[0];
-        if(event.target == overlay){
-            hideInfo(overlay);
-        }
-
-    });
+    
     //on click increase quantity for one line in orderlist
     $(document).on('click', '.increase', function(){
         var bevId = $(this).parent().parent().attr('beverageid');
@@ -377,7 +361,6 @@ function createEventHandlers() {
         console.log(bevId);
         drawOrderList(orders.showItems());
     })
->>>>>>> origin/master
 }
 
 /*

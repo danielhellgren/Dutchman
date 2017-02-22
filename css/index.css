@@ -74,6 +74,23 @@ body {
     color: black;
 }
 
+/* namn in header of info-box*/
+.namn {
+    font-size: 30px;
+}
+
+.info-box-drink-image{
+    display: flex;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    /*left pos is half - center of page - 250px(half of infobox width) and - 120(width of image)*/
+    left: calc(50% - 370px);
+    height: 300px;
+    width: 120px;
+    /*margin-left: -60px);*/
+    margin-top: -150px;
+}
 .info-header {
     margin: 0 10px;
 }

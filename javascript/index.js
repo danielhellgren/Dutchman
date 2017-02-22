@@ -13,6 +13,7 @@ $(document).ready(function() {
     //just some stuff to fill the orderlist for now
     var testbev = new Beverage(999,"test",5);
     orders.addItem(testbev);
+    orders.addItem(new Beverage(111,"test2",12));
     drawOrderList(orders.showItems());
 });
 
@@ -347,6 +348,13 @@ function createEventHandlers() {
         console.log(bevId);
         drawOrderList(orders.showItems());
     })
+    //on click undo one step
+    $(document).on('click', '.undo', function(){
+        orders.undo();
+        //console.log(JSON.stringify(orders.showItems()));
+        console.log(JSON.stringify(orders.debugUndo()));
+        drawOrderList(orders.showItems());
+    })
 }
 
 /*
@@ -450,9 +458,7 @@ function eraseCookie(name) {
 
 //Orderlist
 function Beverage(id,name,quantity){
-    this.id = id;
-    this.name = name;
-    this.quantity = quantity;
+    return([id,name,quantity]);
 }
 
 function Orderlist(){
@@ -468,11 +474,12 @@ function Orderlist(){
     this.removeItem = function(bev){
         var l = cart.length;
         for (i=0;i<l;i++){
-            if (cart[i].id == bev){
+            if (cart[i][0] == bev){
                 cart.splice(i,1);
                 console.log("removed " + bev);
             }
         }
+        console.log(JSON.stringify(orders.showItems()));
         this._updateUndoRedo();
     }
 
@@ -481,16 +488,21 @@ function Orderlist(){
     }
 
     this.undo = function(){
-        if (undoBuffer.length !=0){
+        if (undoBuffer.length > 0){
             temp = undoBuffer.pop();
             redoBuffer.push(temp);
-            cart = undoBuffer[undoBuffer.length-1];
+            if (undoBuffer.length == 0){
+                cart.length = 0;
+            }
+            else {
+                cart = undoBuffer[undoBuffer.length-1];
+            }
         }
     }
 
     this.redo = function(){
         //add check to see if buffer is emtpy
-        if (redoBuffer.length != 0){
+        if (redoBuffer.length > 0){
             temp = redoBuffer.pop();
             undoBuffer.push(temp);
             cart = temp;
@@ -502,8 +514,8 @@ function Orderlist(){
     this.increase = function(bevid){
         var l = cart.length;
         for (i=0;i<l;i++){
-            if (cart[i].id == bevid){
-                cart[i].quantity++;
+            if (cart[i][0] == bevid){
+                cart[i][2]++;
                 var q = cart[i];
 
             }
@@ -515,9 +527,9 @@ function Orderlist(){
     this.decrease = function(bevid){
         var l = cart.length;
         for (i=0;i<l;i++){
-            if (cart[i].id == bevid){
-                if (cart[i].quantity > 0){
-                    cart[i].quantity--;
+            if (cart[i][0] == bevid){
+                if (cart[i][2] > 0){
+                    cart[i][2]--;
                     var q = cart[i];
                 }
             }
@@ -537,10 +549,16 @@ function Orderlist(){
     }
 
     this._updateUndoRedo = function(){
+
         if (undoBuffer.length == 10){
             undoBuffer.splice(0,1); //limits undoBuffer to last 10 values
         }
-        undoBuffer.push(cart.slice());
+        var temp = [];
+        for (i=0;i<cart.length;++i){
+            var bev = cart[i].slice();
+            temp.push(bev);
+        }
+        undoBuffer.push(temp);
         if (redoBuffer.length > 0){
             redoBUffer.length = 0;
         }
@@ -557,49 +575,30 @@ function Orderlist(){
 }
 /*Removes and redraws the orderlist*/
 function drawOrderList(list){
+    console.log(JSON.stringify(list));
+    if (list.length == 0){
+        $("ul").remove(".orderList");
+        return;
+    }
     $("ul").remove(".orderList");
     var bevList = document.createElement('ul');
     bevList.setAttribute("class","orderList");
     document.getElementsByClassName("currentOrder")[0].appendChild(bevList);
- /*   var template = "<li beverageid = " + bevId + ">"
-                    + " <span class = remove>X</span>
-                        <span class = beername>" + bName + "</span>
-                        <span class = orderQuantity>
-                            <span class = decrease>-</span>
-                            <span class = quantity> " + q + "</span>
-                            <span class = increase>+</span>
-                        </span>
-                    </li>"
-*/
     for (i = 0; i<list.length;i++){
-        var bevId = list[i].id;
-        var bName = list[i].name;
-        var q = list[i].quantity;
-        var bevRow = document.createElement("li");
-        bevRow.setAttribute("beverageId",bevId);
-        var bevButtonDelete = document.createElement('span');
-        bevButtonDelete.setAttribute("class", "remove");
-        bevButtonDelete.innerHTML = "X";
-        var bevName = document.createElement("span");
-        bevName.setAttribute("class", "beerName");
-        bevName.innerHTML = list[i].name;
-        var qspan = document.createElement("span");
-        qspan.setAttribute("class", "orderQuantity");
-        var bevButtonDecrease = document.createElement('span');
-        bevButtonDecrease.setAttribute("class", "decrease");
-        bevButtonDecrease.innerHTML = "-";
-        var quantity = document.createElement("span");
-        quantity.setAttribute("class", "quantity");
-        quantity.innerHTML = q;
-        var bevButtonIncrease = document.createElement('span');
-        bevButtonIncrease.setAttribute("class", "increase");
-        bevButtonIncrease.innerHTML = "+";
-        bevRow.appendChild(bevButtonDelete);
-        bevRow.appendChild(bevName);
-        qspan.appendChild(bevButtonDecrease);
-        qspan.appendChild(quantity);
-        qspan.appendChild(bevButtonIncrease);
-        bevRow.appendChild(qspan);
-        document.getElementsByClassName("orderList")[0].appendChild(bevRow);
+        var bevId = list[i][0];
+        var bName = list[i][1];
+        var q = list[i][2];
+        var row = document.createElement('li');
+        row.setAttribute("beverageid", bevId);
+        var template =
+            "<span class = remove>X</span>" +
+            "<span class = beername>" + bName + "</span>" +
+            "<span class = orderQuantity>" +
+                "<span class = decrease>-</span>" +
+                "<span class = quantity> " + q + " </span>" +
+                "<span class = increase>+</span>"+
+            "</span>";
+        row.innerHTML = template;
+        document.getElementsByClassName("orderList")[0].appendChild(row);
     }
 }

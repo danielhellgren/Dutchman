@@ -352,7 +352,23 @@ function createEventHandlers() {
     $(document).on('click', '.undo', function(){
         orders.undo();
         //console.log(JSON.stringify(orders.showItems()));
-        console.log(JSON.stringify(orders.debugUndo()));
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+
+        drawOrderList(orders.showItems());
+    })
+    //on click redo a step
+    $(document).on('click', '.redo', function(){
+        orders.redo();
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+        drawOrderList(orders.showItems());
+    })
+    //on click remove everything from order
+    $(document).on('click', '.cancel', function(){
+        orders.cancelOrder();
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
         drawOrderList(orders.showItems());
     })
 }
@@ -463,7 +479,7 @@ function Beverage(id,name,quantity){
 
 function Orderlist(){
     var cart = [];
-    var undoBuffer = [];
+    var undoBuffer = [[]];
     var redoBuffer = [];
 
     this.addItem = function(bev){
@@ -490,11 +506,10 @@ function Orderlist(){
     this.undo = function(){
         if (undoBuffer.length > 0){
             temp = undoBuffer.pop();
-            redoBuffer.push(temp);
             if (undoBuffer.length == 0){
-                cart.length = 0;
             }
             else {
+                redoBuffer.push(temp);
                 cart = undoBuffer[undoBuffer.length-1];
             }
         }

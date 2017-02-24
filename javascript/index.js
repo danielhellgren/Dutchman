@@ -2,10 +2,22 @@
  we have to make a JSON query and from there add each
    beer name to divs with class=drink*/
 
+var orders = new Orderlist();
+
 $(document).ready(function() {
     changeLoginButton();
     getDrinks();
     createEventHandlers();
+// <<<<<<< HEAD
+// =======
+//     createEventHandlers2();
+//     createEventHandlers3();
+//     //just some stuff to fill the orderlist for now
+    var testbev = new Beverage(999,"test",5);
+    orders.addItem(testbev);
+    orders.addItem(new Beverage(111,"test2",12));
+    drawOrderList(orders.showItems());
+// >>>>>>> origin/master
 });
 
 /*
@@ -204,42 +216,59 @@ function parseBeerInfo(beer_info){
     /* Get beer name and name2 into header
      * two different divs because namn should be in bigger font than namn2 */
 
-    var infoHeader = document.createElement('div');
-    var infoSubHeader = document.createElement('div');
-    infoSubHeader.className = 'info-sub-header';
-    infoHeader.className = "info-header";
-    infoHeader.style.fontSize = "30px";
-    infoHeader.innerHTML = beer_info[0].namn;
-    if(beer_info[0].namn2.length > 0){
-        //infoSubHeader.innerHTML += "<br>" + beer_info[0].namn2;
-        infoSubHeader.innerHTML += beer_info[0].namn2;
+    var namn = beer_info[0].namn;
+    var nameString = "<span class = 'namn'>" + namn + "</span>";
+
+    var namn2 = beer_info[0].namn2;
+
+    if(namn2.length > 0){
+        nameString += "<span class = 'namn2'> " + namn2 + "</span>";
     }
 
-    // add everything to header
-    document.getElementsByClassName("info-box-header")[0].appendChild(infoHeader);
-    document.getElementsByClassName("info-box-header")[0].appendChild(infoSubHeader);
+    document.getElementsByClassName("info-box-header")[0].innerHTML = nameString;
 
-    /* get everything else and add it to the main body of infobox*/
-    var infoBody = document.createElement('div');
-    infoBody.className= "info-body";
-    // Ecological
-    // alert("ekologisk: " + beer_info[0].ekologisk);
-    infoBody.innerHTML = "Ecologic: ";
+    var bodyString = " Ecological: ";
     if(beer_info[0].ekologisk == "1"){
-        infoBody.innerHTML += "<b>Yes</b>";
+            bodyString += "Yes";
     }
     else {
-        infoBody.innerHTML += "<b>No</b>";
+        bodyString +=  "No";
     }
 
-    infoBody.innerHTML += "<br><br>Alcohol: <b>" + beer_info[0].alkoholhalt + "</b>";
-    // GROUP
-    infoBody.innerHTML += "<br><br>Tags: <b>" + beer_info[0].varugrupp + "</b>";
-    //Origin country
-    infoBody.innerHTML += "<br><br>Country: <b>" + beer_info[0].ursprunglandnamn + "</b>";
+    //Alcoholic percent
+    bodyString += "<br><br>Alcohol: " + beer_info[0].alkoholhalt;
+    // // GROUP
+    bodyString += "<br><br>Tags: " + beer_info[0].varugrupp;
+    // //Origin country
+    bodyString += "<br><br>Country: " + beer_info[0].ursprunglandnamn ;
 
-    //add final resuilt
-    document.getElementsByClassName("info-box-body")[0].appendChild(infoBody);
+    document.getElementsByClassName("info-box-body")[0].innerHTML = bodyString;
+
+    var drinkTypeReal = beer_info[0].varugrupp;
+    var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
+
+    /*check drink type and decide which image to use*/
+    if (drinkType == "Rött vin" || drinkType == "Vitt vin") {
+        // set image to wine
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/wine.png' height='300px' width='120px'/>";
+        //  infoImage.innerHTML = "<img src='resources/wine.png' height='300px' width='120px'/>";
+    }
+    else if (drinkType == "Cider" || drinkType == "Blanddrycker") {
+        // set iamge to cider
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/cider.png' height='300px' width='120px'/>";
+        // infoImage.innerHTML = "<img src='resources/cider.png' height='300px' width='120px'/>";
+    }
+    else if (drinkType == "Alkoholfritt") {
+        // set image to non-alco
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/soda.png' height='300px' width='120px'/>";
+        // infoImage.innerHTML = "<img src='resources/soda.png' height='300px' width='120px'/>";
+    }
+    else {
+        // alert("SETTING TO BEER IMG");
+        // set image to beer
+        document.getElementsByClassName("info-box-drink-image")[0].innerHTML = "<img src='resources/beer.png' height='300px' width='120px'/>";
+        // infoImage.innerHTML = "<img src='resources/beer.png'  height='300px' width='120px'/>";
+    }
 }
 
 // gets the info from beer_data_get for a beer_id
@@ -263,17 +292,21 @@ function showInfo(overlay) {
 function hideInfo() {
     // alert("Trying to hide info");
     // get classes
-    var headerDiv = document.getElementsByClassName("info-box-header");
-    var bodyDiv = document.getElementsByClassName("info-box-body");
+    // var headerDiv = document.getElementsByClassName("info-box-header");
+    // var bodyDiv = document.getElementsByClassName("info-box-body");
+    // var imageDiv = document.getElementsByClassName("info-image");
     var overlay = document.getElementsByClassName("overlay")[0];
-
-    // delete subdivs
-    while(headerDiv[0].firstChild) {
-        headerDiv[0].removeChild(headerDiv[0].firstChild);
-    }
-    while(bodyDiv[0].firstChild){
-        bodyDiv[0].removeChild(bodyDiv[0].firstChild);
-    }
+    //
+    // // delete subdivs
+    // while(headerDiv[0].firstChild) {
+    //     headerDiv[0].removeChild(headerDiv[0].firstChild);
+    // }
+    // while(imageDiv[0].firstChild) {
+    //     imageDiv[0].removeChild(imageDiv[0].firstChild);
+    // }
+    // while(bodyDiv[0].firstChild){
+    //     bodyDiv[0].removeChild(bodyDiv[0].firstChild);
+    // }
 
     // hide overlay
     overlay.style.display = "none";
@@ -294,6 +327,7 @@ function createEventHandlers() {
     $(document).on('click', '.close-info-box', function() {
         hideInfo();
     });
+// <<<<<<< HEAD
 
     $(document).on('click', 'window', function(event) {
         var overlay = document.getElementsByClassName("overlay")[0];
@@ -308,6 +342,53 @@ function createEventHandlers() {
     $(document).on('click', '.category', function() {
         changeCategoryColor(this.id);
     });
+// =======
+    
+    //on click increase quantity for one line in orderlist
+    $(document).on('click', '.increase', function(){
+        var bevId = $(this).parent().parent().attr('beverageid');
+        orders.increase(bevId);
+        drawOrderList(orders.showItems());
+    });
+
+    //on click decrease quantity for one line in orderlist
+    $(document).on('click', '.decrease', function(){
+        var bevId = $(this).parent().parent().attr('beverageid');
+        orders.decrease(bevId);
+        drawOrderList(orders.showItems());
+    });
+    //on click to completely remove a beverage from orderlist
+    $(document).on('click', '.remove', function(){
+        var bevId = $(this).parent().attr('beverageid');
+        orders.removeItem(bevId);
+        console.log(bevId);
+        drawOrderList(orders.showItems());
+    });
+    //on click undo one step
+    $(document).on('click', '.undo', function(){
+        orders.undo();
+        //console.log(JSON.stringify(orders.showItems()));
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+
+        drawOrderList(orders.showItems());
+    });
+    //on click redo a step
+    $(document).on('click', '.redo', function(){
+        orders.redo();
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+        drawOrderList(orders.showItems());
+    });
+    //on click remove everything from order
+    $(document).on('click', '.cancel', function(){
+        orders.cancelOrder();
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+        drawOrderList(orders.showItems());
+    })
+
+// >>>>>>> origin/master
 
     /*
      Each time the login/logout-button is pressed the userId-cookie
@@ -445,4 +526,150 @@ function createCookie(name,value,days) {
 
 function eraseCookie(name) {
     createCookie(name,"",-1);
+}
+
+//Orderlist
+function Beverage(id,name,quantity){
+    return([id,name,quantity]);
+}
+
+function Orderlist(){
+    var cart = [];
+    var undoBuffer = [[]];
+    var redoBuffer = [];
+
+    this.addItem = function(bev){
+        cart.push(bev);
+        this._updateUndoRedo();
+    }
+
+    this.removeItem = function(bev){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i][0] == bev){
+                cart.splice(i,1);
+                console.log("removed " + bev);
+            }
+        }
+        console.log(JSON.stringify(orders.showItems()));
+        this._updateUndoRedo();
+    }
+
+    this.showItems = function(){
+        return(cart);
+    }
+
+    this.undo = function(){
+        if (undoBuffer.length > 0){
+            temp = undoBuffer.pop();
+            if (undoBuffer.length == 0){
+            }
+            else {
+                redoBuffer.push(temp);
+                cart = undoBuffer[undoBuffer.length-1];
+            }
+        }
+    }
+
+    this.redo = function(){
+        //add check to see if buffer is emtpy
+        if (redoBuffer.length > 0){
+            temp = redoBuffer.pop();
+            undoBuffer.push(temp);
+            cart = temp;
+        }
+    }
+
+
+
+    this.increase = function(bevid){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i][0] == bevid){
+                cart[i][2]++;
+                var q = cart[i];
+
+            }
+        }
+        this._updateUndoRedo();
+        return q
+    }
+
+    this.decrease = function(bevid){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i][0] == bevid){
+                if (cart[i][2] > 0){
+                    cart[i][2]--;
+                    var q = cart[i];
+                }
+            }
+        }
+        this._updateUndoRedo();
+        return q;
+    }
+
+    this.sendOrder = function(){
+
+    }
+
+    this.cancelOrder= function(){
+        cart.length = 0;
+        redoBuffer.length = 0;
+        undoBuffer.length = 0;
+    }
+
+    this._updateUndoRedo = function(){
+
+        if (undoBuffer.length == 10){
+            undoBuffer.splice(0,1); //limits undoBuffer to last 10 values
+        }
+        var temp = [];
+        for (i=0;i<cart.length;++i){
+            var bev = cart[i].slice();
+            temp.push(bev);
+        }
+        undoBuffer.push(temp);
+        if (redoBuffer.length > 0){
+            redoBUffer.length = 0;
+        }
+    }
+
+//just some debugfunctions
+    this.debugUndo = function(){
+        return(undoBuffer);
+    }
+
+    this.debugRedo = function(){
+        return(redoBuffer);
+    }
+}
+/*Removes and redraws the orderlist*/
+function drawOrderList(list){
+    console.log(JSON.stringify(list));
+    if (list.length == 0){
+        $("ul").remove(".orderList");
+        return;
+    }
+    $("ul").remove(".orderList");
+    var bevList = document.createElement('ul');
+    bevList.setAttribute("class","orderList");
+    document.getElementsByClassName("currentOrder")[0].appendChild(bevList);
+    for (i = 0; i<list.length;i++){
+        var bevId = list[i][0];
+        var bName = list[i][1];
+        var q = list[i][2];
+        var row = document.createElement('li');
+        row.setAttribute("beverageid", bevId);
+        var template =
+            "<span class = remove>X</span>" +
+            "<span class = beername>" + bName + "</span>" +
+            "<span class = orderQuantity>" +
+                "<span class = decrease>-</span>" +
+                "<span class = quantity> " + q + " </span>" +
+                "<span class = increase>+</span>"+
+            "</span>";
+        row.innerHTML = template;
+        document.getElementsByClassName("orderList")[0].appendChild(row);
+    }
 }

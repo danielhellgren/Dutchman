@@ -42,7 +42,7 @@ function getDrinks() {
 
 
 /*
- Get the drink information from each drink. Compare it to the
+ Get the drink information from all drinks. Compare it to the
  type of drink it is in the database. Depending on what type of
  drink it is call different functions that puts the drink into
  different tabs on the webpage. The parsing into tabs is done
@@ -54,6 +54,10 @@ function getDrinksInfo(drinks) {
     }
 }
 
+/*
+ Get the drink information from all individual drinks. Parse the information from the two different
+ API-calls into a render-drink function so that it can be showed on the website.
+ */
 function getInfoForIndividualDrink(inventoryGetDrink) {
     //var inventoryGetDrink = drinks[j];
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
@@ -88,7 +92,7 @@ function getInfoForIndividualDrink(inventoryGetDrink) {
          }*/
 
         var beerDataGetDrink = data.payload[0];
-        var drinkType = beerDataGetDrink.varugrupp;
+        // var drinkType = beerDataGetDrink.varugrupp;
         //var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
 
         //if (drinkType.includes("Alkoholfritt")) {
@@ -100,125 +104,65 @@ function getInfoForIndividualDrink(inventoryGetDrink) {
         //else if (drinkType.includes("Cider") || drinkType.includes("Blanddrycker")) {
         //    parseCider(beerDataGetDrink);
         //}
-        if (drinkType.includes("Öl")) {
-            renderBeer(inventoryGetDrink, beerDataGetDrink);
-        }
+        // if (drinkType.includes("Öl")) {
+            renderDrinks(inventoryGetDrink, beerDataGetDrink);
+        // }
     });
 }
 
-/* Loop each item in the inventory and add it to the html.
- This has to be done to show the selection of drinks */
-function renderBeer(inventoryGetDrink, beerDataGetDrink) {
-    //console.log("In renderBeer()")
-    //console.log(inventoryGetDrink)
-    //console.log(beerDataGetDrink)
-
+/* For each drink in the API create different divs and then depending on what kind of drink it is
+ parse it into a specific div so that it is showed in the correct tab. */
+function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     var beerDiv = document.createElement('div');
     beerDiv.className = "drink";
-    //beerDiv.setAttribute("data-beer-id",beers[i].nr);
-
-    var priceDiv = document.createElement('div');
-    var stockDiv = document.createElement('div');
-    priceDiv.className = "price";
-    stockDiv.className = "stock";
+    beerDiv.setAttribute("data-beer-id",beerDataGetDrink.beer_id);
 
     //Get name of beer
     var beerNameDiv = document.createElement('div');
     beerNameDiv.className = "drink-name";
-    beerNameDiv.innerHTML = beer[i].namn + "<br>";
-    beerNameDiv.innerHTML += beer[i].namn2;
+    beerNameDiv.innerHTML = inventoryGetDrink.namn + "<br>";
+    beerNameDiv.innerHTML += inventoryGetDrink.namn2;
     //Add the beer name to div
     beerDiv.appendChild(beerNameDiv);
 
     //Get alcohol % of beer
     var alcDiv = document.createElement('div');
     alcDiv.className = "alcohol";
-    alcDiv.innerHTML = beer[i].alkoholhalt;
+    alcDiv.innerHTML = beerDataGetDrink.alkoholhalt;
     beerDiv.appendChild(alcDiv);
 
     //Get price and stock of beer
-    // getDrinkStockPrice(beers[i].nr),i;
+    var priceDiv = document.createElement('div');
+    var stockDiv = document.createElement('div');
+    priceDiv.className = "price";
+    priceDiv.innerHTML = inventoryGetDrink.pub_price + ':-';
+    beerDiv.appendChild(priceDiv);
+    stockDiv.className = "stock";
+    stockDiv.innerHTML = inventoryGetDrink.count;
+    beerDiv.appendChild(stockDiv);
 
-    document.getElementsByClassName("drinks-grid")[0]
-        .appendChild(beerDiv);
-}
+    var drinkType = beerDataGetDrink.varugrupp;
 
-function parseWine(wines) {
-    for (var i = 0; i < wines.length; i++) {
-        var wineDiv = document.createElement('div');
-        wineDiv.className = "drink";
-        //beerDiv.setAttribute("data-beer-id",beers[i].nr);
-
-        //Get name of beer
-        var wineNameDiv = document.createElement('div');
-        wineNameDiv.className = "drink-name";
-        wineNameDiv.innerHTML = wines[i].namn + "<br>";
-        wineNameDiv.innerHTML += wines[i].namn2;
-        //Add the beer name to div
-        wineDiv.appendChild(wineNameDiv);
-
-        //Get alcohol % of beer
-        var alcDiv = document.createElement('div');
-        alcDiv.className = "alcohol";
-        alcDiv.innerHTML = wines[i].alkoholhalt;
-        wineDiv.appendChild(alcDiv);
-
-        document.getElementsByClassName("wine-grid")[0]
-            .appendChild(wineDiv);
-    }
-}
-
-function parseCider(ciders) {
-    for (var i = 0; i < ciders.length; i++) {
-        var ciderDiv = document.createElement('div');
-        ciderDiv.className = "drink";
-        //beerDiv.setAttribute("data-beer-id",beers[i].nr);
-
-        //Get name of beer
-        var ciderNameDiv = document.createElement('div');
-        ciderNameDiv.className = "drink-name";
-        ciderNameDiv.innerHTML = ciders[i].namn + "<br>";
-        ciderNameDiv.innerHTML += ciders[i].namn2;
-        //Add the beer name to div
-        ciderDiv.appendChild(ciderNameDiv);
-
-        //Get alcohol % of beer
-        var alcDiv = document.createElement('div');
-        alcDiv.className = "alcohol";
-        alcDiv.innerHTML = ciders[i].alkoholhalt;
-        ciderDiv.appendChild(alcDiv);
-
-
-
-        document.getElementsByClassName("cider-grid")[0]
-            .appendChild(ciderDiv);
-    }
-}
-
-function parseNonAlcoholic(nas) {
-    for (var i = 0; i < nas.length; i++) {
-        var nasDiv = document.createElement('div');
-        nasDiv.className = "drink";
-        //beerDiv.setAttribute("data-beer-id",beers[i].nr);
-
-        //Get name of beer
-        var nasNameDiv = document.createElement('div');
-        nasNameDiv.className = "drink-name";
-        nasNameDiv.innerHTML = nas[i].namn + "<br>";
-        nasNameDiv.innerHTML += nas[i].namn2;
-        //Add the beer name to div
-        nasDiv.appendChild(nasNameDiv);
-
-        //Get alcohol % of beer
-        var alcDiv = document.createElement('div');
-        alcDiv.className = "alcohol";
-        alcDiv.innerHTML = nas[i].alkoholhalt;
-        nasDiv.appendChild(alcDiv);
-
+    if (drinkType.includes("Alkoholfritt")) {
         document.getElementsByClassName("na-grid")[0]
-            .appendChild(nasDiv);
+            .appendChild(beerDiv);
     }
+    else if (drinkType.includes("Rött vin") || drinkType.includes("Vitt vin")) {
+        document.getElementsByClassName("wine-grid")[0]
+            .appendChild(beerDiv);
+    }
+    else if (drinkType.includes("Cider") || drinkType.includes("Blanddrycker")) {
+        document.getElementsByClassName("cider-grid")[0]
+            .appendChild(beerDiv);
+    }
+    else if (drinkType.includes("Öl")) {
+        document.getElementsByClassName("drinks-grid")[0]
+            .appendChild(beerDiv);
+    }
+
+
 }
+
 
 function createEventHandlers2() {
     $(document).on('click', '.login-button', function() {

@@ -6,43 +6,42 @@ $(document).ready(function() {
     changeLoginButton();
     getDrinks();
     createEventHandlers();
-    createEventHandlers2();
-    createEventHandlers3();
 });
 
 /*
  Check if a cookie has been created and if so change the text
  of the login-button to logout instead. Then also show the
  credits of that user.
+ If the login-button's text has been changed to logout also
+ show the credits of that user under the button. This function
+ calls the API so that we can get the logged in user's credit
+ information.
  */
 function changeLoginButton() {
     var isCookie = readCookie("uid");
     if (isCookie) {
         var buttonNode = document.getElementsByClassName("login-button")[0];
         buttonNode.innerHTML = "Logout";
-        getCredits(isCookie);
+
+        var myUserArray=isCookie.split('|'); //userId and userName are split by a "|"
+        var userName=myUserArray[1]; //Get the userName from the array.
+        console.log(userName);
+
+        getAndShowCredits(userName);
     }
 }
 
-/*
- If the login-button's text has been changed to logout also
- show the credits of that user under the button. This function
- calls the API so that we can get the logged in user's credit
- information.
- */
-function getCredits(loggedInUser) {
-    $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=iou_get_all",
+function getAndShowCredits(userName) {
+    $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=" + userName + "&password=" + userName + "&action=iou_get",
         function(data) {
-            var arrayOfUsers = data.payload;
-            for(var k = 0; k < arrayOfUsers.length; k++) {
-                if (loggedInUser == arrayOfUsers[k].username) {
-                    var credits = arrayOfUsers[k].assets;
-                    var creditsNode =document.getElementsByClassName("credits")[0];
-                    creditsNode.innerHTML = "Credits:" + credits;
-                }
-            }
-        });
+            var userInformation = data.payload;
+            var userCredits = userInformation[0].assets;
+            var creditsNode =document.getElementsByClassName("credits")[0];
+            creditsNode.innerHTML = "Credits: " + userCredits + ":-";
+
+    });
 }
+
 
 /*Call the API so that we can use the inventory information.
 For each drink we have to get its information so that we know
@@ -52,15 +51,16 @@ in which tab we are gonna put it.
 function getDrinks() {
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=inventory_get",
     function(data) {
-        var drinkId = [];
+        var drinks = [];
         for (var i = 0; i< data.payload.length; i++) {
             if (data.payload[i].namn !=="") { //remove drinks with no name.
-                drinkId[i-7] = data.payload[i].beer_id;
+                drinks.push(data.payload[i]);
             }
         }
-        getDrinksInfo(drinkId);
+        getDrinksInfo(drinks);
     });
 }
+
 /*
 Get the drink information from each drink. Compare it to the
 type of drink it is in the database. Depending on what type of
@@ -68,125 +68,106 @@ drink it is call different functions that puts the drink into
 different tabs on the webpage. The parsing into tabs is done
 by four different functions - one for each tab.
  */
-function getDrinksInfo(drinkId) {
-    for (var j = 0; j < drinkId.length; j++) {
-        $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
-            + drinkId[j], function(data) {
-            var drinkTypeReal =data.payload[0].varugrupp;
-            var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
-            if (drinkType == "Öl") {
-                parseBeer(data.payload);
-            }
-            else if (drinkType == "Rött vin" || drinkType == "Vitt vin") {
-                parseWine(data.payload);
-            }
-            else if (drinkType == "Cider" || drinkType == "Blanddrycker") {
-                parseCider(data.payload);
-            }
-            else if (drinkType == "Alkoholfritt") {
-                parseNonAlcoholic(data.payload);
-            }
-        });
+function getDrinksInfo(drinks) {
+    for (var j = 0; j < drinks.length; j++) {
+        getInfoForIndividualDrink(drinks[j]);
     }
+}
+
+function getInfoForIndividualDrink(inventoryGetDrink) {
+    $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=beer_data_get&beer_id="
+        + inventoryGetDrink.beer_id, function(data) {
+
+        /* Returns an array with 1 object like:
+         {
+         "nr": "197702",
+         "artikelid": "644574",
+         "varnummer": "1977",
+         "namn": "BEO",
+         "namn2": "Apple Green Tea",
+         "prisinklmoms": "12.90",
+         "volymiml": "",
+         "prisperliter": "",
+         "saljstart": "2012-06-01",
+         "slutlev": " ",
+         "varugrupp": "Alkoholfritt, Övrigt",
+         "forpackning": "Flaska",
+         "forslutning": "",
+         "ursprung": "",
+         "ursprunglandnamn": "Danmark",
+         "producent": "Carlsberg Sverige AB",
+         "leverantor": "Carlsberg Sverige AB",
+         "argang": "",
+         "provadargang": "",
+         "alkoholhalt": "0.1%",
+         "modul": "",
+         "sortiment": "FSÖ",
+         "ekologisk": "0",
+         "koscher": "0"
+         }*/
+
+        var beerDataGetDrink = data.payload[0];
+
+        renderDrinks(inventoryGetDrink, beerDataGetDrink);
+    });
 }
 
 /* Loop each item in the inventory and add it to the html.
   This has to be done to show the selection of drinks */
-function parseBeer(beers) {
-    for (var i = 0; i < beers.length; i++) {
-        var beerDiv = document.createElement('div');
-        beerDiv.className = "drink";
-        var beerId = beers[i].nr;
-        beerDiv.setAttribute("data-beer-id",beerId);
+function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
+    var drinkId = beerDataGetDrink.nr;
+    var beerDiv = document.createElement('div');
+    beerDiv.className = "drink";
+    beerDiv.setAttribute("data-beer-id", drinkId);
 
-        var beerNameDiv = document.createElement('div');
-        beerNameDiv.className = "drink-name";
-        beerNameDiv.innerHTML = beers[i].namn + "<br>";
-        beerNameDiv.innerHTML += beers[i].namn2;
+    //Get name of beer
+    var beerNameDiv = document.createElement('div');
+    beerNameDiv.className = "drink-name";
+    beerNameDiv.innerHTML = inventoryGetDrink.namn + "<br>";
+    beerNameDiv.innerHTML += inventoryGetDrink.namn2;
+    //Add the beer name to div
+    beerDiv.appendChild(beerNameDiv);
 
-        var infoButtonDiv = document.createElement('div');
-        infoButtonDiv.className = 'info-button';
-        infoButtonDiv.innerHTML = '?';
+    //Get alcohol % of beer
+    var alcDiv = document.createElement('div');
+    alcDiv.className = "alcohol";
+    alcDiv.innerHTML = beerDataGetDrink.alkoholhalt;
+    beerDiv.appendChild(alcDiv);
 
-        beerDiv.appendChild(infoButtonDiv);
-        beerDiv.appendChild(beerNameDiv);
+    //Add the information button
+    var infoButtonDiv = document.createElement('div');
+    infoButtonDiv.className = "info-button";
+    infoButtonDiv.innerHTML = "?";
+    beerDiv.appendChild(infoButtonDiv);
 
+    //Add a checkbox to the drink and put its' value equal to the drink's id.
+    var orderCheckbox = document.createElement('input');
+    orderCheckbox.type = "checkbox";
+    orderCheckbox.className = "drink-checkbox";
+    // var  orderCheckBoxInformation = [];
+    // orderCheckBoxInformation[0] = inventoryGetDrink.pub_price;
+    // orderCheckBoxInformation[1] = drinkId;
+    // orderCheckbox.value = orderCheckBoxInformation;
+    orderCheckbox.value = inventoryGetDrink.pub_price;
+    beerDiv.appendChild(orderCheckbox);
+
+    var drinkType = beerDataGetDrink.varugrupp;
+
+    if (drinkType.includes("Alkoholfritt")) {
+        document.getElementsByClassName("na-grid")[0]
+            .appendChild(beerDiv);
+    }
+    else if (drinkType.includes("Rött vin") || drinkType.includes("Vitt vin")) {
+        document.getElementsByClassName("wine-grid")[0]
+            .appendChild(beerDiv);
+    }
+    else if (drinkType.includes("Cider") || drinkType.includes("Blanddrycker")) {
+        document.getElementsByClassName("cider-grid")[0]
+            .appendChild(beerDiv);
+    }
+    else if (drinkType.includes("Öl")) {
         document.getElementsByClassName("drinks-grid")[0]
             .appendChild(beerDiv);
-        }
-
-
-}
-
-function parseWine(wines) {
-    for (var i = 0; i < wines.length; i++) {
-        var wineDiv = document.createElement('div');
-        wineDiv.className = "drink";
-        var beerId = wines[i].nr;
-        wineDiv.setAttribute("data-beer-id",beerId);
-
-        var wineNameDiv = document.createElement('div');
-        wineNameDiv.className = "drink-name";
-        wineNameDiv.innerHTML = wines[i].namn + "<br>";
-        wineNameDiv.innerHTML += wines[i].namn2;
-
-        var infoButtonDiv = document.createElement('div');
-        infoButtonDiv.className = 'info-button';
-        infoButtonDiv.innerHTML = '?';
-
-        wineDiv.appendChild(infoButtonDiv);
-        wineDiv.appendChild(wineNameDiv);
-
-        document.getElementsByClassName("wine-grid")[0]
-                .appendChild(wineDiv);
-        }
-}
-
-function parseCider(ciders) {
-    for (var i = 0; i < ciders.length; i++) {
-        var ciderDiv = document.createElement('div');
-        ciderDiv.className = "drink";
-        var beerId = ciders[i].nr;
-        ciderDiv.setAttribute("data-beer-id",beerId);
-
-        var ciderNameDiv = document.createElement('div');
-        ciderNameDiv.className = "drink-name";
-        ciderNameDiv.innerHTML = ciders[i].namn + "<br>";
-        ciderNameDiv.innerHTML += ciders[i].namn2;
-
-        var infoButtonDiv = document.createElement('div');
-        infoButtonDiv.className = 'info-button';
-        infoButtonDiv.innerHTML = '?';
-
-        ciderDiv.appendChild(infoButtonDiv);
-        ciderDiv.appendChild(ciderNameDiv);
-
-        document.getElementsByClassName("cider-grid")[0]
-            .appendChild(ciderDiv);
-    }
-}
-
-function parseNonAlcoholic(nas) {
-    for (var i = 0; i < nas.length; i++) {
-        var nasDiv = document.createElement('div');
-        nasDiv.className = "drink";
-        var beerId = nas[i].nr;
-        nasDiv.setAttribute("data-beer-id",beerId);
-
-        var nasNameDiv = document.createElement('div');
-        nasNameDiv.className = "drink-name";
-        nasNameDiv.innerHTML = nas[i].namn + "<br>";
-        nasNameDiv.innerHTML += nas[i].namn2;
-
-        var infoButtonDiv = document.createElement('div');
-        infoButtonDiv.className = 'info-button';
-        infoButtonDiv.innerHTML = '?';
-
-        nasDiv.appendChild(infoButtonDiv);
-        nasDiv.appendChild(nasNameDiv);
-
-        document.getElementsByClassName("na-grid")[0]
-            .appendChild(nasDiv);
     }
 }
 
@@ -319,18 +300,22 @@ function createEventHandlers() {
         if(event.target == overlay){
             hideInfo(overlay);
         }
-
     });
-}
 
-/*
- Each time the login/logout-button is pressed the userId-cookie
- will be deleted. The login/logout-button's hyperref will also
- be changed if the user is logged in. Instead of taking the user
- to the login-screen the page will be reloaded and the user is
- not logged in anympre.
- */
-function createEventHandlers2() {
+    // This event handler listens to the category buttons and if one of
+    // them is pressed it has to change the view and change the color
+    // of the highlighted button.
+    $(document).on('click', '.category', function() {
+        changeCategoryColor(this.id);
+    });
+
+    /*
+     Each time the login/logout-button is pressed the userId-cookie
+     will be deleted. The login/logout-button's hyperref will also
+     be changed if the user is logged in. Instead of taking the user
+     to the login-screen the page will be reloaded and the user is
+     not logged in anympre. */
+
     $(document).on('click', '.login-button', function() {
         var loggedIn = readCookie("uid");
         if (loggedIn) {
@@ -338,17 +323,59 @@ function createEventHandlers2() {
         }
         eraseCookie("uid");
     });
+
+    /*
+    When the order-button is pressed a function that checks which checkboxes are filled.
+     */
+    $(document).on('click', '.order-button', function() {
+        var isLoggedIn = readCookie('uid');
+        if (isLoggedIn) { //An user can't make a purchase if he/she is not logged in
+            var myUserArray = isLoggedIn.split('|'); //userId and credits are split by a "|"
+            var userId = myUserArray[0]; //Get the userId from the array.
+            var selectedDrinks = []; //Create an array to store all the checked drinks.
+            $('.drink-checkbox:checked').each(function () {
+                selectedDrinks.push(this.value);
+
+            });
+            // console.log(selectedDrinks);
+            changeLoggedInUserCredits(selectedDrinks, userId);
+        }
+        else showErrorMessage();
+    });
+
+}
+/*
+Firstly the function creates the total price of the order and then it performs the payment_append
+API-call so that the credits for the logged in user is changed. Then reload the page so that the right
+updated amount of credits are shown to the user.
+ */
+function changeLoggedInUserCredits(selectedDrinks, userId) {
+    var totalPrice = 0;
+    for (var k = 0; k < selectedDrinks.length; k++) {
+        totalPrice += Number(selectedDrinks[k]); //Have to change the price from string to integer
+    }
+    var removeFromCredits = totalPrice * -1;
+    /*
+    This API-call will change the assets that are available for a specific user when
+    performing the iou-get call. If the credits are positive it will be added to the assets,
+    while a negative price will remove its' value from the credits.
+     */
+    $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=payments_append&amount="
+        + removeFromCredits +"&user_id="+userId, function(data) {
+        location.reload();
+    });
 }
 
 /*
-This event handler listens to the category buttons and if one of
-them is pressed it has to change the view and change the color
-of the highlighted button.
+This function uses the infobox and populates it with an error message so that users
+who do not know the pub ordering system will not try to order drinks without an account.
  */
-function createEventHandlers3() {
-    $(document).on('click', '.category', function() {
-        changeCategoryColor(this.id);
-    });
+function showErrorMessage() {
+    showInfo();
+    var errorHeader = "ERROR";
+    var errorMessage = "You cannot order drinks without logging in first";
+    document.getElementsByClassName("info-box-header")[0].innerHTML = errorHeader;
+    document.getElementsByClassName("info-box-body")[0].innerHTML = errorMessage;
 }
 
 /*
@@ -356,9 +383,7 @@ Remove the selected class from all category buttons and then
 add it to the pressed button so that it gets highlighted
  */
 function changeCategoryColor(buttonId) {
-    // $('.category').each(function(){
-        $('.category').removeClass('selected');
-    // });
+    $('.category').removeClass('selected');
     $('#' +buttonId).addClass('selected');
     showCorrectCategory(buttonId);
 }
@@ -400,7 +425,7 @@ function readCookie(name) {
         var c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1,c.length);
         if (c.indexOf(nameEQ) == 0) {
-            console.log(c.substring(nameEQ.length,c.length));
+            // console.log(c.substring(nameEQ.length,c.length));
             return c.substring(nameEQ.length,c.length);
         }
 

@@ -22,9 +22,9 @@ body {
 .info-button {
     height: 30px;
     width: 30px;
-    float: right;
-    margin-right: 2px;
-    margin-top: 2px;
+    position: absolute;
+    right: 3px;
+    top: 3px;
     text-align: center;
     line-height: 30px;
     font-weight: bold;
@@ -263,9 +263,10 @@ button:hover{
 .drink {
     width: 150px;
     height: 200px;
-    margin: 10px;
+    margin: 10px 10px 45px;
     background: #EEE;
     border: 3px solid #BBB;
+    position: relative; /* So .drink-quantity can have position: absolute */
 }
 
 .drink-name {
@@ -279,18 +280,46 @@ button:hover{
     margin: 0 auto;
 }
 
+.drink .drink-image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.drink .drink-image img {
+    width: 50px;
+    margin: 0 auto;
+    display: block;
+}
+
+.drink .alcohol {
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+}
+
+
 .drink-quantity {
     display: flex;
     text-align: center;
-    padding: 0 10px;
+    padding: 0;
+    position: absolute;
+    bottom: -46px;
+    left: 0;
+    right: 0;
+    line-height: 40px;
+    font-size: 30px;
 }
 
-.change-quantity {
+.drink-quantity .change-quantity {
     width: 40px;
     height: 40px;
+    color: #FFF;
 }
 .change-quantity.decrease {
     /*float: left;*/
+    background: #dc3d3d;
 }
 
 .current-quantity {
@@ -299,6 +328,7 @@ button:hover{
 
 .change-quantity.increase {
     /*float: right;*/
+    background: #86dc3d;
 }
 
 .order-summary {

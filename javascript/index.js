@@ -140,6 +140,12 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     //Add the beer name to div
     beerDiv.appendChild(beerNameDiv);
 
+    //Get image for beer
+    var beerImage = document.createElement('div');
+    beerImage.className = 'drink-image';
+    beerImage.innerHTML = '<img src="resources/beer.png">';
+    beerDiv.appendChild(beerImage);
+
     //Get alcohol % of beer
     var alcDiv = document.createElement('div');
     alcDiv.className = "alcohol";
@@ -152,6 +158,7 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     infoButtonDiv.innerHTML = "?";
     beerDiv.appendChild(infoButtonDiv);
 
+    /*
     //Add a checkbox to the drink and put its' value equal to the drink's id.
     var orderCheckbox = document.createElement('input');
     orderCheckbox.type = "checkbox";
@@ -162,6 +169,15 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     // orderCheckbox.value = orderCheckBoxInformation;
     orderCheckbox.value = inventoryGetDrink.pub_price;
     beerDiv.appendChild(orderCheckbox);
+    */
+
+    var quantityControls =
+        "<div class='drink-quantity'>" +
+            "<button type='button' class='change-quantity decrease'>-</button>" +
+            "<span class='current-quantity'>0</span>" +
+            "<button type='button' class='change-quantity increase'>+</button>" +
+        "</div>";
+    $(beerDiv).append(quantityControls);
 
     var drinkType = beerDataGetDrink.varugrupp;
 

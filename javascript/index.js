@@ -802,6 +802,6 @@ function findDrinkRowById(id) {
         if (id == divId) {
             return orderedDiv[i];
         }
-        else return false;
     }
+    return false;
 }

@@ -15,10 +15,16 @@ $(document).ready(function() {
     changeLoginButton();
     getDrinks();
     createEventHandlers();
-    var testbev = new Beverage(999,"test",5);
-    orders.addItem(testbev);
-    orders.addItem(new Beverage(111,"test2",12));
-    drawOrderList(orders.showItems());
+
+
+//     createEventHandlers2();
+//     createEventHandlers3();
+//     //just some stuff to fill the orderlist for now
+//     var testbev = new Beverage(999,"test",5);
+//     orders.addItem(testbev);
+//     orders.addItem(new Beverage(111,"test2",12));
+//     drawOrderList(orders.showItems());
+
 
 });
 
@@ -84,7 +90,7 @@ in which tab we are gonna put it.
 function getDrinks() {
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=inventory_get",
     function(data) {
-        var drinks = [];
+        drinks = [];
         for (var i = 0; i< data.payload.length; i++) {
             if (data.payload[i].namn !=="") { //remove drinks with no name.
                 drinks.push(data.payload[i]);
@@ -145,17 +151,76 @@ function getInfoForIndividualDrink(inventoryGetDrink) {
     });
 }
 
+/*
+Takes the data from the div that is dragged at the moment. The data that is taken is the
+beerId and the beerPrice. This data is then needed in the order summary to show the correct
+drinks and then to be able to call the different APIs when a purchase is being completed.
+ */
+function drag(ev) {
+    var dragDrinkId = ev.target.getAttribute("data-beer-id");
+    // var dragDrinkPrice = ev.target.getAttribute("data-beer-price");
+    // var dragDrinkName = ev.target.getAttribute("data-beer-name");
+    ev.dataTransfer.setData("dragDrinkId", dragDrinkId);
+    // ev.dataTransfer.setData("dragDrinkPrice", dragDrinkPrice);
+    // ev.dataTransfer.setData("dragDrinkName", dragDrinkName);
+    // console.log("Div is dragged");
+}
+
+/*
+Allows a drink-div to be dropped into the order-summary side of the page
+ */
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+/*
+When a drink is dropped it has to give the drinkId, drinkPrice and drinkName so that
+we can show the correct information in the order summary.
+ */
+function drop(ev) {
+    ev.preventDefault();
+    var draggedDrinkId = ev.dataTransfer.getData("dragDrinkId");
+    // var draggedDrinkPriceString = ev.dataTransfer.getData("dragDrinkPrice");
+    // var draggedDrinkPriceInt = Number(draggedDrinkPriceString); //Convert the price into an integer
+    // var draggedDrinkName = ev.dataTransfer.getData("dragDrinkName");
+    // console.log("Div is dropped");
+    console.log(draggedDrinkId);
+    //console.log(draggedDrinkPrice);
+    var correctDrinkInfo = findDrinkById(draggedDrinkId);
+    // console.log(correctDrinkInfo);
+    var draggedDrinkName = correctDrinkInfo.namn;
+    var secondDraggedDrinkName = correctDrinkInfo.namn2;
+
+    orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName, quantity: 1}));
+    drawOrderList(orders.showItems());
+
+}
+
+function findDrinkById(drinkId) {
+    for (var i = 0; i < drinks.length; i++) {
+        if (drinkId == drinks[i].beer_id) {
+            return drinks[i];
+        }
+    }
+}
+
 /* Loop each item in the inventory and add it to the html.
   This has to be done to show the selection of drinks */
 function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
+    // var drinkPrice = inventoryGetDrink.pub_price;
     var drinkId = beerDataGetDrink.nr;
-
-    var beerDiv = document.createElement('div');
-    beerDiv.className = "drink";
-    beerDiv.setAttribute("data-beer-id", drinkId);
+    // var drinkName = inventoryGetDrink.namn;
 
     var beerInfoDiv = document.createElement('div');
     beerInfoDiv.className = 'drink-info';
+    beerInfoDiv.setAttribute("draggable", "true"); //Make it draggable
+    beerInfoDiv.setAttribute("ondragstart", "drag(event)");
+    beerInfoDiv.setAttribute("data-beer-id", drinkId);
+    // beerInfoDiv.setAttribute("data-beer-price", drinkPrice);
+    // beerInfoDiv.setAttribute("data-beer-name", drinkName);
+
+    var beerDiv = document.createElement('div');
+    beerDiv.className = "drink";
 
     //Get name of beer
     var beerNameDiv = document.createElement('div');
@@ -168,7 +233,8 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     //Get image for beer
     var beerImage = document.createElement('div');
     beerImage.className = 'drink-image';
-    beerImage.innerHTML = '<img src="resources/beer.png">';
+
+    beerImage.innerHTML = '<img src="resources/beer.png" draggable="false">';
     beerInfoDiv.appendChild(beerImage);
 
     //Get alcohol % of beer
@@ -185,18 +251,18 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
 
     beerDiv.appendChild(beerInfoDiv);
 
-    /*
+
     //Add a checkbox to the drink and put its' value equal to the drink's id.
-    var orderCheckbox = document.createElement('input');
-    orderCheckbox.type = "checkbox";
-    orderCheckbox.className = "drink-checkbox";
-    // var  orderCheckBoxInformation = [];
-    // orderCheckBoxInformation[0] = inventoryGetDrink.pub_price;
-    // orderCheckBoxInformation[1] = drinkId;
-    // orderCheckbox.value = orderCheckBoxInformation;
-    orderCheckbox.value = inventoryGetDrink.pub_price;
-    beerDiv.appendChild(orderCheckbox);
-    */
+    // var orderCheckbox = document.createElement('input');
+    // orderCheckbox.type = "checkbox";
+    // orderCheckbox.className = "drink-checkbox";
+    // // var  orderCheckBoxInformation = [];
+    // // orderCheckBoxInformation[0] = inventoryGetDrink.pub_price;
+    // // orderCheckBoxInformation[1] = drinkId;
+    // // orderCheckbox.value = orderCheckBoxInformation;
+    // orderCheckbox.value = inventoryGetDrink.pub_price;
+    // beerDiv.appendChild(orderCheckbox);
+
 
 
     var quantityControls =
@@ -266,7 +332,7 @@ function parseBeerInfo(beer_info){
     var namn2 = beer_info[0].namn2;
 
     if(namn2.length > 0){
-        nameString += "<span class = 'namn2'> " + namn2 + "</span>";
+        nameString += "<span class = 'namn2'>" + namn2 + "</span>";
     }
 
     document.getElementsByClassName("info-box-header")[0].innerHTML = nameString;
@@ -560,7 +626,7 @@ function OldBeverage(id,name,quantity){
 }
 
 function Beverage(
-    { id = 0, name = "Unnamed", price = "0", quantity = "0"}
+    { id = 0, name = "Unnamed", name2 = "", price = "0", quantity = "0"}
 ) {
     return([id, name, quantity])
 }
@@ -678,30 +744,64 @@ function Orderlist(){
 }
 /*Removes and redraws the orderlist*/
 function drawOrderList(list){
-    console.log(JSON.stringify(list));
+    // console.log(JSON.stringify(list));
+
     if (list.length == 0){
         $("ul").remove(".orderList");
         return;
     }
+
     $("ul").remove(".orderList");
     var bevList = document.createElement('ul');
     bevList.setAttribute("class","orderList");
     document.getElementsByClassName("currentOrder")[0].appendChild(bevList);
-    for (i = 0; i<list.length;i++){
+
+    for (var i = 0; i<list.length;i++){
+        // console.log("new for loop");
         var bevId = list[i][0];
         var bName = list[i][1];
         var q = list[i][2];
-        var row = document.createElement('li');
-        row.setAttribute("beverageid", bevId);
-        var template =
-            "<span class = remove>X</span>" +
-            "<span class = beername>" + bName + "</span>" +
-            "<span class = orderQuantity>" +
+        // console.log(bevId);
+        // console.log(JSON.stringify(list));
+        // a row already exists with this bevId
+        var existingOrderRow =  findDrinkRowById(bevId);
+        // console.log(existingOrderRow);
+
+        if (existingOrderRow) { // Increase quantity in the HTML row by "q" value
+            console.log("exists");
+            var quantityClass = existingOrderRow.getElementsByClassName("quantity")[0];
+            var currentQuantity = quantityClass.innerHTML;
+            var currentQuantityInt = Number(currentQuantity);
+            quantityClass.innerHTML = currentQuantityInt+1;
+
+        }
+        else {
+            var row = document.createElement('li');
+            row.className = "ordered-drink-row";
+
+            row.setAttribute("beverageid", bevId);
+
+            var template =
+                "<span class = remove>X</span>" +
+                "<span class = beername>" + bName + "</span>" +
+                "<span class = orderQuantity>" +
                 "<span class = decrease>-</span>" +
                 "<span class = quantity> " + q + " </span>" +
                 "<span class = increase>+</span>"+
-            "</span>";
-        row.innerHTML = template;
-        document.getElementsByClassName("orderList")[0].appendChild(row);
+                "</span>";
+            row.innerHTML = template;
+            document.getElementsByClassName("orderList")[0].appendChild(row);
+        }
+    }
+}
+
+function findDrinkRowById(id) {
+    var orderedDiv = document.getElementsByClassName("ordered-drink-row");
+    for (var i = 0; i < orderedDiv.length; i++ ) {
+        var divId = orderedDiv[i].getAttribute("beverageid");
+        if (id == divId) {
+            return orderedDiv[i];
+        }
+        else return false;
     }
 }

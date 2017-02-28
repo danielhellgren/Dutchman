@@ -262,11 +262,16 @@ button:hover{
 
 .drink {
     width: 150px;
+    height: 250px;
+    margin: 10px 10px 10px;
+    position: relative; /* So .drink-quantity can have position: absolute */
+}
+
+.drink-info {
+    position: relative;
     height: 200px;
-    margin: 10px 10px 45px;
     background: #EEE;
     border: 3px solid #BBB;
-    position: relative; /* So .drink-quantity can have position: absolute */
 }
 
 .drink-name {
@@ -276,7 +281,7 @@ button:hover{
 
 .drink-image {
     display: block;
-    height: 160px;
+    height: 150px;
     margin: 0 auto;
 }
 
@@ -304,10 +309,6 @@ button:hover{
     display: flex;
     text-align: center;
     padding: 0;
-    position: absolute;
-    bottom: -46px;
-    left: 0;
-    right: 0;
     line-height: 40px;
     font-size: 30px;
 }

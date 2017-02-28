@@ -128,9 +128,13 @@ function getInfoForIndividualDrink(inventoryGetDrink) {
   This has to be done to show the selection of drinks */
 function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     var drinkId = beerDataGetDrink.nr;
+
     var beerDiv = document.createElement('div');
     beerDiv.className = "drink";
     beerDiv.setAttribute("data-beer-id", drinkId);
+
+    var beerInfoDiv = document.createElement('div');
+    beerInfoDiv.className = 'drink-info';
 
     //Get name of beer
     var beerNameDiv = document.createElement('div');
@@ -138,25 +142,27 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     beerNameDiv.innerHTML = inventoryGetDrink.namn + "<br>";
     beerNameDiv.innerHTML += inventoryGetDrink.namn2;
     //Add the beer name to div
-    beerDiv.appendChild(beerNameDiv);
+    beerInfoDiv.appendChild(beerNameDiv);
 
     //Get image for beer
     var beerImage = document.createElement('div');
     beerImage.className = 'drink-image';
     beerImage.innerHTML = '<img src="resources/beer.png">';
-    beerDiv.appendChild(beerImage);
+    beerInfoDiv.appendChild(beerImage);
 
     //Get alcohol % of beer
     var alcDiv = document.createElement('div');
     alcDiv.className = "alcohol";
     alcDiv.innerHTML = beerDataGetDrink.alkoholhalt;
-    beerDiv.appendChild(alcDiv);
+    beerInfoDiv.appendChild(alcDiv);
 
     //Add the information button
     var infoButtonDiv = document.createElement('div');
     infoButtonDiv.className = "info-button";
     infoButtonDiv.innerHTML = "?";
-    beerDiv.appendChild(infoButtonDiv);
+    beerInfoDiv.appendChild(infoButtonDiv);
+
+    beerDiv.appendChild(beerInfoDiv);
 
     /*
     //Add a checkbox to the drink and put its' value equal to the drink's id.
@@ -170,6 +176,7 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     orderCheckbox.value = inventoryGetDrink.pub_price;
     beerDiv.appendChild(orderCheckbox);
     */
+
 
     var quantityControls =
         "<div class='drink-quantity'>" +

@@ -3,49 +3,12 @@
    beer name to divs with class=drink*/
 
 var orders = new Orderlist();
-// var lexicon;
-// var lang = "";
 
 $(document).ready(function() {
-    // getText("country","en");
-    // $.getJSON("./language.json", function(data) {
-    //     lexicon = data;
-    // });
-    // lang = getParameterByName("lang");
     changeLoginButton();
     getDrinks();
     createEventHandlers();
-
-
-//     createEventHandlers2();
-//     createEventHandlers3();
-//     //just some stuff to fill the orderlist for now
-//     var testbev = new Beverage(999,"test",5);
-//     orders.addItem(testbev);
-//     orders.addItem(new Beverage(111,"test2",12));
-//     drawOrderList(orders.showItems());
-
-
 });
-
-/*
- function taken from
- http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
- */
-// function getParameterByName(name, url) {
-//     if (!url) {
-//         url = window.location.href;
-//     }
-//     name = name.replace(/[\[\]]/g, "\\$&");
-//     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-//         results = regex.exec(url);
-//     if (!results) return null;
-//     if (!results[2]) return '';
-//     return decodeURIComponent(results[2].replace(/\+/g, " "));
-// }
-
-
-
 
 /*
  Check if a cookie has been created and if so change the text
@@ -416,10 +379,10 @@ function createEventHandlers() {
         showInfo();
         // alert("You clicked on a drink - " + beerId);
     });
+
     $(document).on('click', '.close-info-box', function() {
         hideInfo();
     });
-// <<<<<<< HEAD
 
     $(document).on('click', 'window', function(event) {
         var overlay = document.getElementsByClassName("overlay")[0];
@@ -428,13 +391,20 @@ function createEventHandlers() {
         }
     });
 
+    // $(document).on('click', '.language', function() {
+    //     var dir;
+    //     if(lang=="se"){
+    //         dir = "en";
+    //     }
+    //
+    // }
+
     // This event handler listens to the category buttons and if one of
     // them is pressed it has to change the view and change the color
     // of the highlighted button.
     $(document).on('click', '.category', function() {
         changeCategoryColor(this.id);
     });
-// =======
     
     //on click increase quantity for one line in orderlist
     $(document).on('click', '.increase', function(){
@@ -449,6 +419,7 @@ function createEventHandlers() {
         orders.decrease(bevId);
         drawOrderList(orders.showItems());
     });
+
     //on click to completely remove a beverage from orderlist
     $(document).on('click', '.remove', function(){
         var bevId = $(this).parent().attr('beverageid');
@@ -456,6 +427,7 @@ function createEventHandlers() {
         console.log(bevId);
         drawOrderList(orders.showItems());
     });
+
     //on click undo one step
     $(document).on('click', '.undo', function(){
         orders.undo();
@@ -465,6 +437,7 @@ function createEventHandlers() {
 
         drawOrderList(orders.showItems());
     });
+
     //on click redo a step
     $(document).on('click', '.redo', function(){
         orders.redo();
@@ -472,6 +445,7 @@ function createEventHandlers() {
         console.log("Redo " + JSON.stringify(orders.debugRedo()));
         drawOrderList(orders.showItems());
     });
+
     //on click remove everything from order
     $(document).on('click', '.cancel', function(){
         orders.cancelOrder();
@@ -480,7 +454,6 @@ function createEventHandlers() {
         drawOrderList(orders.showItems());
     })
 
-// >>>>>>> origin/master
 
     /*
      Each time the login/logout-button is pressed the userId-cookie
@@ -517,6 +490,7 @@ function createEventHandlers() {
     });
 
 }
+
 /*
 Firstly the function creates the total price of the order and then it performs the payment_append
 API-call so that the credits for the logged in user is changed. Then reload the page so that the right

@@ -7,13 +7,17 @@
     "en": "Log in",
     "se": "Logga in"
   },
+  "order": {
+    "en": "Order",
+    "se": "Beställ"
+  },
   "credit":{
     "en":"Credits",
     "se":"Saldo"
   },
   "ecological":{
     "en":"Ecological",
-    "se":"Ekologiskt"
+    "se":"Ekologisk"
   },
   "yes":{
     "en":"Yes",
@@ -41,7 +45,11 @@
   },
   "redo":{
     "en":"Redo",
-    "se":"Ångra-ångra"
+    "se":"Gör om"
+  },
+  "cancel":{
+    "en":"Cancel",
+    "se":"Avbryt"
   },
   "beer":{
     "en":"Beer",
@@ -58,6 +66,10 @@
   "non-alcoholic":{
     "en":"Non-alcoholic",
     "se":"Alkoholfritt"
+  },
+  "lang-swap":{
+    "en":"Svenska",
+    "se":"English"
   },
   "error-drink-order":{
     "en":"You cannot order drinks without logging in first",

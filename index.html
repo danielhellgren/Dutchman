@@ -18,7 +18,6 @@
 <!--an overlay to "grey out" everything-->
 <div class = "overlay">
     <!--info box to appear in the middle of the screen-->
-
     <div class = "info-box">
         <div class = "info-box-drink-image">
         </div>
@@ -33,30 +32,48 @@
 </div>
 
 <div class="header card">
-    <h1 class="header-text">The Flying Dutchman</h1>
+    <h1 class = "header-text"> The Flying Dutchman </h1>
     <a class = "login-link" href="login.html">
-        <button type = "button" class = "login-button" >Login</button>
+        <button type = "button" class = "login-button text-translate" data-translate-key="login" >
+            <!--Login-->
+        </button>
     </a>
-    <button type = "button" class = "order-button" > Order</button>
-    <button type ="button" class="language">Swedish</button>
+    <button type = "button" class = "order-button text-translate" data-translate-key="order">
+        <!--Order-->
+    </button>
+
+    <script>
+//        alert("lang:" + lang);
+        if(lang == "en"){
+            document.write("<a href='?lang=se'>" +
+                "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'>" +
+                "</button>" +
+                "</a>")
+        } else {
+            document.write("<a href='?lang=en'>" +
+                "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'>" +
+                "</button>" +
+                "</a>")
+        }
+    </script>
     <p class="credits"></p>
 
 </div>
 <div class="main">
     <div class="drinks card">
         <div class="drinks-categories">
-            <button type="button" class="category selected" id = "b-category">
-                <script>
-                    document.getElementById("b-category").innerHTML = getText("beer");
-                </script>
+            <button type="button" class = "category selected text-translate" data-translate-key = "beer" id = "b-category" >
+                <!--<script>-->
+                    <!--document.getElementById("b-category").innerHTML = getText("beer");-->
+                <!--</script>-->
             </button>
-            <button type="button" class="category " id = "w-category">
-                Wine
+            <button type="button" class = "category text-translate" data-translate-key = "wine" id = "w-category">
+                <!--Wine-->
             </button>
-            <button type="button" class="category " id = "c-category">
-                Cider
+            <button type="button" class = "category text-translate" data-translate-key = "cider" id = "c-category">
+                <!--Cider-->
             </button>
-            <button type="button" class="category " id = "na-category">
+            <button type="button" class="category text-translate" data-translate-key = "non-alcoholic" id = "na-category">
                 Non-alcoholic
             </button>
         </div>
@@ -96,10 +113,18 @@
 
         </div>
          <div class="summary-control">
-             <span class="undo">undo</span>
-             <span class="redo">redo</span>
-             <span class="cancel">cancel</span>
-             <span class="submit"></span>
+             <span class="undo text-translate" data-translate-key="undo">
+                 <!--undo-->
+             </span>
+             <span class="redo text-translate" data-translate-key="redo">
+                 <!--redo-->
+             </span>
+             <span class="cancel text-translate" data-translate-key="cancel">
+                 <!--cancel-->
+             </span>
+             <span class="submit">
+
+             </span>
          </div>
     </div>
 

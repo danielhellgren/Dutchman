@@ -552,8 +552,14 @@ function eraseCookie(name) {
 }
 
 //Orderlist
-function Beverage(id,name,quantity){
+function OldBeverage(id,name,quantity){
     return([id,name,quantity]);
+}
+
+function Beverage(
+    { id = 0, name = "Unnamed", price = "0", quantity = "0"}
+) {
+    return([id, name, quantity])
 }
 
 function Orderlist(){

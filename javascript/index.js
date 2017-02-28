@@ -3,22 +3,43 @@
    beer name to divs with class=drink*/
 
 var orders = new Orderlist();
+// var lexicon;
+// var lang = "";
 
 $(document).ready(function() {
+    // getText("country","en");
+    // $.getJSON("./language.json", function(data) {
+    //     lexicon = data;
+    // });
+    // lang = getParameterByName("lang");
     changeLoginButton();
     getDrinks();
     createEventHandlers();
-// <<<<<<< HEAD
-// =======
-//     createEventHandlers2();
-//     createEventHandlers3();
-//     //just some stuff to fill the orderlist for now
     var testbev = new Beverage(999,"test",5);
     orders.addItem(testbev);
     orders.addItem(new Beverage(111,"test2",12));
     drawOrderList(orders.showItems());
-// >>>>>>> origin/master
+
 });
+
+/*
+ function taken from
+ http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+ */
+// function getParameterByName(name, url) {
+//     if (!url) {
+//         url = window.location.href;
+//     }
+//     name = name.replace(/[\[\]]/g, "\\$&");
+//     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+//         results = regex.exec(url);
+//     if (!results) return null;
+//     if (!results[2]) return '';
+//     return decodeURIComponent(results[2].replace(/\+/g, " "));
+// }
+
+
+
 
 /*
  Check if a cookie has been created and if so change the text
@@ -33,7 +54,7 @@ function changeLoginButton() {
     var isCookie = readCookie("uid");
     if (isCookie) {
         var buttonNode = document.getElementsByClassName("login-button")[0];
-        buttonNode.innerHTML = "Logout";
+        buttonNode.innerHTML = getText("logout");
 
         var myUserArray=isCookie.split('|'); //userId and userName are split by a "|"
         var userName=myUserArray[1]; //Get the userName from the array.
@@ -49,7 +70,7 @@ function getAndShowCredits(userName) {
             var userInformation = data.payload;
             var userCredits = userInformation[0].assets;
             var creditsNode =document.getElementsByClassName("credits")[0];
-            creditsNode.innerHTML = "Credits: " + userCredits + ":-";
+            creditsNode.innerHTML = getText("credits") + ": " + userCredits + ":-";
 
     });
 }
@@ -250,20 +271,20 @@ function parseBeerInfo(beer_info){
 
     document.getElementsByClassName("info-box-header")[0].innerHTML = nameString;
 
-    var bodyString = " Ecological: ";
+    var bodyString = " "+ getText("ecological") + ": ";
     if(beer_info[0].ekologisk == "1"){
-            bodyString += "Yes";
+            bodyString += getText("yes");
     }
     else {
-        bodyString +=  "No";
+        bodyString +=  getText("no");
     }
 
     //Alcoholic percent
-    bodyString += "<br><br>Alcohol: " + beer_info[0].alkoholhalt;
+    bodyString += "<br><br>" + getText("alcohol") + ": " + beer_info[0].alkoholhalt;
     // // GROUP
-    bodyString += "<br><br>Tags: " + beer_info[0].varugrupp;
+    bodyString += "<br><br>"+ getText("tags") +": " + beer_info[0].varugrupp;
     // //Origin country
-    bodyString += "<br><br>Country: " + beer_info[0].ursprunglandnamn ;
+    bodyString += "<br><br>" + getText("country") + ": " + beer_info[0].ursprunglandnamn ;
 
     document.getElementsByClassName("info-box-body")[0].innerHTML = bodyString;
 
@@ -313,25 +334,7 @@ function showInfo(overlay) {
 
 // hide infobox and clear contents
 function hideInfo() {
-    // alert("Trying to hide info");
-    // get classes
-    // var headerDiv = document.getElementsByClassName("info-box-header");
-    // var bodyDiv = document.getElementsByClassName("info-box-body");
-    // var imageDiv = document.getElementsByClassName("info-image");
     var overlay = document.getElementsByClassName("overlay")[0];
-    //
-    // // delete subdivs
-    // while(headerDiv[0].firstChild) {
-    //     headerDiv[0].removeChild(headerDiv[0].firstChild);
-    // }
-    // while(imageDiv[0].firstChild) {
-    //     imageDiv[0].removeChild(imageDiv[0].firstChild);
-    // }
-    // while(bodyDiv[0].firstChild){
-    //     bodyDiv[0].removeChild(bodyDiv[0].firstChild);
-    // }
-
-    // hide overlay
     overlay.style.display = "none";
 }
 
@@ -465,7 +468,7 @@ function changeLoggedInUserCredits(selectedDrinks, userId) {
     while a negative price will remove its' value from the credits.
      */
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=payments_append&amount="
-        + removeFromCredits +"&user_id="+userId, function(data) {
+        + removeFromCredits + "&user_id=" + userId, function(data) {
         location.reload();
     });
 }
@@ -477,7 +480,7 @@ who do not know the pub ordering system will not try to order drinks without an 
 function showErrorMessage() {
     showInfo();
     var errorHeader = "ERROR";
-    var errorMessage = "You cannot order drinks without logging in first";
+    var errorMessage = getText("error-drink-order");
     document.getElementsByClassName("info-box-header")[0].innerHTML = errorHeader;
     document.getElementsByClassName("info-box-body")[0].innerHTML = errorMessage;
 }

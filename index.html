@@ -10,6 +10,7 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
     <script src="javascript/index.js"></script>
+    <script src="javascript/translator.js"></script>
 
 </head>
 <body>
@@ -44,10 +45,20 @@
 <div class="main">
     <div class="drinks card">
         <div class="drinks-categories">
-            <button type="button" class="category selected" id = "b-category">Beer</button>
-            <button type="button" class="category " id = "w-category">Wine</button>
-            <button type="button" class="category " id = "c-category">Cider</button>
-            <button type="button" class="category " id = "na-category">Non-alcoholic</button>
+            <button type="button" class="category selected" id = "b-category">
+                <script>
+                    document.getElementById("b-category").innerHTML = getText("beer");
+                </script>
+            </button>
+            <button type="button" class="category " id = "w-category">
+                Wine
+            </button>
+            <button type="button" class="category " id = "c-category">
+                Cider
+            </button>
+            <button type="button" class="category " id = "na-category">
+                Non-alcoholic
+            </button>
         </div>
         <div class="drinks-grid">
 

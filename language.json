@@ -1,0 +1,72 @@
+{
+  "logout": {
+    "en": "Log out",
+    "se": "Logga ut"
+  },
+  "login": {
+    "en": "Log in",
+    "se": "Logga in"
+  },
+  "credit":{
+    "en":"Credits",
+    "se":"Saldo"
+  },
+  "ecological":{
+    "en":"Ecological",
+    "se":"Ekologiskt"
+  },
+  "yes":{
+    "en":"Yes",
+    "se":"Ja"
+  },
+  "no":{
+    "en":"No",
+    "se":"Nej"
+  },
+  "alcohol":{
+    "en":"Alcohol",
+    "se":"Alkohol"
+  },
+  "tags":{
+    "en":"Tags",
+    "se":"Grupp"
+  },
+  "country":{
+    "en":"Country",
+    "se":"Land"
+  },
+  "undo":{
+    "en":"Undo",
+    "se":"Ångra"
+  },
+  "redo":{
+    "en":"Redo",
+    "se":"Ångra-ångra"
+  },
+  "beer":{
+    "en":"Beer",
+    "se":"Öl"
+  },
+  "wine":{
+    "en":"Wine",
+    "se":"Vin"
+  },
+  "cider":{
+    "en":"Cider",
+    "se":"Cider"
+  },
+  "non-alcoholic":{
+    "en":"Non-alcoholic",
+    "se":"Alkoholfritt"
+  },
+  "error-drink-order":{
+    "en":"You cannot order drinks without logging in first",
+    "se":"Du kan inte beställa utan att logga in först"
+  },
+  "":{
+    "en":"",
+    "se":""
+  }
+}
+
+

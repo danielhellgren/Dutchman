@@ -703,7 +703,7 @@ function Orderlist(){
         }
         undoBuffer.push(temp);
         if (redoBuffer.length > 0){
-            redoBUffer.length = 0;
+            redoBuffer.length = 0;
         }
     }
 

@@ -71,9 +71,13 @@
     "en":"Svenska",
     "se":"English"
   },
-  "name":{
-    "en":"Name",
-    "se":"Namn"
+  "name": {
+    "en": "Name",
+    "se": "Namn"
+  },
+  "error-header": {
+    "en":"ERROR",
+    "se":"FEL"
   },
   "error-drink-order":{
     "en":"You cannot order drinks without logging in first",
@@ -91,9 +95,33 @@
     "en":"Please enter your login information to continue!",
     "se":"Vänligen logga in för att fortsätta!"
   },
-  "login-error":{
-    "en":"*Wrong username or password",
-    "se":"*Felaktigt användarnamn eller lösenord"
+  "login-error": {
+    "en": "*Wrong username or password",
+    "se": "*Felaktigt användarnamn eller lösenord"
+  },
+  "error-zero-drink-order":{
+    "en": "Please add a drink before ordering.",
+    "se": "Lägg till en dryck innan du beställer."
+  },
+  "not-in-stock": {
+    "en": "OUT OF STOCK",
+    "se": "SLUT"
+  },
+  "confirmation-box-header": {
+    "en": "Order confirmation",
+    "se": "Bekräftelse på beställning"
+  },
+  "confirmation-box-body1": {
+    "en": "You ordered:",
+    "se": "Du beställde:"
+  },
+  "confirmation-box-body2": {
+    "en": "For a total of: ",
+    "se": "Med en totalsumma av: "
+  },
+  "confirmation-button": {
+    "en": "Accept",
+    "se": "Acceptera"
   },
   "":{
     "en":"",

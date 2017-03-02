@@ -5,7 +5,7 @@
 var orders = new Orderlist();
 
 $(document).ready(function() {
-    changeLoginButton();
+    //changeLoginButton();
     getDrinks();
     createEventHandlers();
 });
@@ -143,18 +143,19 @@ we can show the correct information in the order summary.
 function drop(ev) {
     ev.preventDefault();
     var draggedDrinkId = ev.dataTransfer.getData("dragDrinkId");
-    // var draggedDrinkPriceString = ev.dataTransfer.getData("dragDrinkPrice");
-    // var draggedDrinkPriceInt = Number(draggedDrinkPriceString); //Convert the price into an integer
+    var draggedDrinkPriceString = ev.dataTransfer.getData("dragDrinkPrice");
+    var draggedDrinkPriceInt = Number(draggedDrinkPriceString); //Convert the price into an integer
     // var draggedDrinkName = ev.dataTransfer.getData("dragDrinkName");
     // console.log("Div is dropped");
     console.log(draggedDrinkId);
-    //console.log(draggedDrinkPrice);
+    console.log(draggedDrinkPriceString);
     var correctDrinkInfo = findDrinkById(draggedDrinkId);
     // console.log(correctDrinkInfo);
     var draggedDrinkName = correctDrinkInfo.namn;
     var secondDraggedDrinkName = correctDrinkInfo.namn2;
+    var draggedDrinkPriceInt = Number(correctDrinkInfo.price);
     if (findDrinkRowById(draggedDrinkId) == false){
-        orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName, quantity: 1}));
+        orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName,quantity: 1,  price: draggedDrinkPriceInt}));
     }
     else {
         orders.increase(draggedDrinkId);
@@ -416,6 +417,15 @@ function createEventHandlers() {
         orders.increase(bevId);
         drawOrderList(orders.showItems());
     });
+    //on click increase quantity for one line in orderlist
+    $(document).on('click', '.change-quantity.increase', function(){
+        var bevId = $(this).parent().prev().attr("data-beer-id");
+        console.log(bevId);
+        orders.increase(bevId);
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+
+        drawOrderList(orders.showItems());
+    });
 
     //on click decrease quantity for one line in orderlist
     $(document).on('click', '.decrease', function(){
@@ -604,9 +614,9 @@ function OldBeverage(id,name,quantity){
 }
 
 function Beverage(
-    { id = 0, name = "Unnamed", name2 = "", price = "0", quantity = "0"}
+    { id = 0, name = "Unnamed", name2 = "", quantity = "0", price = "0"}
 ) {
-    return([id, name, quantity])
+    return([id, name, quantity,price])
 }
 
 function Orderlist(){

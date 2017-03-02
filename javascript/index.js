@@ -5,7 +5,7 @@
 var orders = new Orderlist();
 
 $(document).ready(function() {
-    //changeLoginButton();
+    changeLoginButton();
     getDrinks();
     createEventHandlers();
 });

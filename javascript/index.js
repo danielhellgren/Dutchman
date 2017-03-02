@@ -39,7 +39,7 @@ function getAndShowCredits(userName) {
             var userInformation = data.payload;
             var userCredits = userInformation[0].assets;
             var creditsNode =document.getElementsByClassName("credits")[0];
-            creditsNode.innerHTML = getText("credits") + ": " + userCredits + ":-";
+            creditsNode.innerHTML = getText("credit") + ": " + userCredits + ":-";
 
     });
 }
@@ -143,18 +143,23 @@ we can show the correct information in the order summary.
 function drop(ev) {
     ev.preventDefault();
     var draggedDrinkId = ev.dataTransfer.getData("dragDrinkId");
-    // var draggedDrinkPriceString = ev.dataTransfer.getData("dragDrinkPrice");
-    // var draggedDrinkPriceInt = Number(draggedDrinkPriceString); //Convert the price into an integer
+    var draggedDrinkPriceString = ev.dataTransfer.getData("dragDrinkPrice");
+    var draggedDrinkPriceInt = Number(draggedDrinkPriceString); //Convert the price into an integer
     // var draggedDrinkName = ev.dataTransfer.getData("dragDrinkName");
     // console.log("Div is dropped");
     console.log(draggedDrinkId);
-    //console.log(draggedDrinkPrice);
+    console.log(draggedDrinkPriceString);
     var correctDrinkInfo = findDrinkById(draggedDrinkId);
     // console.log(correctDrinkInfo);
     var draggedDrinkName = correctDrinkInfo.namn;
     var secondDraggedDrinkName = correctDrinkInfo.namn2;
-
-    orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName, quantity: 1}));
+    var draggedDrinkPriceInt = Number(correctDrinkInfo.price);
+    if (findDrinkRowById(draggedDrinkId) == false){
+        orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName,quantity: 1,  price: draggedDrinkPriceInt}));
+    }
+    else {
+        orders.increase(draggedDrinkId);
+    }
     drawOrderList(orders.showItems());
 
 }
@@ -412,6 +417,15 @@ function createEventHandlers() {
         orders.increase(bevId);
         drawOrderList(orders.showItems());
     });
+    //on click increase quantity for one line in orderlist
+    $(document).on('click', '.change-quantity.increase', function(){
+        var bevId = $(this).parent().prev().attr("data-beer-id");
+        console.log(bevId);
+        orders.increase(bevId);
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+
+        drawOrderList(orders.showItems());
+    });
 
     //on click decrease quantity for one line in orderlist
     $(document).on('click', '.decrease', function(){
@@ -600,9 +614,9 @@ function OldBeverage(id,name,quantity){
 }
 
 function Beverage(
-    { id = 0, name = "Unnamed", name2 = "", price = "0", quantity = "0"}
+    { id = 0, name = "Unnamed", name2 = "", quantity = "0", price = "0"}
 ) {
-    return([id, name, quantity])
+    return([id, name, quantity,price])
 }
 
 function Orderlist(){
@@ -735,37 +749,22 @@ function drawOrderList(list){
         var bevId = list[i][0];
         var bName = list[i][1];
         var q = list[i][2];
-        // console.log(bevId);
-        // console.log(JSON.stringify(list));
-        // a row already exists with this bevId
-        var existingOrderRow =  findDrinkRowById(bevId);
-        // console.log(existingOrderRow);
+        var row = document.createElement('li');
+        row.className = "ordered-drink-row";
 
-        if (existingOrderRow) { // Increase quantity in the HTML row by "q" value
-            console.log("exists");
-            var quantityClass = existingOrderRow.getElementsByClassName("quantity")[0];
-            var currentQuantity = quantityClass.innerHTML;
-            var currentQuantityInt = Number(currentQuantity);
-            quantityClass.innerHTML = currentQuantityInt+1;
+        row.setAttribute("beverageid", bevId);
 
-        }
-        else {
-            var row = document.createElement('li');
-            row.className = "ordered-drink-row";
+        var template =
+            "<span class = remove>X</span>" +
+            "<span class = beername>" + bName + "</span>" +
+            "<span class = orderQuantity>" +
+            "<span class = decrease>-</span>" +
+            "<span class = quantity> " + q + " </span>" +
+            "<span class = increase>+</span>"+
+            "</span>";
+        row.innerHTML = template;
+        document.getElementsByClassName("orderList")[0].appendChild(row);
 
-            row.setAttribute("beverageid", bevId);
-
-            var template =
-                "<span class = remove>X</span>" +
-                "<span class = beername>" + bName + "</span>" +
-                "<span class = orderQuantity>" +
-                "<span class = decrease>-</span>" +
-                "<span class = quantity> " + q + " </span>" +
-                "<span class = increase>+</span>"+
-                "</span>";
-            row.innerHTML = template;
-            document.getElementsByClassName("orderList")[0].appendChild(row);
-        }
     }
 }
 

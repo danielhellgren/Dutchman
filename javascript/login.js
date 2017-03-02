@@ -70,13 +70,21 @@ function redirectToRightPageWithCookie(selectedUser) {
     if (userCredentials != 0) { //A regular user
         var cookieInformation = userId +"|" +userName;
         createCookie('uid', cookieInformation, 7);
-        window.location.href = 'index.html';
+        if(lang=="se"){
+            window.location.href = 'index.html?lang=se'
+        } else {
+            window.location.href = 'index.html?lang=en';
+        }
         return false
     }
     else {
         var cookieInformation = userId; //An admin
         createCookie('uid',cookieInformation,7);
-        window.location.href = 'adminindex.html';
+        if(lang=="se"){
+            window.location.href = 'adminindex.html?lang=se'
+        } else {
+            window.location.href = 'adminindex.html?lang=en';
+        }
         return false;
     }
 }
@@ -106,7 +114,7 @@ the right information
 function wrongUsernameOrPassword() {
     document.getElementsByClassName("username-field")[0].value= ""; //update username and password fields
     document.getElementsByClassName("password-field")[0].value= "";
-    var errorMsg = "*Wrong username or password";
+    var errorMsg = getText("login-error");
     document.getElementsByClassName("error-msg")[0].innerHTML =errorMsg;
 }
 /*

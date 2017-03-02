@@ -1,15 +1,15 @@
 {
   "logout": {
-    "en": "Log out",
-    "se": "Logga ut"
+    "en":"Log out",
+    "se":"Logga ut"
   },
   "login": {
-    "en": "Log in",
-    "se": "Logga in"
+    "en":"Log in",
+    "se":"Logga in"
   },
   "order": {
-    "en": "Order",
-    "se": "Beställ"
+    "en":"Order",
+    "se":"Beställ"
   },
   "credit":{
     "en":"Credits",
@@ -71,9 +71,29 @@
     "en":"Svenska",
     "se":"English"
   },
+  "name":{
+    "en":"Name",
+    "se":"Namn"
+  },
   "error-drink-order":{
     "en":"You cannot order drinks without logging in first",
     "se":"Du kan inte beställa utan att logga in först"
+  },
+  "price":{
+    "en":"Price",
+    "se":"Pris"
+  },
+  "stock":{
+    "en":"Stock",
+    "se":"Lager"
+  },
+  "login-text":{
+    "en":"Please enter your login information to continue!",
+    "se":"Vänligen logga in för att fortsätta!"
+  },
+  "login-error":{
+    "en":"*Wrong username or password",
+    "se":"*Felaktigt användarnamn eller lösenord"
   },
   "":{
     "en":"",

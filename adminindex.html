@@ -11,61 +11,119 @@
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
     <script src="javascript/adminIndex.js"></script>
+    <script src="javascript/translator.js"></script>
 
 </head>
 <body>
 
 <div class="header">
     <h1 class="header-text">The Flying Dutchman</h1>
-    <a class = "login-link" href="login.html">
-        <button type = "button" class = "login-button" >Login</button>
+    <a class = "login-link text-translate" href="login.html">
+        <button type = "button" class = "login-button" data-translate-key="login">
+            <!--Login-->
+        </button>
     </a>
-    <button type ="button" class="language">Swedish</button>
-    <p class="credits"></p>
+
+    <script>
+        if(lang == "se") {
+            document.write("<a href='?lang=en'>" +
+                "<button type = 'button' class='language'>English" +
+                "</button>" +
+                "</a>")
+        }
+        else{
+            document.write("<a href='?lang=se'>" +
+                "<button type = 'button' class='language'>Svenska" +
+                "</button>" +
+                "</a>")
+        }
+    </script>
+    <!--<button type ="button" class="language">Swedish</button>-->
+    <!--<p class="credits"></p>-->
 
 </div>
 <div class="main">
     <div class="drinks card">
         <div class="drinks-categories">
-            <button type="button" class="category selected" id = "b-category">Beer</button>
-            <button type="button" class="category" id = "w-category">Wine</button>
-            <button type="button" class="category" id = "c-category">Cider</button>
-            <button type="button" class="category" id = "na-category">Non-alcoholic</button>
+            <button type="button" class="category selected text-translate" id = "b-category" data-translate-key="beer">
+                <!--Beer-->
+            </button>
+            <button type="button" class="category text-translate" id = "w-category" data-translate-key="wine">
+                <!--Wine-->
+            </button>
+            <button type="button" class="category text-translate" id = "c-category" data-translate-key="cider">
+                <!--Cider-->
+            </button>
+            <button type="button" class="category text-translate" id = "na-category" data-translate-key="non-alcoholic">
+                <!--Non-alcoholic-->
+            </button>
         </div>
         <div class="drinks-grid">
 
             <div class="drink">
-                <div class="drink-name">Beer name</div>
-                <div class = "price">Alcohol</div>
-                <div class="stock">Price</div>
-                <div class="alcohol">Stock</div>
+                <div class="drink-name text-translate" data-translate-key="name">
+                    <!-name-->
+                </div>
+                <div class = "price text-translate" data-translate-key="alcohol">
+                    <!--Alcohol-->
+                </div>
+                <div class="stock text-translate" data-translate-key="price">
+                    <!--Price-->
+                </div>
+                <div class="alcohol text-translate" data-translate-key="stock">
+                    <!--Stock-->
+                </div>
             </div>
 
         </div>
         <div class = "wine-grid">
             <div class="drink">
-                <div class="drink-name">Wine name</div>
-                <div class = "price">Alcohol</div>
-                <div class="stock">Price</div>
-                <div class="alcohol">Stock</div>
+                <div class="drink-name text-translate" data-translate-key="name">
+                    <!-name-->
+                </div>
+                <div class = "price text-translate" data-translate-key="alcohol">
+                    <!--Alcohol-->
+                </div>
+                <div class="stock text-translate" data-translate-key="price">
+                    <!--Price-->
+                </div>
+                <div class="alcohol text-translate" data-translate-key="stock">
+                    <!--Stock-->
+                </div>
                 <!--<img class="drink-image" src="resources/beer.png" />-->
             </div>
         </div>
         <div class = "cider-grid">
             <div class="drink">
-                <div class="drink-name">Cider name</div>
-                <div class = "price">Alcohol</div>
-                <div class="stock">Price</div>
-                <div class="alcohol">Stock</div>
+                <div class="drink-name text-translate" data-translate-key="name">
+                    <!-name-->
+                </div>
+                <div class = "price text-translate" data-translate-key="alcohol">
+                    <!--Alcohol-->
+                </div>
+                <div class="stock text-translate" data-translate-key="price">
+                    <!--Price-->
+                </div>
+                <div class="alcohol text-translate" data-translate-key="stock">
+                    <!--Stock-->
+                </div>
                 <!--<img class="drink-image" src="resources/beer.png" />-->
             </div>
         </div>
         <div class = "na-grid">
             <div class="drink">
-                <div class="drink-name">Drink name</div>
-                <div class = "price">Alcohol</div>
-                <div class="stock">Price</div>
-                <div class="alcohol">Stock</div>
+                <div class="drink-name text-translate" data-translate-key="name">
+                    <!-name-->
+                </div>
+                <div class = "price text-translate" data-translate-key="alcohol">
+                    <!--Alcohol-->
+                </div>
+                <div class="stock text-translate" data-translate-key="price">
+                    <!--Price-->
+                </div>
+                <div class="alcohol text-translate" data-translate-key="stock">
+                    <!--Stock-->
+                </div>
                 <!--<img class="drink-image" src="resources/beer.png" />-->
             </div>
         </div>

@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Login!</title>
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/login.css">
     <script
             src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
     <script src="javascript/login.js"></script>
+    <script src="javascript/translator.js"></script>
 </head>
 
 <body>
@@ -17,10 +19,25 @@
         <a class="back" href="index.html">
             <h1 class="header-text">The Flying Dutchman</h1>
         </a>
+
+        <script>
+            if(lang == "se") {
+                document.write("<a href='?lang=en'>" +
+                    "<button type = 'button' class='language'>English" +
+                    "</button>" +
+                    "</a>")
+            }
+            else{
+                document.write("<a href='?lang=se'>" +
+                    "<button type = 'button' class='language'>Svenska" +
+                    "</button>" +
+                    "</a>")
+            }
+        </script>
     </div>
     <div class="login-box">
-        <h1 class="login-text">
-            Please enter your login information to continue!
+        <h1 class="login-text text-translate" data-translate-key="login-text">
+            <!--Please enter your login information to continue!-->
         </h1>
         <!--<form name="loginform" onSubmit="return validateForm();"-->
               <!--action="main.html" method="post">-->

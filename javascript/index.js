@@ -39,7 +39,7 @@ function getAndShowCredits(userName) {
             var userInformation = data.payload;
             var userCredits = userInformation[0].assets;
             var creditsNode =document.getElementsByClassName("credits")[0];
-            creditsNode.innerHTML = getText("credits") + ": " + userCredits + ":-";
+            creditsNode.innerHTML = getText("credit") + ": " + userCredits + ":-";
 
     });
 }

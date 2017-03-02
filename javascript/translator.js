@@ -12,6 +12,7 @@ $(document).ready(function() {
         // lang = ;
         // alert(lang);
         translateText();
+        changeLoginButton();
     });
 
 });

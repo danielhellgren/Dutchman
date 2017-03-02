@@ -34,11 +34,15 @@
 
 <div class="header card">
     <h1 class = "header-text"> The Flying Dutchman </h1>
-    <a class = "login-link" href="login.html">
-        <button type = "button" class = "login-button text-translate" data-translate-key="login" >
-            <!--Login-->
-        </button>
-    </a>
+    <script>
+        if(lang=="se"){
+            document.write("<a class = 'login-link' href='login.html?lang=se'>");
+        }
+        else{
+            document.write("<a class = 'login-link' href='login.html?lang=en'>");
+        }
+        document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'> </button>");
+    </script>
     <button type = "button" class = "order-button text-translate" data-translate-key="order">
         <!--Order-->
     </button>

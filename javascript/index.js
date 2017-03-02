@@ -153,8 +153,12 @@ function drop(ev) {
     // console.log(correctDrinkInfo);
     var draggedDrinkName = correctDrinkInfo.namn;
     var secondDraggedDrinkName = correctDrinkInfo.namn2;
-
-    orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName, quantity: 1}));
+    if (findDrinkRowById(draggedDrinkId) == false){
+        orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName, quantity: 1}));
+    }
+    else {
+        orders.increase(draggedDrinkId);
+    }
     drawOrderList(orders.showItems());
 
 }
@@ -735,37 +739,22 @@ function drawOrderList(list){
         var bevId = list[i][0];
         var bName = list[i][1];
         var q = list[i][2];
-        // console.log(bevId);
-        // console.log(JSON.stringify(list));
-        // a row already exists with this bevId
-        var existingOrderRow =  findDrinkRowById(bevId);
-        // console.log(existingOrderRow);
+        var row = document.createElement('li');
+        row.className = "ordered-drink-row";
 
-        if (existingOrderRow) { // Increase quantity in the HTML row by "q" value
-            console.log("exists");
-            var quantityClass = existingOrderRow.getElementsByClassName("quantity")[0];
-            var currentQuantity = quantityClass.innerHTML;
-            var currentQuantityInt = Number(currentQuantity);
-            quantityClass.innerHTML = currentQuantityInt+1;
+        row.setAttribute("beverageid", bevId);
 
-        }
-        else {
-            var row = document.createElement('li');
-            row.className = "ordered-drink-row";
+        var template =
+            "<span class = remove>X</span>" +
+            "<span class = beername>" + bName + "</span>" +
+            "<span class = orderQuantity>" +
+            "<span class = decrease>-</span>" +
+            "<span class = quantity> " + q + " </span>" +
+            "<span class = increase>+</span>"+
+            "</span>";
+        row.innerHTML = template;
+        document.getElementsByClassName("orderList")[0].appendChild(row);
 
-            row.setAttribute("beverageid", bevId);
-
-            var template =
-                "<span class = remove>X</span>" +
-                "<span class = beername>" + bName + "</span>" +
-                "<span class = orderQuantity>" +
-                "<span class = decrease>-</span>" +
-                "<span class = quantity> " + q + " </span>" +
-                "<span class = increase>+</span>"+
-                "</span>";
-            row.innerHTML = template;
-            document.getElementsByClassName("orderList")[0].appendChild(row);
-        }
     }
 }
 

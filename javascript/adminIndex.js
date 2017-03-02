@@ -1,17 +1,17 @@
 $(document).ready(function() {
-    changeLoginButton();
+    //changeLoginButton();
     getDrinks();
     createEventHandlers2();
     createEventHandlers3();
 });
 
-function changeLoginButton() {
-    var isCookie = readCookie("uid");
-    if (isCookie) {
-        var buttonNode = document.getElementsByClassName("login-button")[0];
-        buttonNode.innerHTML = "Logout";
-    }
-}
+//function changeLoginButton() {
+//    var isCookie = readCookie("uid");
+//    if (isCookie) {
+//        var buttonNode = document.getElementsByClassName("login-button")[0];
+//        buttonNode.innerHTML = "Logout";
+//    }
+//}
 
 /*
 Gets all the different drinks that has a name.

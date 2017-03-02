@@ -43,17 +43,17 @@
     </button>
 
     <script>
-//        alert("lang:" + lang);
-        if(lang == "en"){
-            document.write("<a href='?lang=se'>" +
-                "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'>" +
-                "</button>" +
-                "</a>")
-        } else {
+       if(lang == "se") {
             document.write("<a href='?lang=en'>" +
-                "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'>" +
+                "<button type = 'button' class='language'>English" +
                 "</button>" +
                 "</a>")
+        }
+        else{
+        document.write("<a href='?lang=se'>" +
+            "<button type = 'button' class='language'>Svenska" +
+            "</button>" +
+            "</a>")
         }
     </script>
     <p class="credits"></p>

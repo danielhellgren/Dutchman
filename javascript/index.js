@@ -729,10 +729,11 @@ function Orderlist(){
             if (cart[i][0] == bevid){
                 cart.splice(i,1);
                 console.log("removed " + bevid);
+                updateDrawQuantity(bevid,0);
+                this._updateUndoRedo();
+                return;
             }
         }
-        console.log(JSON.stringify(orders.showItems()));
-        this._updateUndoRedo();
     }
 
     //returns the cart as a list
@@ -869,10 +870,16 @@ function drawOrderList(list){
         row.innerHTML = template;
         document.getElementsByClassName("orderList")[0].appendChild(row);
 
+        updateDrawQuantity(bevId,q);/*
         var drinkcard = $("div[data-beer-id=" + bevId +"]").next().find("span.current-quantity");
         drinkcard.text(q);
-
+*/
         }
+}
+
+function updateDrawQuantity(bevId, quantity){
+    var drinkcard = $("div[data-beer-id=" + bevId +"]").next().find("span.current-quantity");
+    drinkcard.text(quantity);
 }
 
 function findDrinkRowById(id) {

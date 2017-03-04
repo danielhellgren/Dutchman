@@ -722,13 +722,13 @@ function Orderlist(){
         this._updateUndoRedo();
     }
 
-    //Removes an item from cart based on id, takes a beverage list as input
-    this.removeItem = function(bev){
+    //Removes an item from cart based on id
+    this.removeItem = function(bevid){
         var l = cart.length;
         for (i=0;i<l;i++){
-            if (cart[i][0] == bev){
+            if (cart[i][0] == bevid){
                 cart.splice(i,1);
-                console.log("removed " + bev);
+                console.log("removed " + bevid);
             }
         }
         console.log(JSON.stringify(orders.showItems()));
@@ -789,8 +789,13 @@ function Orderlist(){
             if (cart[i][0] == bevid){
                 if (cart[i][2] > 0){
                     cart[i][2]--;
+                    if (cart[i][2] == 0){
+                        this.removeItem(bevid);
+                        return;
+                    }
                     var q = cart[i];
                 }
+
             }
         }
         this._updateUndoRedo();

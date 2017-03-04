@@ -395,7 +395,6 @@ function createEventHandlers() {
     //on click increase quantity for one line in orderlist
     $(document).on('click', '.increase-ol', function(){
         var bevId = $(this).parent().parent().attr('beverageid');
-        console.log("aha");
         orders.increase(bevId);
         drawOrderList(orders.showItems());
     });
@@ -410,14 +409,10 @@ function createEventHandlers() {
         var drinkPriceInt = Number(correctDrinkInfo.price);
         if (findDrinkRowById(bevId) == false){
             orders.addItem(new Beverage({id: bevId, name: drinkName, name2: secondDrinkName,quantity: 1,  price: drinkPriceInt}));
-            console.log("whut");
         }
         else {
             orders.increase(bevId);
-            console.log("hmm");
         }
-        console.log("Order " + JSON.stringify(orders.showItems()));
-        console.log("Undo " + JSON.stringify(orders.debugUndo()));
         drawOrderList(orders.showItems());
     });
     //on click decrease quantity for one line in orderlist
@@ -704,22 +699,30 @@ function OldBeverage(id,name,quantity){
     return([id,name,quantity]);
 }
 
+/*
+Creates a list of the four attributes defining a beverage in the Orderlist cart
+ */
 function Beverage(
     { id = 0, name = "Unnamed", name2 = "", quantity = "0", price = "0"}
 ) {
     return([id, name, quantity,price])
 }
 
+/*
+Orderlist consisting of a card, an undobuffer and a redobuffer.
+*/
 function Orderlist(){
     var cart = [];
     var undoBuffer = [[]];
     var redoBuffer = [];
 
+    //Adds an item to cart, takes a beverage as input.
     this.addItem = function(bev){
         cart.push(bev);
         this._updateUndoRedo();
     }
 
+    //Removes an item from cart based on id, takes a beverage list as input
     this.removeItem = function(bev){
         var l = cart.length;
         for (i=0;i<l;i++){
@@ -732,10 +735,12 @@ function Orderlist(){
         this._updateUndoRedo();
     }
 
+    //returns the cart as a list
     this.showItems = function(){
         return(cart);
     }
 
+    //performs one step undo
     this.undo = function(){
         if (undoBuffer.length > 0){
             temp = undoBuffer.pop();
@@ -748,6 +753,7 @@ function Orderlist(){
         }
     }
 
+    //Performs one step redo
     this.redo = function(){
         //add check to see if buffer is emtpy
         if (redoBuffer.length > 0){
@@ -758,20 +764,25 @@ function Orderlist(){
     }
 
 
-
+    //Adds one to the quantity of beverage with id bevid
     this.increase = function(bevid){
         var l = cart.length;
         for (i=0;i<l;i++){
             if (cart[i][0] == bevid){
-                cart[i][2]++;
-                var q = cart[i];
-
+                if (findDrinkById(bevid).count > cart[i][2]){
+                    cart[i][2]++;
+                    var q = cart[i];
+                    this._updateUndoRedo();
+                }
+                else {
+                    console.log("not enough in stock of " + bevid + " only " +findDrinkById(bevid).count);
+                }
             }
         }
-        this._updateUndoRedo();
         return q
     }
 
+    //Decreases quantity of a beverage with one to a minimum of zero.
     this.decrease = function(bevid){
         var l = cart.length;
         for (i=0;i<l;i++){
@@ -786,10 +797,7 @@ function Orderlist(){
         return q;
     }
 
-    this.sendOrder = function(){
-
-    }
-
+    //Clears cart and undo/redo buffers
     this.cancelOrder= function(){
         cart.length = 0;
         redoBuffer.length = 0;
@@ -797,7 +805,6 @@ function Orderlist(){
     }
 
     this._updateUndoRedo = function(){
-
         if (undoBuffer.length == 10){
             undoBuffer.splice(0,1); //limits undoBuffer to last 10 values
         }
@@ -821,7 +828,7 @@ function Orderlist(){
         return(redoBuffer);
     }
 }
-/*Removes and redraws the orderlist*/
+/*Removes and redraws the orderlist and updates quantities on the drink card.*/
 function drawOrderList(list){
     // console.log(JSON.stringify(list));
 

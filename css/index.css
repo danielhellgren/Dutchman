@@ -371,10 +371,10 @@ button:hover{
     text-align:center;
 }
 
-.order-summary span.orderQuantity span.decrease{
+.order-summary span.orderQuantity span.decrease-ol{
     float:left;
 }
-.order-summary span.orderQuantity span.increase{
+.order-summary span.orderQuantity span.increase-ol{
     float:right;
 }
 
@@ -387,7 +387,7 @@ button:hover{
     float:right;
 }
 
-.remove, .increase, .decrease{
+.remove, .increase-ol, .decrease-ol{
     color: #aaa;
     font-size: 20px;
     font-weight: bold;

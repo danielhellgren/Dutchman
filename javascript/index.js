@@ -389,23 +389,46 @@ function createEventHandlers() {
     });
     
     //on click increase quantity for one line in orderlist
-    $(document).on('click', '.increase', function(){
+    $(document).on('click', '.increase-ol', function(){
         var bevId = $(this).parent().parent().attr('beverageid');
+        console.log("aha");
         orders.increase(bevId);
         drawOrderList(orders.showItems());
     });
     //on click increase quantity for one line in orderlist
-    $(document).on('click', '.change-quantity.increase', function(){
+    $(document).on('click', ".change-quantity.increase", function(){
+        console.log("increase");
         var bevId = $(this).parent().prev().attr("data-beer-id");
         console.log(bevId);
-        orders.increase(bevId);
+        var correctDrinkInfo = findDrinkById(bevId);
+        var drinkName = correctDrinkInfo.namn;
+        var secondDrinkName = correctDrinkInfo.namn2;
+        var drinkPriceInt = Number(correctDrinkInfo.price);
+        if (findDrinkRowById(bevId) == false){
+            orders.addItem(new Beverage({id: bevId, name: drinkName, name2: secondDrinkName,quantity: 1,  price: drinkPriceInt}));
+            console.log("whut");
+        }
+        else {
+            orders.increase(bevId);
+            console.log("hmm");
+        }
+        console.log("Order " + JSON.stringify(orders.showItems()));
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        drawOrderList(orders.showItems());
+    });
+    //on click decrease quantity for one line in orderlist
+    $(document).on('click', '.change-quantity.decrease', function(){
+        console.log("decrease");
+        var bevId = $(this).parent().prev().attr("data-beer-id");
+        console.log(bevId);
+        orders.decrease(bevId);
         console.log("Undo " + JSON.stringify(orders.debugUndo()));
 
         drawOrderList(orders.showItems());
     });
 
     //on click decrease quantity for one line in orderlist
-    $(document).on('click', '.decrease', function(){
+    $(document).on('click', '.decrease-ol', function(){
         var bevId = $(this).parent().parent().attr('beverageid');
         orders.decrease(bevId);
         drawOrderList(orders.showItems());
@@ -702,9 +725,9 @@ function drawOrderList(list){
             "<span class = remove>X</span>" +
             "<span class = beername>" + bName + "</span>" +
             "<span class = orderQuantity>" +
-            "<span class = decrease>-</span>" +
+            "<span class = decrease-ol>-</span>" +
             "<span class = quantity> " + q + " </span>" +
-            "<span class = increase>+</span>"+
+            "<span class = increase-ol>+</span>"+
             "</span>";
         row.innerHTML = template;
         document.getElementsByClassName("orderList")[0].appendChild(row);

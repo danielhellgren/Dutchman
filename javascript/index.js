@@ -827,6 +827,7 @@ function drawOrderList(list){
 
     if (list.length == 0){
         $("ul").remove(".orderList");
+
         return;
     }
 
@@ -856,6 +857,8 @@ function drawOrderList(list){
         row.innerHTML = template;
         document.getElementsByClassName("orderList")[0].appendChild(row);
 
+        var drinkcard = $("div[data-beer-id=" + bevId +"]").next().find("span.current-quantity");
+        drinkcard.text(q);
 
         }
 }

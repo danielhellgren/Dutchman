@@ -17,19 +17,20 @@
 
 <body>
     <div class="header">
-
-        <a class="back" href="index.html">
-            <h1 class="header-text">The Flying Dutchman</h1>
-        </a>
-
         <script>
             if(lang == "se") {
+                document.write("<a class='back' href='index.html?lang=se'>" +
+                    "<h1 class='header-text'>The Flying Dutchman</h1>" +
+                "</a>");
                 document.write("<a href='?lang=en'>" +
                     "<button type = 'button' class='language'>English" +
                     "</button>" +
-                    "</a>")
+                    "</a>");
             }
             else{
+                document.write("<a class='back' href='index.html?lang=en'>" +
+                    "<h1 class='header-text'>The Flying Dutchman</h1>" +
+                    "</a>");
                 document.write("<a href='?lang=se'>" +
                     "<button type = 'button' class='language'>Svenska" +
                     "</button>" +

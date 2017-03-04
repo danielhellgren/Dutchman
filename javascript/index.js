@@ -87,7 +87,7 @@ function getInfoForIndividualDrink(inventoryGetDrink) {
 
         var beerDataGetDrink = data.payload[0];
 
-        renderDrinks(inventoryGetDrink, beerDataGetDrink);
+        renderDrink(inventoryGetDrink, beerDataGetDrink);
     });
 }
 
@@ -111,6 +111,7 @@ Allows a drink-div to be dropped into the order-summary side of the page
  */
 function allowDrop(ev) {
     ev.preventDefault();
+
 }
 
 /*
@@ -130,7 +131,7 @@ function drop(ev) {
     // console.log(correctDrinkInfo);
     var draggedDrinkName = correctDrinkInfo.namn;
     var secondDraggedDrinkName = correctDrinkInfo.namn2;
-    var draggedDrinkPriceInt = Number(correctDrinkInfo.price);
+    var draggedDrinkPriceInt = Number(correctDrinkInfo.pub_price);
     if (findDrinkRowById(draggedDrinkId) == false){
         orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName,quantity: 1,  price: draggedDrinkPriceInt}));
     }
@@ -151,15 +152,17 @@ function findDrinkById(drinkId) {
 
 /* Loop each item in the inventory and add it to the html.
   This has to be done to show the selection of drinks */
-function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
+function renderDrink(inventoryGetDrink, beerDataGetDrink) {
     // var drinkPrice = inventoryGetDrink.pub_price;
     var drinkId = beerDataGetDrink.nr;
-    // var drinkName = inventoryGetDrink.namn;
 
+
+    // var drinkName = inventoryGetDrink.namn;
     var beerInfoDiv = document.createElement('div');
     beerInfoDiv.className = 'drink-info';
     beerInfoDiv.setAttribute("draggable", "true"); //Make it draggable
     beerInfoDiv.setAttribute("ondragstart", "drag(event)");
+
     beerInfoDiv.setAttribute("data-beer-id", drinkId);
     // beerInfoDiv.setAttribute("data-beer-price", drinkPrice);
     // beerInfoDiv.setAttribute("data-beer-name", drinkName);
@@ -197,28 +200,29 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     beerDiv.appendChild(beerInfoDiv);
 
 
-    //Add a checkbox to the drink and put its' value equal to the drink's id.
-    // var orderCheckbox = document.createElement('input');
-    // orderCheckbox.type = "checkbox";
-    // orderCheckbox.className = "drink-checkbox";
-    // // var  orderCheckBoxInformation = [];
-    // // orderCheckBoxInformation[0] = inventoryGetDrink.pub_price;
-    // // orderCheckBoxInformation[1] = drinkId;
-    // // orderCheckbox.value = orderCheckBoxInformation;
-    // orderCheckbox.value = inventoryGetDrink.pub_price;
-    // beerDiv.appendChild(orderCheckbox);
-
-
-
     var quantityControls =
         "<div class='drink-quantity'>" +
-            "<button type='button' class='change-quantity decrease'>-</button>" +
-            "<span class='current-quantity'>0</span>" +
-            "<button type='button' class='change-quantity increase'>+</button>" +
+        "<button type='button' class='change-quantity decrease'>-</button>" +
+        "<span class='current-quantity'>0</span>" +
+        "<button type='button' class='change-quantity increase'>+</button>" +
         "</div>";
     $(beerDiv).append(quantityControls);
 
+
     var drinkType = beerDataGetDrink.varugrupp;
+
+    var stockInfoString = inventoryGetDrink.count;
+    var stockInfoInt = Number(stockInfoString);
+    if (stockInfoInt < 1) { //If the drink isn't in stock.
+        var outOfStockDiv = document.createElement('div');
+        outOfStockDiv.className = 'out-of-stock-drink';
+        beerDiv.appendChild(outOfStockDiv);
+        var notInStockTextDiv = document.createElement('div');
+        notInStockTextDiv.className = 'out-of-stock-text';
+        notInStockTextDiv.innerHTML = getText("not-in-stock");
+        outOfStockDiv.appendChild(notInStockTextDiv);
+
+    }
 
     if (drinkType.includes("Alkoholfritt")) {
         document.getElementsByClassName("na-grid")[0]
@@ -490,19 +494,59 @@ function createEventHandlers() {
     $(document).on('click', '.order-button', function() {
         var isLoggedIn = readCookie('uid');
         if (isLoggedIn) { //An user can't make a purchase if he/she is not logged in
-            var myUserArray = isLoggedIn.split('|'); //userId and credits are split by a "|"
+            var myUserArray = isLoggedIn.split('|'); //userId and userName are split by a "|"
             var userId = myUserArray[0]; //Get the userId from the array.
-            var selectedDrinks = []; //Create an array to store all the checked drinks.
-            $('.drink-checkbox:checked').each(function () {
+            var userName = myUserArray[1];
+            // var selectedDrinks = []; //Create an array to store all the checked drinks.
+            /*$('.drink-checkbox:checked').each(function () {
                 selectedDrinks.push(this.value);
 
-            });
-            // console.log(selectedDrinks);
-            changeLoggedInUserCredits(selectedDrinks, userId);
+            }); */
+            var orderList= orders.showItems();
+            if (orderList.length < 1) {
+                showZeroDrinksErrorMessage();
+            }
+
+            //changeLoggedInUserCredits(orderList, userId);
+            //console.log(orderList);
+            else addOrderToSystem(orderList, userName);
+            //location.reload(); //reload the page after an order has been created
         }
         else showErrorMessage();
     });
 
+    // $(document).on('click', 'confirmation-button', function() {
+    //    location.reload();
+    // });
+
+}
+
+/*
+This functions calls the purchase_append API. For each drink in the order summary
+the API is called and if there are two or more of the same beer it goes into an if-statement
+where it calls the API as many times as the number of beers ordered. It also updates the
+logged in user's credits at the same time.
+ */
+function addOrderToSystem(orderList, userName) {
+    for (var i = 0; i < orderList.length; i++) {
+        var singleDrink = orderList[i];
+        var singleDrinkId = singleDrink[0];
+        console.log("drinkid = " + singleDrinkId);
+        var quantity = singleDrink[2];
+        if (quantity > 1) { //If a customer orders two or more of a single beer.
+            for (var j = 0; j < quantity; j++) {
+                $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=" + userName + "&password=" + userName + "&action=purchases_append&beer_id=" + singleDrinkId,
+                    function(data) {
+                });
+            }
+        }
+        else {
+            $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username="+userName+"&password="+userName+"&action=purchases_append&beer_id=" + singleDrinkId,
+                function(data) {
+            });
+        }
+    }
+    showConfirmationMessage(orderList);
 }
 
 /*
@@ -510,12 +554,17 @@ Firstly the function creates the total price of the order and then it performs t
 API-call so that the credits for the logged in user is changed. Then reload the page so that the right
 updated amount of credits are shown to the user.
  */
-function changeLoggedInUserCredits(selectedDrinks, userId) {
+function changeLoggedInUserCredits(orderList, userId) {
     var totalPrice = 0;
-    for (var k = 0; k < selectedDrinks.length; k++) {
-        totalPrice += Number(selectedDrinks[k]); //Have to change the price from string to integer
+    for (var j = 0; j < orderList.length; j++) {
+        var singleDrink = orderList[j];
+        var quantity= singleDrink[2];
+        var price = singleDrink[3];
+
+        totalPrice += quantity*price;
     }
     var removeFromCredits = totalPrice * -1;
+    //console.log(removeFromCredits);
     /*
     This API-call will change the assets that are available for a specific user when
     performing the iou-get call. If the credits are positive it will be added to the assets,
@@ -523,8 +572,52 @@ function changeLoggedInUserCredits(selectedDrinks, userId) {
      */
     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=jorass&password=jorass&action=payments_append&amount="
         + removeFromCredits + "&user_id=" + userId, function(data) {
-        location.reload();
+
+
     });
+}
+
+function showErrorAndConfirmationOverlay() {
+    var overlay = document.getElementsByClassName("confirmation-overlay")[0];
+    overlay.style.display = "block";
+}
+
+function hideErrorAndConfirmationOverlay() {
+    var overlay = document.getElementsByClassName("confirmation-overlay")[0];
+    overlay.style.display = "none";
+}
+
+function showConfirmationMessage(orderList) {
+    showErrorAndConfirmationOverlay();
+
+    var confirmationHeader = document.getElementsByClassName("confirmation-box-header")[0];
+    var confirmationBody = document.getElementsByClassName("confirmation-box-body")[0];
+
+    confirmationHeader.innerHTML = getText("confirmation-box-header");
+    confirmationBody.innerHTML = getText("confirmation-box-body1") + "<br>";
+
+    var totalPrice = 0;
+    console.log("orderlist length" + orderList);
+    for (var i = 0; i < orderList.length; i++) {
+        var singleDrink = orderList[i];
+        var singleDrinkName = singleDrink[1];
+        var drinkQuantity = singleDrink[2];
+        var drinkPrice = singleDrink[3];
+
+        totalPrice += drinkPrice*drinkQuantity;
+
+        confirmationBody.innerHTML += + drinkQuantity + " x " + singleDrinkName + "<br>";
+    }
+    confirmationBody.innerHTML += getText("confirmation-box-body2") + totalPrice + ":-";
+
+    var confirmationButton = document.createElement('button');
+    confirmationButton.className = "confirmation-button";
+
+    confirmationButton.innerHTML = getText("confirmation-button");
+    confirmationButton.onclick = function() {
+        location.reload();
+    };
+    confirmationBody.appendChild(confirmationButton);
 }
 
 /*
@@ -532,11 +625,42 @@ This function uses the infobox and populates it with an error message so that us
 who do not know the pub ordering system will not try to order drinks without an account.
  */
 function showErrorMessage() {
-    showInfo();
-    var errorHeader = "ERROR";
+    showErrorAndConfirmationOverlay();
+    var errorHeader = getText("error-header");
     var errorMessage = getText("error-drink-order");
-    document.getElementsByClassName("info-box-header")[0].innerHTML = errorHeader;
-    document.getElementsByClassName("info-box-body")[0].innerHTML = errorMessage;
+    document.getElementsByClassName("confirmation-box-header")[0].innerHTML = errorHeader;
+    document.getElementsByClassName("confirmation-box-body")[0].innerHTML = errorMessage;
+
+    var confirmationButton = document.createElement('button');
+    confirmationButton.className = "confirmation-button";
+
+    confirmationButton.innerHTML = getText("confirmation-button");
+    confirmationButton.onclick = function() {
+        hideErrorAndConfirmationOverlay();
+    };
+
+    document.getElementsByClassName("confirmation-box-body")[0].appendChild(confirmationButton);
+}
+/*
+This function is called if an user presser the order button without adding something to
+his/her orders first.
+ */
+function showZeroDrinksErrorMessage() {
+    console.log("zero function is called");
+    showErrorAndConfirmationOverlay();
+    var errorHeader = getText("error-header");
+    var errorMessage = getText("error-zero-drink-order");
+    document.getElementsByClassName("confirmation-box-header")[0].innerHTML = errorHeader;
+    document.getElementsByClassName("confirmation-box-body")[0].innerHTML = errorMessage;
+
+    var confirmationButton = document.createElement('button');
+    confirmationButton.className = "confirmation-button";
+
+    confirmationButton.innerHTML = getText("confirmation-button");
+    confirmationButton.onclick = function() {
+        hideErrorAndConfirmationOverlay();
+    };
+    document.getElementsByClassName("confirmation-box-body")[0].appendChild(confirmationButton);
 }
 
 /*
@@ -732,7 +856,8 @@ function drawOrderList(list){
         row.innerHTML = template;
         document.getElementsByClassName("orderList")[0].appendChild(row);
 
-    }
+
+        }
 }
 
 function findDrinkRowById(id) {
@@ -745,3 +870,47 @@ function findDrinkRowById(id) {
     }
     return false;
 }
+
+/*
+function drag2(ev) {
+    var dragDrinkId = ev.target.getAttribute("beverageid");
+    // var dragDrinkPrice = ev.target.getAttribute("data-beer-price");
+    // var dragDrinkName = ev.target.getAttribute("data-beer-name");
+    ev.dataTransfer.setData("beverageid", dragDrinkId);
+    // ev.dataTransfer.setData("dragDrinkPrice", dragDrinkPrice);
+    // ev.dataTransfer.setData("dragDrinkName", dragDrinkName);
+    console.log("Div is dragged");
+}
+*/
+/*
+ Allows a drink-div to be dropped into the order-summary side of the page
+ */
+/*
+function allowDrop2(ev) {
+    ev.preventDefault();
+}
+*/
+/*
+ When a drink is dropped it has to give the drinkId, drinkPrice and drinkName so that
+ we can show the correct information in the order summary.
+ */
+/*
+function drop2(ev) {
+    ev.preventDefault();
+    var draggedDrinkId = ev.dataTransfer.getData("dragDrinkId");
+    // var draggedDrinkPriceString = ev.dataTransfer.getData("dragDrinkPrice");
+    // var draggedDrinkPriceInt = Number(draggedDrinkPriceString); //Convert the price into an integer
+    // var draggedDrinkName = ev.dataTransfer.getData("dragDrinkName");
+    // console.log("Div is dropped");
+    console.log(draggedDrinkId);
+    //console.log(draggedDrinkPrice);
+    var correctDrinkInfo = findDrinkById(draggedDrinkId);
+    // console.log(correctDrinkInfo);
+    var draggedDrinkName = correctDrinkInfo.namn;
+    var secondDraggedDrinkName = correctDrinkInfo.namn2;
+
+    orders.addItem(new Beverage({id: draggedDrinkId, name: draggedDrinkName, name2: secondDraggedDrinkName, quantity: 1}));
+    drawOrderList(orders.showItems());
+
+}
+*/

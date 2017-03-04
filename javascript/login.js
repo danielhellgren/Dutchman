@@ -77,7 +77,7 @@ function redirectToRightPageWithCookie(selectedUser) {
         }
         return false
     }
-    else {
+    else { //an admin
         var cookieInformation = userId; //An admin
         createCookie('uid',cookieInformation,7);
         if(lang=="se"){

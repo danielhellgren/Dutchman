@@ -10,10 +10,10 @@ body {
 }
 
 .header {
-    background: red;
+    /*background: red;*/
     height: 50px;
     line-height:50px;
-    background-color: #EEE;
+    background-color: #FFF;
 
 }
 .header-text {
@@ -67,13 +67,14 @@ input[type=text], [type=password]{
 }
 
 .login-button{
-    background-color: #4CAF50;
-    color: white;
+    background-color: #5298e6;
+    color: black;
     padding: 12px 20px;
     margin: 8px 30px;
     border: none;
     cursor: pointer;
     width: 80%;
+    height: 10%;
     font-weight: bold;
     font-size: medium;
 }

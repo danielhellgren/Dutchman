@@ -123,6 +123,30 @@
     "en": "Accept",
     "se": "Acceptera"
   },
+  "payment-text": {
+    "en": "Choose payment option:",
+    "se": "Välj betalningsalternativ:"
+  },
+  "credit-text": {
+    "en": "Credit card",
+    "se": "Kontokort"
+  },
+  "cash-text": {
+    "en": "Cash",
+    "se": "Kontant"
+  },
+  "credit-card-text": {
+    "en": "Pay with credit card",
+    "se": "Betala med kontokort"
+  },
+  "cash-pay-text": {
+    "en": "Pay",
+    "se": "Betala"
+  },
+  "erase-button": {
+    "en": "Erase",
+    "se": "Ta bort"
+  },
   "":{
     "en":"",
     "se":""

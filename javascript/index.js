@@ -406,7 +406,7 @@ function createEventHandlers() {
         var correctDrinkInfo = findDrinkById(bevId);
         var drinkName = correctDrinkInfo.namn;
         var secondDrinkName = correctDrinkInfo.namn2;
-        var drinkPriceInt = Number(correctDrinkInfo.price);
+        var drinkPriceInt = Number(correctDrinkInfo.pub_price);
         if (findDrinkRowById(bevId) == false){
             orders.addItem(new Beverage({id: bevId, name: drinkName, name2: secondDrinkName,quantity: 1,  price: drinkPriceInt}));
         }
@@ -572,19 +572,31 @@ function changeLoggedInUserCredits(orderList, userId) {
     });
 }
 
+/*
+This function created an overlay that darkens the screen behind it so that a
+pop-up box can be shown
+ */
 function showErrorAndConfirmationOverlay() {
     var overlay = document.getElementsByClassName("confirmation-overlay")[0];
     overlay.style.display = "block";
 }
 
+/*
+This function hides the overlay when a button is pressed.
+ */
 function hideErrorAndConfirmationOverlay() {
     var overlay = document.getElementsByClassName("confirmation-overlay")[0];
     overlay.style.display = "none";
 }
 
+/*
+This function shows a confirmation message to the customer. In the confirmation message
+the drinks ordered together with the total price will be shown so that the customer knows
+what he/she ordered. When the customer has gone through the message he/she has to press
+accept to be taken back to the main screen.
+ */
 function showConfirmationMessage(orderList) {
     showErrorAndConfirmationOverlay();
-
     var confirmationHeader = document.getElementsByClassName("confirmation-box-header")[0];
     var confirmationBody = document.getElementsByClassName("confirmation-box-body")[0];
 
@@ -616,7 +628,7 @@ function showConfirmationMessage(orderList) {
 }
 
 /*
-This function uses the infobox and populates it with an error message so that users
+This function uses the overlay and populates it with an error message so that users
 who do not know the pub ordering system will not try to order drinks without an account.
  */
 function showErrorMessage() {
@@ -637,8 +649,9 @@ function showErrorMessage() {
     document.getElementsByClassName("confirmation-box-body")[0].appendChild(confirmationButton);
 }
 /*
-This function is called if an user presser the order button without adding something to
-his/her orders first.
+This function is called if an user presses the order button without adding something to
+his/her orders first, since you have to be a regular and have an account to be able to
+order from the system.
  */
 function showZeroDrinksErrorMessage() {
     console.log("zero function is called");
@@ -660,7 +673,7 @@ function showZeroDrinksErrorMessage() {
 
 /*
 Remove the selected class from all category buttons and then
-add it to the pressed button so that it gets highlighted
+add it to the pressed button so that it gets highlighted with the "active" blue-color
  */
 function changeCategoryColor(buttonId) {
     $('.category').removeClass('selected');
@@ -670,8 +683,8 @@ function changeCategoryColor(buttonId) {
 
 /*
 The function first hides all the different drink category grids.
-It then checks which button the user pressed on so that it can
-show the appropriate grid.
+It then checks which button the user pressed so that it can
+show the appropriate grid with the appropriate drinks inside.
  */
 function showCorrectCategory(buttonId) {
     document.getElementsByClassName("drinks-grid")[0].style.display="none";

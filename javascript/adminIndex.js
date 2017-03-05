@@ -1,8 +1,7 @@
 $(document).ready(function() {
     //changeLoginButton();
     getDrinks();
-    createEventHandlers2();
-    createEventHandlers3();
+    createEventHandlers();
 });
 
 //function changeLoginButton() {
@@ -164,17 +163,40 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
 }
 
 
-function createEventHandlers2() {
+function createEventHandlers() {
     $(document).on('click', '.login-button', function() {
         eraseCookie("uid");
     });
-}
 
-function createEventHandlers3() {
     $(document).on('click', '.category', function() {
         changeCategoryColor(this.id);
     });
+
+    $(document).on('click', '.order-button-admin', function () { //THIS IS NOT WORKING
+        showPaymentDiv();
+    });
+
+    $(document).on('click', '.numpad-button', function () {
+       var inputForm = document.getElementsByClassName('added-payment')[0];
+       inputForm.value += this.value;
+    });
+
+    $(document).on('click', '.numpad-erase-button', function () {
+       var inputForm =  document.getElementsByClassName('added-payment')[0];
+       inputForm.value = "";
+    });
+
+    $(document).on('click', '.credit-card-button', function () {
+        console.log("hello");
+        location.reload();
+    });
 }
+
+function showPaymentDiv() {
+    var paymentDiv = document.getElementsByClassName("payment")[0];
+    paymentDiv.style.display = "block";
+}
+
 
 /*
  Remove the selected class from all category buttons and then

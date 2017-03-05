@@ -17,6 +17,57 @@
 </head>
 <body class="admin">
 
+<div class="payment">
+    <h1 class = 'payment-text text-translate' data-translate-key='payment-text'></h1>
+    <div class="credit-option">
+        <h2 class = 'credit text-translate' data-translate-key='credit-text'></h2>
+        <button type='button' class='credit-card-button text-translate' data-translate-key='credit-card-text'></button>
+    </div>
+    <div class="cash-option">
+        <h2 class = 'cash text-translate' data-translate-key='cash-text'></h2>
+        <container class='container-numpad'>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="9">9</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="8">8</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="7">7</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="6">6</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="5">5</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="4">4</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="3">3</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="2">2</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class="numpad-button" value="1">1</button>
+            </block>
+            <block class='numpad'>
+                <button type='button' class='numpad-erase-button text-translate' data-translate-key='erase-button'></button>
+            </block>
+            <block class='numpad' h2="">
+                <button type='button' class="numpad-button" value="0">0</button>
+            </block>
+            <input class='added-payment' type = 'number'>
+        </container>
+
+        <button type='button' class='cash-pay-button text-translate' data-translate-key='cash-pay-text'></button>
+    </div>
+
+
+</div>
+
 <div class="header">
     <h1 class="header-text">The Flying Dutchman</h1>
     <script>
@@ -30,6 +81,11 @@
     </script>
 
     </a>
+
+    <button type = "button" class = "order-button-admin text-translate" data-translate-key="order">
+        <!--Order-->
+    </button>
+
 
     <script>
         if(lang == "se") {
@@ -51,6 +107,7 @@
 </div>
 <div class="main">
     <div class="drinks card">
+
         <div class="drinks-categories">
             <button type="button" class="category selected text-translate" id = "b-category" data-translate-key="beer">
                 <!--Beer-->
@@ -137,6 +194,7 @@
             </div>
         </div>
     </div>
+
     <div class="order-summary">
         <div class="currentOrder">
             <ul>

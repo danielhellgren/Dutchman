@@ -89,6 +89,10 @@ function Orderlist(){
 
     }
 
+    // this.getCart = function(){
+    //     return(cart);
+    // }
+
     this.cancelOrder= function(){
         cart.length = 0;
         redoBuffer.length = 0;
@@ -114,6 +118,7 @@ function Orderlist(){
         return(redoBuffer);
     }
 }
+
 
 function drawOrderList(list){
     var bevList = document.createElement('ul');

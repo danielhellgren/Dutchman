@@ -370,6 +370,23 @@ function createEventHandlers() {
         hideInfo();
     });
 
+    //if the orderlist is not empty the user gets a warning message window
+    // before redirecting to another page
+    // that would result in a loss of the orderlist
+    $(window).bind('beforeunload', function(){
+        var num = orders.showItems().length;
+        console.log(num);
+        if(num > 0) {
+            return getText("leave-confirm");
+        }
+    });
+        // window.onbeforeunload = function () {
+        //     if(orders.length > 0) {
+        //         return 'Are you sure you want to leave?';
+        //     }
+        // };
+
+
     $(document).on('click', 'window', function(event) {
         var overlay = document.getElementsByClassName("overlay")[0];
         if(event.target == overlay){
@@ -515,6 +532,8 @@ function createEventHandlers() {
     // });
 
 }
+
+
 
 /*
 This functions calls the purchase_append API. For each drink in the order summary

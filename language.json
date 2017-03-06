@@ -105,7 +105,7 @@
   },
   "not-in-stock": {
     "en": "OUT OF STOCK",
-    "se": "SLUT"
+    "se": "TILLFÄLLIGT SLUT"
   },
   "confirmation-box-header": {
     "en": "Order confirmation",
@@ -146,6 +146,10 @@
   "erase-button": {
     "en": "Erase",
     "se": "Ta bort"
+  },
+  "leave-confirm": {
+    "en": "By doing this you will lose your current order!",
+    "se": "Fortsätter du mister du din pågående order!"
   },
   "":{
     "en":"",

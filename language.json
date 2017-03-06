@@ -154,7 +154,13 @@
   "":{
     "en":"",
     "se":""
+  },
+  "admin-drinks-text": {
+    "en": "Drinks",
+    "se": "Drycker"
+  },
+  "admin-orders-text": {
+    "en": "Orders",
+    "se": "Beställningar"
   }
 }
-
-

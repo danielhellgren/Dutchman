@@ -163,6 +163,15 @@
     /*overflow-y: scroll;*/
 /*}*/
 
+.header-text,
+.admin-navigation {
+    display: inline-block;
+}
+
+.admin-link {
+    margin-left: 15px;
+}
+
 .order-button-admin {
     position:relative;
     float:right;

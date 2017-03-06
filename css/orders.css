@@ -1,0 +1,36 @@
+.orders-grid .order-header:first-child {
+    font-weight: bold;
+}
+
+.order-header {
+    display:flex;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin: 5px;
+    background: #FCFCFC;
+}
+
+.customer-name {
+    height: 100%;
+    width: 40%;
+    float:left;
+    line-height: 15px; /* Because of 2 lines */
+}
+
+.price {
+    width: 15%;
+    height: 100%;
+    float:left;
+}
+.time {
+    width: 15%;
+    height: 100%;
+    float:left;
+}
+
+.drink-name {
+    width: 15%;
+    height: 100%;
+    float:left;
+}

@@ -151,6 +151,18 @@
     "en": "By doing this you will lose your current order!",
     "se": "Fortsätter du mister du din pågående order!"
   },
+  "customer-name":{
+    "en":"Customer name",
+    "se":"Kundnamn"
+  },
+  "drink-name":{
+    "en":"Drink name",
+    "se":"Varunamn"
+  },
+  "time":{
+    "en":"Time",
+    "se":"Tid"
+  },
   "":{
     "en":"",
     "se":""

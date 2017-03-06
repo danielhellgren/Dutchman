@@ -521,7 +521,10 @@ function createEventHandlers() {
 
             //changeLoggedInUserCredits(orderList, userId);
             //console.log(orderList);
-            else addOrderToSystem(orderList, userName);
+            else{
+                addOrderToSystem(orderList, userName);
+            }
+
             //location.reload(); //reload the page after an order has been created
         }
         else showErrorMessage();
@@ -639,8 +642,12 @@ function showConfirmationMessage(orderList) {
     var confirmationButton = document.createElement('button');
     confirmationButton.className = "confirmation-button";
 
+
     confirmationButton.innerHTML = getText("confirmation-button");
     confirmationButton.onclick = function() {
+        //clear orderlist and reload page
+        orders.cancelOrder();
+        drawOrderList(orders.showItems());
         location.reload();
     };
     confirmationBody.appendChild(confirmationButton);

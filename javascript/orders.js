@@ -49,29 +49,30 @@ function renderOrder(order){
     //creating subdiv for the list item
     //get the name of the customer
     var nameDiv = document.createElement('div');
-    nameDiv.className = "order-item-customer-name";
+    nameDiv.className = "customer-name";
     nameDiv.innerHTML = order.first_name + " " + order.last_name + " [" + order.username + "]";
     //add to div
     orderDiv.appendChild(nameDiv);
 
     //get name of the beer
     var beerDiv = document.createElement('div');
-    beerDiv.className = "order-item-beer-name";
-    beerDiv.innerHTML = order.namn + "<br>";
-    beerDiv.innerHTML += order.namn2;
+    beerDiv.className = "drink-name";
+    beerDiv.innerHTML = order.namn;
+    if(order.namn2 != "")
+        beerDiv.innerHTML += " <br> " + order.namn2;
     //add to div
     orderDiv.appendChild(beerDiv);
 
     //get time of order
     var timeDiv = document.createElement('div');
-    timeDiv.className = "order-item-order-time";
+    timeDiv.className = "time";
     timeDiv.innerHTML = order.timestamp;
     //add to div
     orderDiv.appendChild(timeDiv);
 
     //get price of order
     var priceDiv = document.createElement('div');
-    priceDiv.className = "order-item-order-price";
+    priceDiv.className = "price";
     priceDiv.innerHTML = order.price;
     //add to div
     orderDiv.appendChild(priceDiv);

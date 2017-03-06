@@ -1,36 +1,101 @@
-.orders-grid .order-header:first-child {
+.orders-grid .order-item:first-child {
     font-weight: bold;
+    line-height: 50px;
 }
 
-.order-header {
+.orders-grid .order-item:first-child .drink-name{
+ line-height: 40px;
+}
+
+
+.orders {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin: 20px;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: scroll;
+    /* background: green; */
+}
+
+.order-item{
     display:flex;
-    width: 100%;
+    width: calc(100% - 5px);
     height: 40px;
     line-height: 40px;
     margin: 5px;
     background: #FCFCFC;
 }
 
+.card {
+    background: #FFF;
+    border: 2px solid #BBB;
+    box-shadow: 0 0 2px #EEE;
+    border-radius: 3px;
+}
+
 .customer-name {
+    width: 25%;
     height: 100%;
-    width: 40%;
     float:left;
-    line-height: 15px; /* Because of 2 lines */
+    margin-right: 10px;
+    /*padding: 5px 0 0 5px;*/
+    /*line-height: 15px; !* Because of 2 lines *!*/
 }
 
 .price {
-    width: 15%;
+    width: 25%;
     height: 100%;
     float:left;
 }
+
 .time {
-    width: 15%;
+    width: 25%;
     height: 100%;
     float:left;
 }
 
 .drink-name {
-    width: 15%;
+    width: 25%;
     height: 100%;
     float:left;
+    line-height: 15px; /*Because of 2 lines*/
 }
+/*.customer-name {*/
+    /*width: 15%;*/
+    /*height: 100%;*/
+    /*float:left;*/
+    /*line-height: 15px; !* Because of 2 lines *!*/
+/*}*/
+
+
+
+/*.order-item-customer-name{*/
+    /*height: 100%;*/
+    /*width: 40%;*/
+    /*float:left;*/
+    /*margin-right: 32px;*/
+    /*padding: 5px 0 0 5px;*/
+    /*line-height: 15px; !* Because of 2 lines *!*/
+/*}*/
+
+/*.order-item-beer-name{*/
+    /*width: 15%;*/
+    /*height: 100%;*/
+    /*float:left;*/
+/*}*/
+
+/*.order-item-order-time{*/
+    /*width: 15%;*/
+    /*height: 100%;*/
+    /*float:left;*/
+/*}*/
+
+/*.order-item-order-price{*/
+    /*width: 15%;*/
+    /*height: 100%;*/
+    /*float:left;*/
+/*}*/
+

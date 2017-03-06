@@ -151,6 +151,14 @@
     "en": "By doing this you will lose your current order!",
     "se": "Fortsätter du mister du din pågående order!"
   },
+  "quantity": {
+    "en": "Quantity",
+    "se": "Antal"
+  },
+  "corder": {
+    "en": "Current Order",
+    "se": "Nuvarande beställning"
+  },
   "":{
     "en":"",
     "se":""

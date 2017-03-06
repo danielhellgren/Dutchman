@@ -1,3 +1,6 @@
+var orders = new Orderlist();
+var drinks = [];
+
 $(document).ready(function() {
     //changeLoginButton();
     getDrinks();
@@ -11,6 +14,9 @@ $(document).ready(function() {
 //        buttonNode.innerHTML = "Logout";
 //    }
 //}
+
+
+
 
 /*
 Gets all the different drinks that has a name.
@@ -28,7 +34,7 @@ function getDrinks() {
              "price": "12.90"
          }, */
         function(data) {
-            var drinks = [];
+            //var drinks = [];
             for (var i = 0; i< data.payload.length; i++) {
                 if (data.payload[i].namn !=="") { //remove drinks with no name.
                     //drinkId[i-7] = data.payload[i].beer_id;
@@ -38,6 +44,7 @@ function getDrinks() {
             getDrinksInfo(drinks);
         });
 }
+
 
 
 /*
@@ -109,12 +116,19 @@ function getInfoForIndividualDrink(inventoryGetDrink) {
     });
 }
 
+function findDrinkById(drinkId) {
+    for (var i = 0; i < drinks.length; i++) {
+        if (drinkId == drinks[i].beer_id) {
+            return drinks[i];
+        }
+    }
+}
 /* For each drink in the API create different divs and then depending on what kind of drink it is
  parse it into a specific div so that it is showed in the correct tab. */
 function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     var beerDiv = document.createElement('div');
     beerDiv.className = "drink";
-    beerDiv.setAttribute("data-beer-id",beerDataGetDrink.beer_id);
+    beerDiv.setAttribute("data-beer-id",inventoryGetDrink.beer_id);
 
     //Get name of beer
     var beerNameDiv = document.createElement('div');
@@ -158,8 +172,14 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
         document.getElementsByClassName("drinks-grid")[0]
             .appendChild(beerDiv);
     }
+    var qDiv = document.createElement('div');
+    var quantityControls =
+        "<div class='drink-quantity'>" +
+        "<button type='button' class='change-quantity increase'>+</button>" +
+        "</div>";
+    qDiv.innerHTML = quantityControls;
 
-
+    beerDiv.appendChild(qDiv);
 }
 
 
@@ -189,6 +209,79 @@ function createEventHandlers() {
     $(document).on('click', '.credit-card-button', function () {
         console.log("hello");
         location.reload();
+    });
+    $(document).on('click', '.increase-ol', function(){
+        var bevId = $(this).parent().parent().attr('beverageid');
+        orders.increase(bevId);
+        drawOrderList(orders.showItems());
+    });
+    //on click increase quantity for one line in orderlist
+    $(document).on('click', ".change-quantity.increase", function(){
+        console.log("increase");
+        var bevId = $(this).parent().parent().parent().attr("data-beer-id");
+        console.log(bevId);
+        var correctDrinkInfo = findDrinkById(bevId);
+        var drinkName = correctDrinkInfo.namn;
+        var secondDrinkName = correctDrinkInfo.namn2;
+        var drinkPriceInt = Number(correctDrinkInfo.pub_price);
+        if (findDrinkRowById(bevId) == false){
+            orders.addItem(new Beverage({id: bevId, name: drinkName, name2: secondDrinkName,quantity: 1,  price: drinkPriceInt}));
+        }
+        else {
+            orders.increase(bevId);
+        }
+        drawOrderList(orders.showItems());
+    });
+    //on click decrease quantity for one line in orderlist
+    $(document).on('click', '.change-quantity.decrease', function(){
+        console.log("decrease");
+        var bevId = $(this).parent().parent().parent().attr("data-beer-id");
+        console.log(bevId);
+        orders.decrease(bevId);
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+
+        drawOrderList(orders.showItems());
+    });
+
+    //on click decrease quantity for one line in orderlist
+    $(document).on('click', '.decrease-ol', function(){
+        var bevId = $(this).parent().parent().attr('beverageid');
+        orders.decrease(bevId);
+        drawOrderList(orders.showItems());
+    });
+
+    //on click to completely remove a beverage from orderlist
+    $(document).on('click', '.remove', function(){
+        var bevId = $(this).parent().attr('beverageid');
+        orders.removeItem(bevId);
+        console.log(bevId);
+        drawOrderList(orders.showItems());
+    });
+
+    //on click undo one step
+    $(document).on('click', '.undo', function(){
+        orders.undo();
+        //console.log(JSON.stringify(orders.showItems()));
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+
+        drawOrderList(orders.showItems());
+    });
+
+    //on click redo a step
+    $(document).on('click', '.redo', function(){
+        orders.redo();
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+        drawOrderList(orders.showItems());
+    });
+
+    //on click remove everything from order
+    $(document).on('click', '.cancel', function() {
+        orders.cancelOrder();
+        console.log("Undo " + JSON.stringify(orders.debugUndo()));
+        console.log("Redo " + JSON.stringify(orders.debugRedo()));
+        drawOrderList(orders.showItems());
     });
 }
 

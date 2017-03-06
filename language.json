@@ -163,9 +163,9 @@
     "en": "Time",
     "se": "Tid"
   },
-  "quantity": {
-    "en": "Quantity",
-    "se": "Antal"
+  "addorder": {
+    "en": "Order",
+    "se": "Beställ"
   },
   "corder": {
     "en": "Current Order",

@@ -177,9 +177,11 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
         "<div class='drink-quantity'>" +
         "<button type='button' class='change-quantity increase'>+</button>" +
         "</div>";
-    qDiv.innerHTML = quantityControls;
+    if (inventoryGetDrink.count > 0) {
+        qDiv.innerHTML = quantityControls;
+        beerDiv.appendChild(qDiv);
+    }
 
-    beerDiv.appendChild(qDiv);
 }
 
 

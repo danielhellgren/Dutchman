@@ -10,9 +10,11 @@
             src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
+    <script src="javascript/orderlist.js"></script>
     <script src="javascript/adminIndex.js"></script>
     <script src="javascript/translator.js"></script>
     <script src="javascript/sessionHandling.js"></script>
+
 
 </head>
 <body class="admin">
@@ -70,6 +72,10 @@
 
 <div class="header">
     <h1 class="header-text">The Flying Dutchman</h1>
+    <div class="admin-navigation">
+        <a href="adminindex.html" class="admin-link text-translate" data-translate-key="admin-drinks-text"></a>
+        <a href="orders.html" class="admin-link text-translate" data-translate-key="admin-orders-text"></a>
+    </div>
     <script>
         if(lang=="se"){
             document.write("<a class = 'login-link' href='login.html?lang=se'>");
@@ -138,6 +144,9 @@
                 <div class="stock text-translate" data-translate-key="stock">
                     <!--Stock-->
                 </div>
+                <div class="quantity text-translate" data-translate-key="quantity">
+                    <!--Quantity-->
+                </div>
 
             </div>
 
@@ -196,46 +205,25 @@
     </div>
 
     <div class="order-summary">
-        <div class="currentOrder">
-            <ul>
-                <li>
-                    <button type="remove">X</button>
-                    <img src="resources/beer.png" height="20px" class="" />
-                    <span class="beerName">Beer 1</span>
-                    <span class="orderQuantity">
-                        <button type="decrease"> </button>
-                        <span class="quantity">134</span>
-                        <button type="increase"></button>
-                    </span>
-                </li>
-                <li>
-                    <button type="remove">X</button>
-                    <img src="resources/beer.png" height="20px" class="" />
-                    <span class="beerName">Beer 2</span>
-                    <span class="orderQuantity">
-                        <button type="decrease"></button>
-                        <span class="quantity">12</span>
-                        <button type="increase"></button>
-                    </span>
-                </li>
-                <li>
-                    <button type="remove">X</button>
-                    <img src="resources/beer.png" height="20px" class="" />
-                    <span class="beerName">Beer 3</span>
-                    <span class="orderQuantity">
-                        <button type="decrease"></button>
-                        <span class="quantity">3</span>
-                        <button type="increase"></button>
-                    </span>
-            </ul>
+        <h3>Current order</h3>
+        <div class="currentOrder" ondrop = "drop(event)" ondragover = "allowDrop(event)">
         </div>
         <div class="summary-control">
-            <button type="undo"></button>
-            <button type="redo"></button>
-            <button type="cancel"></button>
-            <button type="submit"></button>
+             <span class="undo text-translate" data-translate-key="undo">
+                 <!--undo-->
+             </span>
+            <span class="redo text-translate" data-translate-key="redo">
+                 <!--redo-->
+             </span>
+            <span class="cancel text-translate" data-translate-key="cancel">
+                 <!--cancel-->
+             </span>
+            <span class="submit">
+
+             </span>
         </div>
     </div>
+
 
 </div>
 

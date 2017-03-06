@@ -159,14 +159,28 @@
     "en":"Drink name",
     "se":"Varunamn"
   },
-  "time":{
-    "en":"Time",
-    "se":"Tid"
+  "time": {
+    "en": "Time",
+    "se": "Tid"
+  },
+  "quantity": {
+    "en": "Quantity",
+    "se": "Antal"
+  },
+  "corder": {
+    "en": "Current Order",
+    "se": "Nuvarande beställning"
+  },
+  "admin-drinks-text": {
+    "en": "Drinks",
+    "se": "Drycker"
+  },
+  "admin-orders-text": {
+    "en": "Orders",
+    "se": "Beställningar"
   },
   "":{
     "en":"",
     "se":""
   }
 }
-
-

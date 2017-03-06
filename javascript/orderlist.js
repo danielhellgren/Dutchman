@@ -1,74 +1,66 @@
 /**
  * Created by erikmelander on 2017-02-18.
  */
-$(document).ready(function() {
-    var orders = new Orderlist();
 
-    console.log("orders" + JSON.stringify(orders.showItems()));
-    console.log("undo" + JSON.stringify(orders.debugUndo()));
-    for (step = 0; step <12;step++){
-        orders.addItem(new Beverage(step,"A",step));
-    }
-    var testbev = new Beverage(999,"test",999);
-    orders.addItem(testbev);
-    console.log("orders" + JSON.stringify(orders.showItems()));
-    console.log("undo" + JSON.stringify(orders.debugUndo()));
-    console.log("redo" + JSON.stringify(orders.debugRedo()));
-
-    orders.removeItem(testbev);
-    console.log("orders" + JSON.stringify(orders.showItems()));
-    console.log("undo" + JSON.stringify(orders.debugUndo()));
-    console.log("redo" + JSON.stringify(orders.debugRedo()));
-
-    //orders.cancelOrder();
-    console.log("orders" + JSON.stringify(orders.showItems()));
-    console.log("undo" + JSON.stringify(orders.debugUndo()));
-    console.log("redo" + JSON.stringify(orders.debugRedo()));
-    drawOrderList(orders.showItems());
-});
-
-function Beverage(id,name,quantity){
-    this.id = id;
-    this.name = name;
-    this.quantity = quantity;
+/*
+ Creates a list of the four attributes defining a beverage in the Orderlist cart
+ */
+function Beverage(
+    { id = 0, name = "Unnamed", name2 = "", quantity = "0", price = "0"}
+) {
+    return([id, name, quantity,price])
 }
 
+/*
+ Orderlist consisting of a card, an undobuffer and a redobuffer.
+ */
 function Orderlist(){
     var cart = [];
-    var undoBuffer = [];
+    var undoBuffer = [[]];
     var redoBuffer = [];
 
+    //Adds an item to cart, takes a beverage as input.
     this.addItem = function(bev){
         cart.push(bev);
         this._updateUndoRedo();
     }
 
-    this.removeItem = function(bev){
+    //Removes an item from cart based on id
+    this.removeItem = function(bevid){
         var l = cart.length;
         for (i=0;i<l;i++){
-            if (cart[i].id == bev.id){
+            if (cart[i][0] == bevid){
                 cart.splice(i,1);
-                console.log("found it");
+                console.log("removed " + bevid);
+                updateDrawQuantity(bevid,0);
+                this._updateUndoRedo();
+                return;
             }
         }
-        this._updateUndoRedo();
     }
 
+    //returns the cart as a list
     this.showItems = function(){
         return(cart);
     }
 
+    //performs one step undo
     this.undo = function(){
-        if (undoBuffer.length !=0){
+        if (undoBuffer.length > 0){
             temp = undoBuffer.pop();
-            redoBuffer.push(temp);
-            cart = undoBuffer[undoBuffer.length-1];
+            if (undoBuffer.length == 0){
+            }
+            else {
+                redoBuffer.push(temp);
+                cart = undoBuffer[undoBuffer.length-1];
+            }
         }
     }
 
+    //Performs one step redo
     this.redo = function(){
         //add check to see if buffer is emtpy
-        if (redoBuffer.length != 0){
+        if (redoBuffer.length > 0){
             temp = redoBuffer.pop();
             undoBuffer.push(temp);
             cart = temp;
@@ -76,23 +68,45 @@ function Orderlist(){
     }
 
 
-
-    this.increase = function(bev){
-
+    //Adds one to the quantity of beverage with id bevid
+    this.increase = function(bevid){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i][0] == bevid){
+                if (findDrinkById(bevid).count > cart[i][2]){
+                    cart[i][2]++;
+                    var q = cart[i];
+                    this._updateUndoRedo();
+                }
+                else {
+                    console.log("not enough in stock of " + bevid + " only " +findDrinkById(bevid).count);
+                }
+            }
+        }
+        return q
     }
 
-    this.decrease = function(){
+    //Decreases quantity of a beverage with one to a minimum of zero.
+    this.decrease = function(bevid){
+        var l = cart.length;
+        for (i=0;i<l;i++){
+            if (cart[i][0] == bevid){
+                if (cart[i][2] > 0){
+                    cart[i][2]--;
+                    if (cart[i][2] == 0){
+                        this.removeItem(bevid);
+                        return;
+                    }
+                    var q = cart[i];
+                }
 
+            }
+        }
+        this._updateUndoRedo();
+        return q;
     }
 
-    this.sendOrder = function(){
-
-    }
-
-    // this.getCart = function(){
-    //     return(cart);
-    // }
-
+    //Clears cart and undo/redo buffers
     this.cancelOrder= function(){
         cart.length = 0;
         redoBuffer.length = 0;
@@ -103,9 +117,14 @@ function Orderlist(){
         if (undoBuffer.length == 10){
             undoBuffer.splice(0,1); //limits undoBuffer to last 10 values
         }
-        undoBuffer.push(cart.slice());
+        var temp = [];
+        for (i=0;i<cart.length;++i){
+            var bev = cart[i].slice();
+            temp.push(bev);
+        }
+        undoBuffer.push(temp);
         if (redoBuffer.length > 0){
-            redoBUffer.length = 0;
+            redoBuffer.length = 0;
         }
     }
 
@@ -118,40 +137,61 @@ function Orderlist(){
         return(redoBuffer);
     }
 }
-
-
+/*Removes and redraws the orderlist and updates quantities on the drink card.*/
 function drawOrderList(list){
+    // console.log(JSON.stringify(list));
+
+    if (list.length == 0){
+        $("ul").remove(".orderList");
+
+        return;
+    }
+
+    $("ul").remove(".orderList");
     var bevList = document.createElement('ul');
     bevList.setAttribute("class","orderList");
     document.getElementsByClassName("currentOrder")[0].appendChild(bevList);
-    for (i = 0; i<list.length;i++){
-        var bevId = list[i].id;
-        console.log(bevId);
-        var bevRow = document.createElement("li");
-        bevRow.setAttribute("beverageId",bevId);
-        var bevButtonDelete = document.createElement('button');
-        bevButtonDelete.setAttribute("type", "remove");
-        bevButtonDelete.innerHTML = "X";
-        var bevName = document.createElement("span");
-        bevName.setAttribute("class", "beerName");
-        bevName.innerHTML = list[i].name;
-        var qspan = document.createElement("span");
-        qspan.setAttribute("class", "orderQuantity");
-        var bevButtonDecrease = document.createElement('button');
-        bevButtonDecrease.setAttribute("type", "decrease");
-        bevButtonDecrease.innerHTML = "-";
-        var quantity = document.createElement("span");
-        quantity.setAttribute("class", "quantity");
-        quantity.innerHTML = list[i].quantity;
-        var bevButtonIncrease = document.createElement('button');
-        bevButtonIncrease.setAttribute("type", "increase");
-        bevButtonIncrease.innerHTML = "+";
-        bevRow.appendChild(bevButtonDelete);
-        bevRow.appendChild(bevName);
-        qspan.appendChild(bevButtonDecrease);
-        qspan.appendChild(quantity);
-        qspan.appendChild(bevButtonIncrease);
-        bevRow.appendChild(qspan);
-        document.getElementsByClassName("orderList")[0].appendChild(bevRow);
+
+    for (var i = 0; i<list.length;i++){
+        // console.log("new for loop");
+        var bevId = list[i][0];
+        var bName = list[i][1];
+        var q = list[i][2];
+        var row = document.createElement('li');
+        row.className = "ordered-drink-row";
+
+        row.setAttribute("beverageid", bevId);
+
+        var template =
+            "<span class = remove>X</span>" +
+            "<span class = beername>" + bName + "</span>" +
+            "<span class = orderQuantity>" +
+            "<span class = decrease-ol>-</span>" +
+            "<span class = quantity> " + q + " </span>" +
+            "<span class = increase-ol>+</span>"+
+            "</span>";
+        row.innerHTML = template;
+        document.getElementsByClassName("orderList")[0].appendChild(row);
+
+        updateDrawQuantity(bevId,q);/*
+         var drinkcard = $("div[data-beer-id=" + bevId +"]").next().find("span.current-quantity");
+         drinkcard.text(q);
+         */
     }
+}
+
+function updateDrawQuantity(bevId, quantity){
+    var drinkcard = $("div[data-beer-id=" + bevId +"]").next().find("span.current-quantity");
+    drinkcard.text(quantity);
+}
+
+function findDrinkRowById(id) {
+    var orderedDiv = document.getElementsByClassName("ordered-drink-row");
+    for (var i = 0; i < orderedDiv.length; i++ ) {
+        var divId = orderedDiv[i].getAttribute("beverageid");
+        if (id == divId) {
+            return orderedDiv[i];
+        }
+    }
+    return false;
 }

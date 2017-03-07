@@ -63,6 +63,15 @@
     float:left;
     line-height: 15px; /*Because of 2 lines*/
 }
+
+.admin-link {
+    margin-left: 15px;
+}
+
+.header-text,
+.admin-navigation {
+    display: inline-block;
+}
 /*.customer-name {*/
     /*width: 15%;*/
     /*height: 100%;*/

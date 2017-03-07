@@ -399,6 +399,17 @@ button:hover{
     height: 40px;
     color: #FFF;
 }
+
+.admin-out-of-stock {
+    position: absolute;
+    top: 0;
+    bottom: 5px;
+    left: 95%;
+    right: 5px;
+    z-index: 500;
+    background-color: rgba(0,0,0,0.4);
+
+}
 .change-quantity.decrease {
     /*float: left;*/
     background: #dc3d3d;

@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
     validateForm();
-
+    createEventHandlers();
 });
 
 /*
@@ -11,6 +11,33 @@ the username and password database to check if the entered information
 is also found in the database. If so the user is logged in and
 otherwise he/she will get an error message.
  */
+
+function createEventHandlers() {
+    $(document).on('click', '.info-button', function () {
+       showInformationMessage();
+    });
+}
+
+function showInformationMessage() {
+    var overlay = document.getElementsByClassName("confirmation-overlay")[0];
+    overlay.style.display = "block";
+
+    var confirmationHeader = document.getElementsByClassName("confirmation-box-header")[0];
+    var confirmationBody = document.getElementsByClassName("confirmation-box-body")[0];
+
+    confirmationHeader.innerHTML = getText("login-information-header");
+    confirmationBody.innerHTML = getText("login-information-body");
+
+    var confirmationButton = document.createElement('button');
+    confirmationButton.className = "confirmation-button";
+
+    confirmationButton.innerHTML = getText("confirmation-button");
+    confirmationButton.onclick = function() {
+        //make the overlay disappear
+        overlay.style.display = "none";
+    };
+    confirmationBody.appendChild(confirmationButton);
+}
 
 function validateForm() {
     $(document).on('click', '.login-button', function() {

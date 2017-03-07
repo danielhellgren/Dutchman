@@ -210,13 +210,19 @@
 
 .drink {
     display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     width: 100%;
-    height: 40px;
+    /*height: 40px;*/
     line-height: 40px;
     margin: 5px;
     background: #FCFCFC;
 }
 
+.rest-of-information {
+    width: 100%;
+    z-index: 1000;
+}
 
 .drink-name {
     height: 100%;
@@ -247,6 +253,21 @@
     display: block;
     height: 160px;
     margin: 0 auto;
+}
+
+.more-information-button {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none !important;
+    font-size:0;
+}
+
+.entered-payment-error {
+    /*display: none;*/
+    color: transparent;
+    margin-top: 5px;
+    margin-bottom: 2px;
 }
 
 .payment {
@@ -308,7 +329,7 @@
 }
 
 .cash-pay-button {
-    margin-top: 10px;
+    margin-top: 5px;
     margin-left: 25%;
     top: 50%;
     left: 50%;

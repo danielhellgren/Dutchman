@@ -177,11 +177,16 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
         "<div class='drink-quantity'>" +
         "<button type='button' class='change-quantity increase'>+</button>" +
         "</div>";
-    if (inventoryGetDrink.count > 0) {
-        qDiv.innerHTML = quantityControls;
-        beerDiv.appendChild(qDiv);
-    }
 
+    qDiv.innerHTML = quantityControls;
+    beerDiv.appendChild(qDiv);
+
+    if (inventoryGetDrink.count < 1) {
+        console.log("out of stock");
+        var outOfStockDiv = document.createElement('div');
+        outOfStockDiv.className = 'admin-out-of-stock';
+        qDiv.appendChild(outOfStockDiv);
+    }
 }
 
 
@@ -205,13 +210,13 @@ function createEventHandlers() {
 
     $(document).on('click', '.numpad-erase-button', function () {
        var inputForm =  document.getElementsByClassName('added-payment')[0];
-       inputForm.value = "";
+        inputForm.value = "";
     });
 
     $(document).on('click', '.credit-card-button', function () {
-        console.log("hello");
         location.reload();
     });
+
     $(document).on('click', '.increase-ol', function(){
         var bevId = $(this).parent().parent().attr('beverageid');
         orders.increase(bevId);
@@ -285,6 +290,12 @@ function createEventHandlers() {
         console.log("Redo " + JSON.stringify(orders.debugRedo()));
         drawOrderList(orders.showItems());
     });
+
+    $(document).on('click', '.cash-pay-button', function () {
+        var orderList = orders.showItems();
+        var enteredPayment = document.getElementsByClassName('added-payment')[0].value;
+        completeAdminPurchase(orderList,enteredPayment);
+    });
 }
 
 function showPaymentDiv() {
@@ -292,6 +303,52 @@ function showPaymentDiv() {
     paymentDiv.style.display = "block";
 }
 
+function completeAdminPurchase(orderList, enteredPayment) {
+    var totalAmount = 0;
+    for (var i = 0; i < orderList.length; i++) {
+        var singleDrink = orderList[i];
+        var singleDrinkQuantity = singleDrink[2];
+        var singleDrinkPrice = singleDrink[3];
+        var priceForDrink = singleDrinkQuantity*singleDrinkPrice;
+        totalAmount += priceForDrink;
+    }
+    console.log(totalAmount);
+    if (enteredPayment < totalAmount) {
+        console.log("less than total");
+        var errorText = document.getElementsByClassName('entered-payment-error')[0];
+        errorText.style.color = "red";
+    }
+    else {
+        console.log("enough");
+        showConfirmationMessageAndChange(enteredPayment, totalAmount);
+    }
+}
+
+function showConfirmationMessageAndChange(enteredPayment, totalAmount) {
+    var overlay = document.getElementsByClassName("confirmation-overlay")[0];
+    overlay.style.display = "block";
+
+    var confirmationHeader = document.getElementsByClassName("confirmation-box-header")[0];
+    var confirmationBody = document.getElementsByClassName("confirmation-box-body")[0];
+
+    confirmationHeader.innerHTML = getText("confirmation-change-header");
+    confirmationBody.innerHTML = getText("confirmation-change-body1") + enteredPayment + ":-" + "<br>";
+    var change = enteredPayment - totalAmount;
+    confirmationBody.innerHTML += getText("confirmation-change-body2") + change + ":-";
+
+    var confirmationButton = document.createElement('button');
+    confirmationButton.className = "confirmation-button";
+
+    confirmationButton.innerHTML = getText("confirmation-button");
+    confirmationButton.onclick = function() {
+        //clear orderlist and reload page
+        orders.cancelOrder();
+        drawOrderList(orders.showItems());
+        location.reload();
+    };
+    confirmationBody.appendChild(confirmationButton);
+
+}
 
 /*
  Remove the selected class from all category buttons and then

@@ -100,18 +100,7 @@
 
 
     <script>
-        if(lang == "se") {
-            document.write("<a href='?lang=en'>" +
-                "<button type = 'button' class='language'>English" +
-                "</button>" +
-                "</a>")
-        }
-        else{
-            document.write("<a href='?lang=se'>" +
-                "<button type = 'button' class='language'>Svenska" +
-                "</button>" +
-                "</a>")
-        }
+        document.write("<a href=" + langRef(langSwap())+ "><button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>")
     </script>
     <!--<button type ="button" class="language">Swedish</button>-->
     <!--<p class="credits"></p>-->

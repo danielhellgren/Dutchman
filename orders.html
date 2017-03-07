@@ -26,34 +26,18 @@
                 //            console.log(adminref);
                 //            console.log(ordersref);
                 document.write("<a href="+ adminref + langRef() + " class='admin-link text-translate' data-translate-key='drinks'></a>" +
-                    "<a href=" + ordersref + " class='admin-link text-translate' data-translate-key='orders'></a>");
+                    "<a href=" + ordersref + langRef() + " class='admin-link text-translate' data-translate-key='orders'></a>");
             </script>
         </div>
         <script>
-            if(lang=="se"){
-                document.write("<a class = 'login-link' href='login.html?lang=se'>");
-            }
-            else{
-                document.write("<a class = 'login-link' href='login.html?lang=en'>");
-            }
-            document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'> </button>");
+           var loginRef = "login.html";
+                document.write("<a class = 'login-link' href=" + loginRef + langRef() + ">");
+            document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'></button></a>");
         </script>
 
-        </a>
-
         <script>
-            if(lang == "se") {
-                document.write("<a href='?lang=en'>" +
-                    "<button type = 'button' class='language'>English" +
-                    "</button>" +
-                    "</a>")
-            }
-            else{
-                document.write("<a href='?lang=se'>" +
-                    "<button type = 'button' class='language'>Svenska" +
-                    "</button>" +
-                    "</a>")
-            }
+            document.write("<a href=" + langRef(langSwap())+ "><button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>");
+
         </script>
     </div>
     <div class="main">

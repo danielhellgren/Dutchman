@@ -9,6 +9,7 @@ $(document).ready(function() {
     // load lexicon
     $.getJSON("./language.json", function(data) {
         lexicon = data;
+        // console.log(lexicon);
         // lang = ;
         // alert(lang);
         translateText();
@@ -23,10 +24,33 @@ $(document).ready(function() {
  */
 function getText(arg){
     // if url is messed up or function returned something bad - default to english
+    //  console.log(lexicon);
+    // console.log("getText: " + arg + ", lang: " + lang);
     if (lang != "en" && lang != "se"){
         lang = "en";
     }
     return lexicon[arg][lang];
+}
+
+// return an extension for the href to keep the current language across pages
+// i.e: ?lang=se
+//it defaults to English (en) if sent null or value that is no se
+function langRef(language){
+    var ref = "?lang=";
+    if(language != "se" || lang == null){
+        return ref + "en";
+    }
+    return ref + "se";
+
+}
+
+//returns the opposite of the current language
+// i.e if the current language is English it returns "se"
+function langSwap(){
+    if(lang != "se"){
+        return "se";
+    }
+    return "en";
 }
 
 /*

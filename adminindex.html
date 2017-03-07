@@ -73,8 +73,14 @@
 <div class="header">
     <h1 class="header-text">The Flying Dutchman</h1>
     <div class="admin-navigation">
-        <a href="adminindex.html" class="admin-link text-translate" data-translate-key="admin-drinks-text"></a>
-        <a href="orders.html" class="admin-link text-translate" data-translate-key="admin-orders-text"></a>
+        <script>
+            var adminRef = "adminindex.html";
+            var ordersRef = "orders.html";
+//            console.log(adminref);
+//            console.log(ordersref);
+            document.write("<a href="+ adminRef + langRef() " class='admin-link text-translate' data-translate-key='drinks'></a>" +
+                "<a href=" + ordersRef + langRef() + " class='admin-link text-translate' data-translate-key='orders'></a>");
+        </script>
     </div>
     <script>
         if(lang=="se"){

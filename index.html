@@ -44,12 +44,9 @@
 <div class="header card">
     <h1 class = "header-text"> The Flying Dutchman </h1>
     <script>
-        if(lang=="se"){
-            document.write("<a class = 'login-link' href='login.html?lang=se'>");
-        }
-        else{
-            document.write("<a class = 'login-link' href='login.html?lang=en'>");
-        }
+//        var langRef = "?lang=" + lang;
+        var loginRef= "login.html";
+        document.write("<a class = 'login-link' href=" + loginRef + langRef() + ">");
         document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'> </button></a>");
     </script>
 
@@ -58,18 +55,8 @@
     </button>
 
     <script>
-       if(lang == "se") {
-            document.write("<a href='?lang=en'>" +
-                "<button type = 'button' class='language'>English" +
-                "</button>" +
-                "</a>")
-        }
-        else{
-        document.write("<a href='?lang=se'>" +
-            "<button type = 'button' class='language'>Svenska" +
-            "</button>" +
-            "</a>")
-        }
+//        langRef = "?lang=" + getSwapLang();
+        document.write("<a href=" + langRef(langSwap()) + ">" + "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>")
     </script>
     <p class="credits"></p>
 

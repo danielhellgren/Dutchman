@@ -19,24 +19,13 @@
 <body>
     <div class="header">
         <script>
-            if(lang == "se") {
-                document.write("<a class='back' href='index.html?lang=se'>" +
-                    "<h1 class='header-text'>The Flying Dutchman</h1>" +
-                "</a>");
-                document.write("<a href='?lang=en'>" +
-                    "<button type = 'button' class='language'>English" +
-                    "</button>" +
-                    "</a>");
-            }
-            else{
-                document.write("<a class='back' href='index.html?lang=en'>" +
-                    "<h1 class='header-text'>The Flying Dutchman</h1>" +
-                    "</a>");
-                document.write("<a href='?lang=se'>" +
-                    "<button type = 'button' class='language'>Svenska" +
-                    "</button>" +
-                    "</a>")
-            }
+//            var langRef = "?lang=" + lang;
+            var indexRef = "index.html";
+            document.write("<a class='back' href=" + indexRef + langRef() +">" +
+                "<h1 class='header-text'>The Flying Dutchman</h1>" +
+            "</a>");
+            document.write("<a href="+ langRef(langSwap())+">" +
+                "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>");
         </script>
     </div>
     <div class="login-box">

@@ -171,6 +171,14 @@
     "en": "Current Order",
     "se": "Nuvarande beställning"
   },
+  "drinks": {
+    "en":"View drinks",
+    "se":"Visa dryckeslista"
+  },
+  "orders": {
+    "en":"View orders",
+    "se":"Visa orderlista"
+  },
   "admin-drinks-text": {
     "en": "Drinks",
     "se": "Drycker"

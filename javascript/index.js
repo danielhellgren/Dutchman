@@ -495,7 +495,7 @@ function createEventHandlers() {
     $(document).on('click', '.login-button', function() {
         var loggedIn = readCookie("uid");
         if (loggedIn) {
-            document.getElementsByClassName("login-link")[0].href = "index.html";
+            document.getElementsByClassName("login-link")[0].href = "index.html" + langRef();
         }
         eraseCookie("uid");
     });

@@ -37,10 +37,10 @@ function getText(arg){
 //it defaults to English (en) if sent null or value that is no se
 function langRef(language){
     var ref = "?lang=";
-    if(language != "se" || lang == null){
-        return ref + "en";
+    if(language == null){
+        return ref + lang;
     }
-    return ref + "se";
+    return ref + language;
 
 }
 

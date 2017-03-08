@@ -1,7 +1,7 @@
 
 
 $(document).ready(function() {
-    validateForm();
+    //validateForm();
     createEventHandlers();
 });
 
@@ -13,11 +13,26 @@ otherwise he/she will get an error message.
  */
 
 function createEventHandlers() {
-    $(document).on('click', '.info-button', function () {
+    $(document).on('click', '.info-button', function () { //show the information message if the "?"-button is pressed
        showInformationMessage();
+    });
+
+    $(document).on('click', '.login-button', function() { //if button is clicked regularly
+        validateForm();
+    });
+
+    $(document).keydown(function(event) { //if the return-button is pressed instead
+        if(event.keyCode == 13) {
+            $('.login-button').click();
+        }
     });
 }
 
+/*
+The information message contains an overlay that grays everything else out and then shows a
+small box with a message to the user so that he/she does not get confused about the login procesdure
+and when and how it is supposed to be used.
+ */
 function showInformationMessage() {
     var overlay = document.getElementsByClassName("confirmation-overlay")[0];
     overlay.style.display = "block";
@@ -39,14 +54,23 @@ function showInformationMessage() {
     confirmationBody.appendChild(confirmationButton);
 }
 
+/*
+The function gets the entered username and password from the two text fields. It then
+calls another function.
+ */
 function validateForm() {
-    $(document).on('click', '.login-button', function() {
+
         var enteredUsername = document.getElementsByClassName('username-field')[0];
         var enteredPassword = document.getElementsByClassName('password-field')[0];
         getUsers(enteredUsername.value, enteredPassword.value);
-    });
+
 }
 
+/*
+This function just calls the user_get_all-API so that we can get all the usernames and their passwords.
+The function that then is called will check if the entered username and password is equal to one
+of the entries in the API.
+ */
 function getUsers(enteredUsername, enteredPassword) {
     /*
     The user_get_all API-call is used to get the userid, credentials, username and password
@@ -59,8 +83,10 @@ function getUsers(enteredUsername, enteredPassword) {
 }
 
 /*
- check username and password and also that the user entered
+ Check username and password and also that the user entered
  something into the field. If this is correct redirect the user to the right page.
+ Otherwise show a little error message and remove the information entered in the two forms
+ so that the user can try again.
  */
 function validateUsernamePassword(userGetAll, enteredUsername, enteredPassword) {
     for (var i = 0; i < userGetAll.length; i++) {
@@ -87,8 +113,10 @@ function validateUsernamePassword(userGetAll, enteredUsername, enteredPassword) 
 //         });
 // }
 
-//Check if the user is a regular or an admin. Then create a cookie that stores the
-//userId and the username  so that it can be used to show the right amount of credits
+//Check if the user is a regular (credentials != 0) or an admin (credentials = 0.
+// Then create a cookie that stores the userId and the username so that it can be used
+// to show the right amount of credits on the customer view. If it is an admin that logs in
+// a cookie is still created to store the session.
 function redirectToRightPageWithCookie(selectedUser) {
     var userId = selectedUser.user_id;
     var userName = selectedUser.username;
@@ -119,7 +147,7 @@ function redirectToRightPageWithCookie(selectedUser) {
 
 
 /*
- create a cookie containing the user_id
+ create a cookie containing the user_id and username
 */
 function createCookie(name,value,days) {
     var expires = "";
@@ -133,8 +161,8 @@ function createCookie(name,value,days) {
 
 
 /*
-If something of the if statements above are false the input
-fields will be cleared and an error message will be displayed.
+If something in the if- statements in the validateUsernamePassword-function
+ above is false the input fields will be cleared and an error message will be displayed.
 This will happen in a loop until the user goes backwards or enters
 the right information
  */
@@ -144,6 +172,7 @@ function wrongUsernameOrPassword() {
     var errorMsg = getText("login-error");
     document.getElementsByClassName("error-msg")[0].innerHTML =errorMsg;
 }
+
 /*
 Erase a cookie by putting the expiration date to a date that
 has already been.

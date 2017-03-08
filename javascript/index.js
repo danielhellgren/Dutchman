@@ -300,7 +300,8 @@ function parseBeerInfo(beer_info){
     bodyString += "<br><br>"+ getText("tags") +": " + beer_info[0].varugrupp;
     // //Origin country
     bodyString += "<br><br>" + getText("country") + ": " + beer_info[0].ursprunglandnamn ;
-
+    //Price
+    bodyString += "<br><br>" + getText("price") + ": " + beer_info[0].prisinklmoms ;
     document.getElementsByClassName("info-box-body")[0].innerHTML = bodyString;
 
     var drinkTypeReal = beer_info[0].varugrupp;

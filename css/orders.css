@@ -1,3 +1,10 @@
+.orders-grid{
+    /*for some reason this div is waaaay to high and i had to move it down 27% ????*/
+    margin-top: 12%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .orders-grid .order-item:first-child {
     font-weight: bold;
     line-height: 50px;
@@ -6,7 +13,6 @@
 .orders-grid .order-item:first-child .drink-name{
  line-height: 40px;
 }
-
 
 .orders {
     display: flex;
@@ -72,39 +78,4 @@
 .admin-navigation {
     display: inline-block;
 }
-/*.customer-name {*/
-    /*width: 15%;*/
-    /*height: 100%;*/
-    /*float:left;*/
-    /*line-height: 15px; !* Because of 2 lines *!*/
-/*}*/
-
-
-
-/*.order-item-customer-name{*/
-    /*height: 100%;*/
-    /*width: 40%;*/
-    /*float:left;*/
-    /*margin-right: 32px;*/
-    /*padding: 5px 0 0 5px;*/
-    /*line-height: 15px; !* Because of 2 lines *!*/
-/*}*/
-
-/*.order-item-beer-name{*/
-    /*width: 15%;*/
-    /*height: 100%;*/
-    /*float:left;*/
-/*}*/
-
-/*.order-item-order-time{*/
-    /*width: 15%;*/
-    /*height: 100%;*/
-    /*float:left;*/
-/*}*/
-
-/*.order-item-order-price{*/
-    /*width: 15%;*/
-    /*height: 100%;*/
-    /*float:left;*/
-/*}*/
 

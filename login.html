@@ -28,7 +28,6 @@
 <body>
     <div class="header">
         <script>
-//            var langRef = "?lang=" + lang;
             var indexRef = "index.html";
             document.write("<a class='back' href=" + indexRef + langRef() +">" +
                 "<h1 class='header-text'>The Flying Dutchman</h1>" +
@@ -47,7 +46,7 @@
             <input type="text" class="username-field" placeholder="Enter Username" name="uname" required>
 
             <input type="password" class="password-field" placeholder="Enter Password" name="psw" required>
-            <button type="submit" class="login-button">Login</button>
+            <button type="submit" class="login-button text-translate" data-translate-key="login"></button>
         <!--</form>-->
         <div class="error-msg"></div>
     </div>

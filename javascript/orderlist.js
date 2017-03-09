@@ -32,7 +32,6 @@ function Orderlist(){
             if (cart[i][0] == bevid){
                 cart.splice(i,1);
                 console.log("removed " + bevid);
-                updateDrawQuantity(bevid,0);
                 this._updateUndoRedo();
                 return;
             }
@@ -53,16 +52,11 @@ function Orderlist(){
             else {
                 redoBuffer.push(temp);
                 var currentstate = undoBuffer[undoBuffer.length-1];
-                console.log(JSON.stringify(currentstate));
                 cart.length = 0;
                 for (i=0;i<currentstate.length;i++){
                     var tempcart;
-                    console.log(i);
-                    console.log(JSON.stringify(currentstate[i]));
                     tempcart=currentstate[i].slice(0);
                     cart.push(tempcart);
-                    console.log(JSON.stringify(tempcart));
-
                 }
             }
         }
@@ -75,16 +69,11 @@ function Orderlist(){
             temp = redoBuffer.pop();
             undoBuffer.push(temp);
             var currentstate = temp;
-            console.log(JSON.stringify(currentstate));
             cart.length = 0;
             for (i=0;i<currentstate.length;i++){
                 var tempcart;
-                console.log(i);
-                console.log(JSON.stringify(currentstate[i]));
                 tempcart=currentstate[i].slice(0);
                 cart.push(tempcart);
-                console.log(JSON.stringify(tempcart));
-
             }
         }
     }
@@ -162,7 +151,7 @@ function Orderlist(){
 /*Removes and redraws the orderlist and updates quantities on the drink card.*/
 function drawOrderList(list){
     // console.log(JSON.stringify(list));
-
+    resetDrawQuantity();
     if (list.length == 0){
         $("ul").remove(".orderList");
 
@@ -205,6 +194,13 @@ function drawOrderList(list){
 function updateDrawQuantity(bevId, quantity){
     var drinkcard = $("div[data-beer-id=" + bevId +"]").next().find("span.current-quantity");
     drinkcard.text(quantity);
+}
+
+/*
+ Resets the quantity of all cards to 0
+ */
+function resetDrawQuantity(){
+    $(".current-quantity").text("0");
 }
 
 function findDrinkRowById(id) {

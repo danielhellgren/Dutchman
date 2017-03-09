@@ -420,9 +420,7 @@ function createEventHandlers() {
     });
     //on click increase quantity for one line in orderlist
     $(document).on('click', ".change-quantity.increase", function(){
-        console.log("increase");
         var bevId = $(this).parent().prev().attr("data-beer-id");
-        console.log(bevId);
         var correctDrinkInfo = findDrinkById(bevId);
         var drinkName = correctDrinkInfo.namn;
         var secondDrinkName = correctDrinkInfo.namn2;
@@ -437,12 +435,8 @@ function createEventHandlers() {
     });
     //on click decrease quantity for one line in orderlist
     $(document).on('click', '.change-quantity.decrease', function(){
-        console.log("decrease");
         var bevId = $(this).parent().prev().attr("data-beer-id");
-        console.log(bevId);
         orders.decrease(bevId);
-        console.log("Undo " + JSON.stringify(orders.debugUndo()));
-
         drawOrderList(orders.showItems());
     });
 
@@ -457,33 +451,24 @@ function createEventHandlers() {
     $(document).on('click', '.remove', function(){
         var bevId = $(this).parent().attr('beverageid');
         orders.removeItem(bevId);
-        console.log(bevId);
         drawOrderList(orders.showItems());
     });
 
     //on click undo one step
     $(document).on('click', '.undo', function(){
         orders.undo();
-        //console.log(JSON.stringify(orders.showItems()));
-        console.log("Undo " + JSON.stringify(orders.debugUndo()));
-        console.log("Redo " + JSON.stringify(orders.debugRedo()));
-
         drawOrderList(orders.showItems());
     });
 
     //on click redo a step
     $(document).on('click', '.redo', function(){
         orders.redo();
-        console.log("Undo " + JSON.stringify(orders.debugUndo()));
-        console.log("Redo " + JSON.stringify(orders.debugRedo()));
         drawOrderList(orders.showItems());
     });
 
     //on click remove everything from order
     $(document).on('click', '.cancel', function(){
         orders.cancelOrder();
-        console.log("Undo " + JSON.stringify(orders.debugUndo()));
-        console.log("Redo " + JSON.stringify(orders.debugRedo()));
         drawOrderList(orders.showItems());
     })
 

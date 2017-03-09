@@ -52,7 +52,18 @@ function Orderlist(){
             }
             else {
                 redoBuffer.push(temp);
-                cart = undoBuffer[undoBuffer.length-1];
+                var currentstate = undoBuffer[undoBuffer.length-1];
+                console.log(JSON.stringify(currentstate));
+                cart.length = 0;
+                for (i=0;i<currentstate.length;i++){
+                    var tempcart;
+                    console.log(i);
+                    console.log(JSON.stringify(currentstate[i]));
+                    tempcart=currentstate[i].slice(0);
+                    cart.push(tempcart);
+                    console.log(JSON.stringify(tempcart));
+
+                }
             }
         }
     }
@@ -63,7 +74,18 @@ function Orderlist(){
         if (redoBuffer.length > 0){
             temp = redoBuffer.pop();
             undoBuffer.push(temp);
-            cart = temp;
+            var currentstate = temp;
+            console.log(JSON.stringify(currentstate));
+            cart.length = 0;
+            for (i=0;i<currentstate.length;i++){
+                var tempcart;
+                console.log(i);
+                console.log(JSON.stringify(currentstate[i]));
+                tempcart=currentstate[i].slice(0);
+                cart.push(tempcart);
+                console.log(JSON.stringify(tempcart));
+
+            }
         }
     }
 

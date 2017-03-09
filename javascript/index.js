@@ -301,7 +301,9 @@ function parseBeerInfo(beer_info){
     // //Origin country
     bodyString += "<br><br>" + getText("country") + ": " + beer_info[0].ursprunglandnamn ;
     //Price
-    bodyString += "<br><br>" + getText("price") + ": " + beer_info[0].prisinklmoms ;
+    var correctPrice = findDrinkById(beer_info[0].nr);
+    bodyString += "<br><br>" + getText("price") + ": " + correctPrice.pub_price + ":-";
+    // bodyString += "<br><br>" + getText("price") + ": " + beer_info[0].prisinklmoms ;
     document.getElementsByClassName("info-box-body")[0].innerHTML = bodyString;
 
     var drinkTypeReal = beer_info[0].varugrupp;

@@ -93,7 +93,7 @@
   },
   "login-text":{
     "en":"Please enter your login information to continue!",
-    "se":"Vänligen skriv in din kontoinformation för att fortsätta!"
+    "se":"Vänligen ange kontoinformation för att fortsätta!"
   },
   "login-error": {
     "en": "*Wrong username or password",

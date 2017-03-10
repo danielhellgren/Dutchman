@@ -109,4 +109,6 @@ function translateText(){
         // alert("translating key:" + arg);
         div.innerHTML = getText(arg);
     }
+    $('.username-field').attr('placeholder', getText('username'));
+    $('.password-field').attr('placeholder', getText('password'));
 }

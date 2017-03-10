@@ -211,6 +211,14 @@
     "en": "To be able to login you have to be awarded an account and to be awarded an account you have to be a regular at the pub. You cannot order from the system without having an account.",
     "se": "För att kunna logga in krävs ett konto och för att få tilldelat ett konto krävs det att du är en stamkund på puben. Du kan inte beställa från systemet utan att ha ett konto."
   },
+  "username": {
+    "en": "Enter Username",
+    "se": "Ange Användarnamn"
+  },
+  "password": {
+    "en": "Enter Password",
+    "se": "Ange Lösenord"
+  },
   "":{
     "en":"",
     "se":""

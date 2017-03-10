@@ -48,7 +48,9 @@
 </div>
 
 <div class="header card">
-    <h1 class = "header-text"> The Flying Dutchman </h1>
+    <h1 class = "header-text">
+        <a href="/">The Flying Dutchman</a>
+    </h1>
     <script>
 //        var langRef = "?lang=" + lang;
         var loginRef= "login.html";
@@ -56,15 +58,12 @@
         document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'> </button></a>");
     </script>
 
-    <button type = "button" class = "order-button text-translate" data-translate-key="order">
-        <!--Order-->
-    </button>
+    <p class="credits"></p>
 
     <script>
 //        langRef = "?lang=" + getSwapLang();
         document.write("<a href=" + langRef(langSwap()) + ">" + "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>")
     </script>
-    <p class="credits"></p>
 
 </div>
 <div class="main">
@@ -116,8 +115,9 @@
 
         </div>
     </div>
-     <div class="order-summary">
-         <h3 class="corder card text-translate" data-translate-key="corder"></h3>
+     <div class="order-summary card">
+         <h3 class="corder text-translate" data-translate-key="corder"></h3>
+
          <div class="currentOrder" ondrop = "drop(event)" ondragover = "allowDrop(event)">
          </div>
          <div class="summary-control">
@@ -127,12 +127,12 @@
              <span class="redo text-translate" data-translate-key="redo">
                  <!--redo-->
              </span>
-             <span class="cancel text-translate" data-translate-key="cancel">
+             <button class="cancel text-translate" data-translate-key="cancel">
                  <!--cancel-->
-             </span>
-             <span class="submit">
-
-             </span>
+             </button>
+             <button type = "button" class = "order-button text-translate" data-translate-key="order">
+                 <!--Order-->
+             </button>
          </div>
     </div>
 

@@ -193,11 +193,13 @@ function drawOrderList(list){
         //updates the quantity of the cards
         updateDrawQuantity(bevId,q);
     }
-    //calculate and set the element for total cost of the orderlist
-    var summary = document.createElement('div');
-    var sumText = "<span class = 'ordersum'>Total: " + orderSum(list) + "</span>";
-    summary.innerHTML = sumText;
-    document.getElementsByClassName("orderList")[0].appendChild(summary);
+    ////calculate and set the element for total cost of the orderlist
+    //var summary = document.createElement('div');
+    //var sumText = "<span class = 'ordersum'>Total: " + orderSum(list) + "</span>";
+    //summary.innerHTML = sumText;
+    //document.getElementsByClassName("orderList")[0].appendChild(summary);
+
+    document.getElementsByClassName("order-button")[0].innerHTML = getText('order') + " (" + orderSum(list) + ":-)";
 }
 
 function updateDrawQuantity(bevId, quantity){

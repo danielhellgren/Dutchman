@@ -18,7 +18,12 @@
 </head>
 <body>
     <div class = "header">
-        <h1 class="header-text">The Flying Dutchman</h1>
+        <h1 class="header-text">
+            <script>
+                var adminref = "adminindex.html";
+                document.write("<a href="+ adminref + langRef() + " class='admin-link text-translate' data-translate-key='drinks'>The Flying Dutchman</a>");
+            </script>
+        </h1>
         <div class="admin-navigation">
             <script>
                 var adminref = "adminindex.html";

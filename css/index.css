@@ -1,7 +1,6 @@
 html,
 body {
     height: 100%;
-    font-family: sans-serif;
 }
 
 body {
@@ -9,6 +8,16 @@ body {
     flex-direction: column;
     margin: 0;
     background: #EEE;
+}
+
+body,
+button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+button {
+    border: none;
+    outline: none;
 }
 
 /* Reusable class to give each section a card-style look */
@@ -29,8 +38,8 @@ body {
     line-height: 30px;
     font-weight: bold;
     border-radius: 15px;
-    background: #5298e6;
-    color: #fff;
+    background: #fff;
+    color: #5298e6;
 }
 
 /*the overlay for info box*/
@@ -201,9 +210,12 @@ body {
     height: 50px;
     line-height:50px;
     /* Cancel out unneeded .card properties */
-    border-width: 0 0 3px 0;
+    border-width: 0 0 2px 0;
     border-radius: 0;
     padding-left: 20px;
+    font-family: 'Lobster', sans-serif;
+    font-weight: 300;
+    color: #333;
 }
 
 .header-text {
@@ -226,21 +238,24 @@ button:hover{
     width: 90px;
 }
 
-.order-button {
+.login-button,
+.order-button,
+.language {
     position:relative;
     float:right;
-    height:30px;
-    width:80px;
+    height:40px;
+    padding: 0 15px;
+    margin: 5px 5px 0 0;
+    font-size: 18px;
+    border: none;
+}
+
+.order-button,
+.language {
+    color: #FFF;
     background:green;
 }
 
-.language{
-    position:relative;
-    float:right;
-    height:30px;
-    width:80px;
-    background:green;
-}
 .credits {
     display:block;
     float: right;
@@ -280,12 +295,20 @@ button:hover{
 }
 
 .category {
+    border-right: 2px solid #9a9a9a;
     flex-grow: 1;
     font-size: 20px;
+    text-decoration: underline;
+}
+.category:last-child {
+    border-right: none;
 }
 
 .selected {
-    background: #5298e6;
+    /*background: #5298e6;*/
+    background: white;
+    font-weight: 600;
+    text-decoration: none;
 }
 
 .drinks-grid {
@@ -325,12 +348,12 @@ button:hover{
 }
 
 .drink {
-    width: 150px;
+    width: 180px;
     /*height: 250px;*/
     margin: 10px 10px 10px;
     position: relative; /* So .drink-quantity can have position: absolute */
     background: #EEE;
-    border: 3px solid #BBB;
+    border: 2px solid #BBB;
 }
 
 .out-of-stock-drink {
@@ -357,6 +380,7 @@ button:hover{
 .drink-name {
     margin-right: 32px; /* Prevent it being hidden by .info-button */
     padding: 5px 0 0 5px;
+    font-weight: 600;
 }
 
 .drink-image {
@@ -398,6 +422,7 @@ button:hover{
     width: 40px;
     height: 40px;
     color: #FFF;
+    font-size: 28px;
 }
 
 .admin-out-of-stock {
@@ -424,6 +449,17 @@ button:hover{
     background: #86dc3d;
 }
 
+.corder {
+    margin: 0;
+    padding: 0 10px;
+    height: 58px;
+    box-sizing: border-box;
+    background: #CCC;
+    line-height: 50px;
+    text-transform: uppercase;
+    color: #666;
+}
+
 .order-summary {
     width: 35%;
     display:flex;
@@ -431,12 +467,19 @@ button:hover{
     margin: 20px 20px 20px 0;
 }
 
+.ordered-drink-row .remove,
+.ordered-drink-row .decrease,
+.ordered-drink-row .increase {
+    display: inline-block;
+    margin-right: 10px;
+}
+
 .currentOrder, .summary-control {
     flex-grow: 1;
 }
 
 .currentOrder {
-    border-radius:10px;
+    /*border-radius:10px;*/
     background:white;
     /*margin:5px;*/
     padding: 20px;

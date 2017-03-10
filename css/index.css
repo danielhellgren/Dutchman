@@ -445,6 +445,13 @@ button:hover{
     line-height: 35px;
 }
 
+.admin-link {
+    margin-left: 15px;
+    font-size: 20px;
+    margin-left: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
 .admin-out-of-stock {
     position: absolute;
     top: 4px;

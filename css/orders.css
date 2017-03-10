@@ -1,6 +1,8 @@
 .orders-grid{
     /*for some reason this div is waaaay to high and i had to move it down 27% ????*/
-    margin-top: 12%;
+    /*margin-top: 12%;*/
+    display: flex;
+    flex-direction: column;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -31,7 +33,8 @@
     width: calc(100% - 5px);
     height: 40px;
     line-height: 40px;
-    margin: 5px;
+    margin: 20px;
+    border: 2px solid #BBB;
     background: #FCFCFC;
 }
 

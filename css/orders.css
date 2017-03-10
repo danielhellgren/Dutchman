@@ -13,9 +13,6 @@
     background-color: rgba(0,0,255,0.05);
 }
 
-.orders-grid .order-item:first-child .drink-name{
- line-height: 40px;
-}
 
 .orders {
     display: flex;
@@ -46,7 +43,7 @@
     border-radius: 3px;
 }
 
-.customer-name {
+.order-item-customer-name {
     width: 25%;
     height: 100%;
     float:left;
@@ -56,19 +53,19 @@
     /*line-height: 15px; !* Because of 2 lines *!*/
 }
 
-.price {
+.order-item-price {
     /*width: 25%;*/
     height: 100%;
     float:left;
 }
 
-.time {
+.order-item-time {
     width: 25%;
     height: 100%;
     float:left;
 }
 
-.drink-name {
+.order-item-drink-name {
     width: 25%;
     height: 100%;
     float:left;

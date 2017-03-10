@@ -75,7 +75,7 @@ button {
 /*header for the info box - contains drink name*/
 .info-box-header {
     display: flex;
-    height: 40px;
+    height: 49px;
     line-height: 40px;
     /*padding: 2px 16px;*/
     /*font-size: 30px;*/
@@ -122,9 +122,29 @@ button {
     color: #fb1414;
 }
 
+.close-info-box-confirmation{
+    color: #aaa;
+    /*position: fixed;*/
+    float: right;
+    /*margin-top: -5px;*/
+    font-size: 36px;
+    font-weight: bold;
+    width: 40px;
+    text-align: center;
+    background: #cecece;
+    color: #fb1414;
+}
+
 /*what to do on hover over close button*/
 .close-info-box:hover,
 .close-info-box:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close-info-box-confirmation:hover,
+.close-info-box-confirmation:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -172,7 +192,7 @@ button {
 
 .confirmation-box-header {
     display: flex;
-    height: 40px;
+    height: 49px;
     line-height: 40px;
     /*padding: 2px 16px;*/
     /*font-size: 30px;*/
@@ -405,9 +425,15 @@ button:hover{
 .customer .drink .alcohol {
     position: absolute;
     bottom: 3px;
-    left: 3px;
+    left: 7px;
 }
 
+.customer .drink .drink-price-div {
+    position: absolute;
+    bottom: 3px;
+    right: 7px;
+    font-weight: 600;
+}
 
 .drink-quantity {
     display: flex;

@@ -211,6 +211,12 @@ function renderDrink(inventoryGetDrink, beerDataGetDrink) {
     alcDiv.innerHTML = beerDataGetDrink.alkoholhalt;
     beerInfoDiv.appendChild(alcDiv);
 
+    //Get the price of drink and add it
+    var priceDiv = document.createElement('div');
+    priceDiv.className = "drink-price-div";
+    priceDiv.innerHTML = inventoryGetDrink.pub_price + ":-";
+    beerInfoDiv.appendChild(priceDiv);
+
     //Add the information button
     var infoButtonDiv = document.createElement('div');
     infoButtonDiv.className = "info-button";
@@ -547,6 +553,10 @@ function createEventHandlers() {
         }
         else showErrorMessage();
     });
+
+    $(document).on('click', '.close-info-box-confirmation', function () {
+        hideErrorAndConfirmationOverlay();
+    })
 }
 
 

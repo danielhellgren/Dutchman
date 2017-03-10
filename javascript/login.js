@@ -1,29 +1,26 @@
-
+/*
+This document is used when an user is logging in. If the user enters a correct username
+and password it will be stored in a cookie. To move backwards from the page the user can
+press on the flying dutchman-name in the top-left corner of the page.
+ */
 
 $(document).ready(function() {
-    //validateForm();
     createEventHandlers();
 });
 
-/*
-Save the entered username and password into variables. Then lookup
-the username and password database to check if the entered information
-is also found in the database. If so the user is logged in and
-otherwise he/she will get an error message.
- */
-
+//The only thing needed on this page are eventhandlers that handles different button presses.
 function createEventHandlers() {
     $(document).on('click', '.info-button', function () { //show the information message if the "?"-button is pressed
        showInformationMessage();
     });
 
-    $(document).on('click', '.login-button', function() { //if button is clicked regularly
+    $(document).on('click', '.login-page-login-button', function() { //if button is clicked regularly
         validateForm();
     });
 
     $(document).keydown(function(event) { //if the return-button is pressed instead
         if(event.keyCode == 13) {
-            $('.login-button').click();
+            $('.login-page-login-button').click();
         }
     });
 }
@@ -100,22 +97,11 @@ function validateUsernamePassword(userGetAll, enteredUsername, enteredPassword) 
     wrongUsernameOrPassword()
 }
 
-//Check the credits for the specific user
-// function getUserCredits(selectedUser) {
-//     /*
-//     The iou_get_all API-call is used to get the credits for a specific user.
-//      */
-//     //console.log(selectedUser.username);
-//     $.getJSON("http://pub.jamaica-inn.net/fpdb/api.php?username=" + selectedUser.username + "&password=" + selectedUser.username + "&action=iou_get",
-//         function(data) {
-//             var userInformation = data.payload;
-//             redirectToRightPageWithCookie(selectedUser, userInformation);
-//         });
-// }
 
 //Check if the user is a regular (credentials != 0) or an admin (credentials = 0.
 // Then create a cookie that stores the userId and the username so that it can be used
-// to show the right amount of credits on the customer view. If it is an admin that logs in
+// to show the right amount of credits on the customer view together with some
+// other API-calls.. If it is an admin that logs in
 // a cookie is still created to store the session.
 function redirectToRightPageWithCookie(selectedUser) {
     var userId = selectedUser.user_id;
@@ -144,10 +130,23 @@ function redirectToRightPageWithCookie(selectedUser) {
     }
 }
 
+/*
+ If something in the if- statements in the validateUsernamePassword-function
+ above is false the input fields will be cleared and an error message will be displayed.
+ This will happen in a loop until the user goes backwards or enters
+ the right information
+ */
+function wrongUsernameOrPassword() {
+    document.getElementsByClassName("username-field")[0].value= ""; //update username and password fields
+    document.getElementsByClassName("password-field")[0].value= "";
+    var errorMsg = getText("login-error");
+    document.getElementsByClassName("error-msg")[0].innerHTML =errorMsg;
+}
 
 
 /*
- create a cookie containing the user_id and username
+ create a cookie containing the user_id and username. add a long expiration date to the
+ cookie.
 */
 function createCookie(name,value,days) {
     var expires = "";
@@ -159,24 +158,13 @@ function createCookie(name,value,days) {
     document.cookie = name + "=" + value + expires + "; path=/";
 }
 
-
 /*
-If something in the if- statements in the validateUsernamePassword-function
- above is false the input fields will be cleared and an error message will be displayed.
-This will happen in a loop until the user goes backwards or enters
-the right information
- */
-function wrongUsernameOrPassword() {
-    document.getElementsByClassName("username-field")[0].value= ""; //update username and password fields
-    document.getElementsByClassName("password-field")[0].value= "";
-    var errorMsg = getText("login-error");
-    document.getElementsByClassName("error-msg")[0].innerHTML =errorMsg;
-}
-
-/*
-Erase a cookie by putting the expiration date to a date that
-has already been.
+ Erase a cookie by putting the expiration date to a date that
+ has already been.
  */
 function eraseCookie(name) {
     createCookie(name,"",-1);
 }
+
+
+

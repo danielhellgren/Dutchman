@@ -1,22 +1,15 @@
+/*
+This document behaves in a similar way as index.js. It creates information for different drinks
+together with tabs for the different drink-categories.
+ */
+
 var orders = new Orderlist();
 var drinks = [];
 
 $(document).ready(function() {
-    //changeLoginButton();
     getDrinks();
     createEventHandlers();
 });
-
-//function changeLoginButton() {
-//    var isCookie = readCookie("uid");
-//    if (isCookie) {
-//        var buttonNode = document.getElementsByClassName("login-button")[0];
-//        buttonNode.innerHTML = "Logout";
-//    }
-//}
-
-
-
 
 /*
 Gets all the different drinks that has a name.
@@ -37,7 +30,6 @@ function getDrinks() {
             //var drinks = [];
             for (var i = 0; i< data.payload.length; i++) {
                 if (data.payload[i].namn !=="") { //remove drinks with no name.
-                    //drinkId[i-7] = data.payload[i].beer_id;
                     drinks.push(data.payload[i]);
                 }
             }
@@ -98,21 +90,7 @@ function getInfoForIndividualDrink(inventoryGetDrink) {
          }*/
 
         var beerDataGetDrink = data.payload[0];
-        // var drinkType = beerDataGetDrink.varugrupp;
-        //var drinkType = drinkTypeReal.split(',')[0]; //remove everything after a "," from the drink type description
-
-        //if (drinkType.includes("Alkoholfritt")) {
-        //    parseNonAlcoholic(beerDataGetDrink);
-        //}
-        //else if (drinkType.includes("Rött vin") || drinkType.includes("Vitt vin")) {
-        //    parseWine(beerDataGetDrink);
-        //}
-        //else if (drinkType.includes("Cider") || drinkType.includes("Blanddrycker")) {
-        //    parseCider(beerDataGetDrink);
-        //}
-        // if (drinkType.includes("Öl")) {
-            renderDrinks(inventoryGetDrink, beerDataGetDrink);
-        // }
+        renderDrinks(inventoryGetDrink, beerDataGetDrink);
     });
 }
 
@@ -156,6 +134,7 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
 
     var drinkType = beerDataGetDrink.varugrupp;
 
+    // Add to different tabs depending on drink category.
     if (drinkType.includes("Alkoholfritt")) {
         document.getElementsByClassName("na-grid")[0]
             .appendChild(beerDiv);
@@ -172,6 +151,8 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
         document.getElementsByClassName("drinks-grid")[0]
             .appendChild(beerDiv);
     }
+
+    //Add a plus button next to each drink so that it can be added to the order summary
     var qDiv = document.createElement('div');
     var quantityControls =
         "<div class='drink-quantity'>" +
@@ -181,8 +162,8 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     qDiv.innerHTML = quantityControls;
     beerDiv.appendChild(qDiv);
 
+    //Add a small grey box if the drink isn't in stock.
     if (inventoryGetDrink.count < 1) {
-        console.log("out of stock");
         var outOfStockDiv = document.createElement('div');
         outOfStockDiv.className = 'admin-out-of-stock';
         qDiv.appendChild(outOfStockDiv);
@@ -276,6 +257,10 @@ function createEventHandlers() {
         drawOrderList(orders.showItems());
     });
 
+    /*
+    If a customer pays with cash the drinks ordered and the payment entered will be used when
+    calling the completePurchase-function.
+     */
     $(document).on('click', '.cash-pay-button', function () {
         var orderList = orders.showItems();
         var enteredPayment = document.getElementsByClassName('added-payment')[0].value;
@@ -283,11 +268,18 @@ function createEventHandlers() {
     });
 }
 
+/*
+Put another div ontop of the menu where the admin can put in information about the payment.
+ */
 function showPaymentDiv() {
     var paymentDiv = document.getElementsByClassName("payment")[0];
     paymentDiv.style.display = "block";
 }
 
+/*
+Calculate the total amount of the order and check the entered amount so that it can look
+if the entered amount is less than the total. Then the payment will not go through.
+ */
 function completeAdminPurchase(orderList, enteredPayment) {
     var totalAmount = 0;
     for (var i = 0; i < orderList.length; i++) {
@@ -297,18 +289,20 @@ function completeAdminPurchase(orderList, enteredPayment) {
         var priceForDrink = singleDrinkQuantity*singleDrinkPrice;
         totalAmount += priceForDrink;
     }
-    console.log(totalAmount);
-    if (enteredPayment < totalAmount) {
-        console.log("less than total");
+    if (enteredPayment < totalAmount) { //Give an error message.
         var errorText = document.getElementsByClassName('entered-payment-error')[0];
         errorText.style.color = "red";
     }
-    else {
-        console.log("enough");
+    else { //the entered payment was enough.
         showConfirmationMessageAndChange(enteredPayment, totalAmount);
     }
 }
 
+/*
+Show a pop-up with a confimration message that the order was completed. The message also
+shows the change if the order was payed with cash so that the bartender doesn't have to
+calculate it himself/herself.
+ */
 function showConfirmationMessageAndChange(enteredPayment, totalAmount) {
     var overlay = document.getElementsByClassName("confirmation-overlay")[0];
     overlay.style.display = "block";
@@ -325,7 +319,7 @@ function showConfirmationMessageAndChange(enteredPayment, totalAmount) {
     confirmationButton.className = "confirmation-button";
 
     confirmationButton.innerHTML = getText("confirmation-button");
-    confirmationButton.onclick = function() {
+    confirmationButton.onclick = function() { //when the accept button is pressed.
         //clear orderlist and reload page
         orders.cancelOrder();
         drawOrderList(orders.showItems());

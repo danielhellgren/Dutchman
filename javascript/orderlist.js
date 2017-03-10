@@ -199,7 +199,14 @@ function drawOrderList(list){
     //summary.innerHTML = sumText;
     //document.getElementsByClassName("orderList")[0].appendChild(summary);
 
-    document.getElementsByClassName("order-button")[0].innerHTML = getText('order') + " (" + orderSum(list) + ":-)";
+    var orderButton = document.getElementsByClassName("order-button")[0];
+
+    if (orderButton) {
+        orderButton.innerHTML = getText('order') + " (" + orderSum(list) + ":-)";
+    }
+    else {
+        document.getElementsByClassName("order-button-admin")[0].innerHTML = getText('order') + " (" + orderSum(list) + ":-)";
+    }
 }
 
 function updateDrawQuantity(bevId, quantity){

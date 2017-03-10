@@ -172,10 +172,12 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
 
 
 function createEventHandlers() {
+    //logs out
     $(document).on('click', '.login-button', function() {
         eraseCookie("uid");
     });
 
+    //Changes beverage category
     $(document).on('click', '.category', function() {
         changeCategoryColor(this.id);
     });
@@ -184,20 +186,24 @@ function createEventHandlers() {
         showPaymentDiv();
     });
 
+    //numpad paybutton
     $(document).on('click', '.numpad-button', function () {
        var inputForm = document.getElementsByClassName('added-payment')[0];
        inputForm.value += this.value;
     });
 
+    //Erase value input to numpad
     $(document).on('click', '.numpad-erase-button', function () {
        var inputForm =  document.getElementsByClassName('added-payment')[0];
         inputForm.value = "";
     });
 
+    //button to simulate credit card payment
     $(document).on('click', '.credit-card-button', function () {
         location.reload();
     });
 
+    //Increase quantity of a beverage in orderlist
     $(document).on('click', '.increase-ol', function(){
         var bevId = $(this).parent().parent().attr('beverageid');
         orders.increase(bevId);

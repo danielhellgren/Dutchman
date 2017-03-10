@@ -15,8 +15,11 @@ function Beverage(
  Orderlist consisting of a card, an undobuffer and a redobuffer.
  */
 function Orderlist(){
+    //cart stores current state of the orderlist
     var cart = [];
+    //undobuffer stores 10 previous states of the orderlist
     var undoBuffer = [[]];
+    //redobuffer used to store poped states from the undobuffer
     var redoBuffer = [];
 
     //Adds an item to cart, takes a beverage as input.
@@ -124,6 +127,7 @@ function Orderlist(){
         undoBuffer.length = 0;
     }
 
+    //Private function that update the undo and redo buffers
     this._updateUndoRedo = function(){
         if (undoBuffer.length == 10){
             undoBuffer.splice(0,1); //limits undoBuffer to last 10 values
@@ -139,7 +143,7 @@ function Orderlist(){
         }
     }
 
-//just some debugfunctions
+    //some debugfunctions
     this.debugUndo = function(){
         return(undoBuffer);
     }
@@ -164,10 +168,11 @@ function drawOrderList(list){
     document.getElementsByClassName("currentOrder")[0].appendChild(bevList);
 
     for (var i = 0; i<list.length;i++){
-        // console.log("new for loop");
+        //creates and populates the rows of the orderlist
         var bevId = list[i][0];
         var bName = list[i][1];
         var q = list[i][2];
+        var bTot = q*list[i][3];
         var row = document.createElement('li');
         row.className = "ordered-drink-row";
 
@@ -180,15 +185,19 @@ function drawOrderList(list){
             "<span class = decrease-ol>-</span>" +
             "<span class = quantity> " + q + " </span>" +
             "<span class = increase-ol>+</span>"+
+            "<span class = bSum >" + bTot + " kr</span>"+
+
             "</span>";
         row.innerHTML = template;
         document.getElementsByClassName("orderList")[0].appendChild(row);
-
-        updateDrawQuantity(bevId,q);/*
-         var drinkcard = $("div[data-beer-id=" + bevId +"]").next().find("span.current-quantity");
-         drinkcard.text(q);
-         */
+        //updates the quantity of the cards
+        updateDrawQuantity(bevId,q);
     }
+    //calculate and set the element for total cost of the orderlist
+    var summary = document.createElement('div');
+    var sumText = "<span class = 'ordersum'>Total: " + orderSum(list) + "</span>";
+    summary.innerHTML = sumText;
+    document.getElementsByClassName("orderList")[0].appendChild(summary);
 }
 
 function updateDrawQuantity(bevId, quantity){
@@ -202,7 +211,9 @@ function updateDrawQuantity(bevId, quantity){
 function resetDrawQuantity(){
     $(".current-quantity").text("0");
 }
-
+/*
+Returns the div element associated with a beverageid
+ */
 function findDrinkRowById(id) {
     var orderedDiv = document.getElementsByClassName("ordered-drink-row");
     for (var i = 0; i < orderedDiv.length; i++ ) {
@@ -212,4 +223,15 @@ function findDrinkRowById(id) {
         }
     }
     return false;
+}
+
+/*
+Calculates the sum of the current order
+ */
+function orderSum(list){
+    var sum = 0;
+    for (i=0;i<list.length;i++){
+        sum = sum + Number(list[i][3])*Number(list[i][2]);
+    }
+    return sum;
 }

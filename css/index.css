@@ -447,7 +447,7 @@ button:hover{
 
 .admin-out-of-stock {
     position: absolute;
-    top: 0;
+    top: 4px;
     bottom: 5px;
     left: 95%;
     right: 5px;
@@ -539,11 +539,11 @@ button:hover{
 }
 
 .undo {
-    right: 70px;
+    right: 90px;
 }
 
 .redo {
-    right: 15px;
+    right: 20px;
 }
 
 .summary-control{

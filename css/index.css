@@ -40,6 +40,7 @@ button {
     border-radius: 15px;
     background: #fff;
     color: #5298e6;
+    cursor: pointer;
 }
 
 /*the overlay for info box*/
@@ -120,8 +121,8 @@ button {
     text-align: center;
     background: #cecece;
     color: #fb1414;
-    height: 40px;
-    line-height: 42px;
+    height: 49px;
+    line-height: 49px;
 }
 
 .close-info-box-confirmation{

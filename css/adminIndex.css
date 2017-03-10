@@ -166,6 +166,7 @@
 .header-text,
 .admin-navigation {
     display: inline-block;
+    font-family: 'Lobster', sans-serif;
 }
 
 .admin-link {

@@ -17,6 +17,7 @@ body {
 
 }
 .header-text {
+    font-family: 'Lobster', sans-serif;
     display:inline-block;
     color:black;
     margin-top:0;

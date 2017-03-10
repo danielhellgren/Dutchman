@@ -427,11 +427,7 @@ function createEventHandlers() {
             return getText("leave-confirm");
         }
     });
-        // window.onbeforeunload = function () {
-        //     if(orders.length > 0) {
-        //         return 'Are you sure you want to leave?';
-        //     }
-        // };
+
 
     //you can also hide the overlay and info pop-up by pressing anywhere else on the
     //screen except the info pop-up itself.
@@ -442,13 +438,6 @@ function createEventHandlers() {
         }
     });
 
-    // $(document).on('click', '.language', function() {
-    //     var dir;
-    //     if(lang=="se"){
-    //         dir = "en";
-    //     }
-    //
-    // }
 
     // This event handler listens to the category buttons and if one of
     // them is pressed it has to change the view and change the color

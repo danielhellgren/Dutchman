@@ -124,7 +124,7 @@ function Orderlist(){
     this.cancelOrder= function(){
         cart.length = 0;
         redoBuffer.length = 0;
-        undoBuffer.length = 0;
+        undoBuffer.push([]);
     }
 
     //Private function that update the undo and redo buffers

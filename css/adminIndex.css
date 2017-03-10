@@ -166,19 +166,24 @@
 .header-text,
 .admin-navigation {
     display: inline-block;
+    font-family: 'Lobster', sans-serif;
 }
 
 .admin-link {
     margin-left: 15px;
+    font-size: 20px;
+    margin-left: 20px;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.order-button-admin {
-    position:relative;
-    float:right;
-    height:30px;
-    width:80px;
-    background:green;
-}
+/*.order-button-admin {*/
+    /*position:relative;*/
+    /*float:right;*/
+    /*height:30px;*/
+    /*width:80px;*/
+    /*background:#11ad17;*/
+    /*color: white;*/
+/*}*/
 
 .drinks-grid .drink:first-child {
     font-weight: bold;
@@ -208,6 +213,10 @@
     line-height: 30px;
 }
 
+.addorder {
+    padding-right: 5px;
+}
+
 .drink {
     display:flex;
     justify-content: space-between;
@@ -217,6 +226,11 @@
     line-height: 40px;
     margin: 5px;
     background: #FCFCFC;
+}
+
+.drink-quantity {
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .rest-of-information {
@@ -322,8 +336,8 @@
     left: 50%;
     height: 100px;
     width: 200px;
-    background-color: #5298e6;
-    color: black;
+    background-color: #11ad17;
+    color: white;
     font-weight: bold;
     font-size: medium;
 }
@@ -335,8 +349,8 @@
     left: 50%;
     height: 100px;
     width: 200px;
-    background-color: #5298e6;
-    color: black;
+    background-color: #11ad17;
+    color: white;
     font-weight: bold;
     font-size: medium;
 }
@@ -391,6 +405,24 @@ block[h2] {
     font-size: 20px;
 }
 
+.cancel,
+.order-button-admin {
+    font-size: 20px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    height: 50px;
+}
+
+.cancel {
+    margin-left: 15px;
+    margin-right: 50px;
+}
+.order-button-admin {
+    flex-grow: 1;
+    margin-right: 15px;
+    background: green;
+    color: #FFF;
+}
 
 /*.order-summary {*/
     /*width: 35%;*/

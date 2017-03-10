@@ -17,6 +17,7 @@ body {
 
 }
 .header-text {
+    font-family: 'Lobster', sans-serif;
     display:inline-block;
     color:black;
     margin-top:0;
@@ -67,8 +68,8 @@ input[type=text], [type=password]{
 }
 
 .login-page-login-button{
-    background-color: #5298e6;
-    color: black;
+    background-color: #11ad17;
+    color: white;
     padding: 12px 20px;
     margin: 8px 30px;
     border: none;

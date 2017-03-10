@@ -77,7 +77,7 @@ button {
     display: flex;
     height: 49px;
     line-height: 40px;
-    /*padding: 2px 16px;*/
+    padding-left: 10px;
     /*font-size: 30px;*/
     background-color: #EEE;
     color: black;
@@ -120,6 +120,8 @@ button {
     text-align: center;
     background: #cecece;
     color: #fb1414;
+    height: 40px;
+    line-height: 42px;
 }
 
 .close-info-box-confirmation{
@@ -155,7 +157,7 @@ button {
     display: flex;
     padding: 10px;
     /*flex-grow: 1;*/
-    font-size: 20px;
+    font-size: 18px;
     height: calc(100% - 10px);
     width: calc(100% - 20px);
     color: black;
@@ -194,7 +196,7 @@ button {
     display: flex;
     height: 49px;
     line-height: 40px;
-    /*padding: 2px 16px;*/
+    padding-left: 10px;
     /*font-size: 30px;*/
     background-color: #EEE;
     color: black;
@@ -233,7 +235,6 @@ button {
     border-width: 0 0 2px 0;
     border-radius: 0;
     padding-left: 20px;
-    font-family: 'Lobster', sans-serif;
     font-weight: 300;
     color: #333;
 }
@@ -243,8 +244,13 @@ button {
     /*vertical-align: top;*/
     margin-top:0;
     margin-left:5px;
-
+    font-family: 'Lobster', sans-serif;
 }
+.header-text a {
+    text-decoration: none;
+    color: brown;
+}
+
 button:hover{
     cursor:pointer;
 }
@@ -252,14 +258,8 @@ button:hover{
 .login-link {
 
 }
-.login-button {
-    float: right;
-    height: 30px;
-    width: 90px;
-}
 
 .login-button,
-.order-button,
 .language {
     position:relative;
     float:right;
@@ -270,23 +270,16 @@ button:hover{
     border: none;
 }
 
-.order-button,
 .language {
-    color: #FFF;
-    background:green;
+    color: white;
+    background:#11ad17;
 }
 
 .credits {
     display:block;
     float: right;
-    margin-top: 1px;
-    margin-bottom:1px;
-    padding-top:1px;
-    border: 0;
-    line-height:80px;
-    height:10px;
-    position: relative;
-    left:160px;
+    margin: 2px 15px 0;
+    font-size: 20px;
 }
 
 .main {
@@ -405,7 +398,7 @@ button:hover{
 
 .drink-image {
     display: block;
-    height: 150px;
+    height: 130px;
     margin: 0 auto;
 }
 
@@ -417,7 +410,7 @@ button:hover{
 }
 
 .drink .drink-image img {
-    width: 50px;
+    width: 45px;
     margin: 0 auto;
     display: block;
 }
@@ -449,11 +442,12 @@ button:hover{
     height: 40px;
     color: #FFF;
     font-size: 28px;
+    line-height: 35px;
 }
 
 .admin-out-of-stock {
     position: absolute;
-    top: 0;
+    top: 4px;
     bottom: 5px;
     left: 95%;
     right: 5px;
@@ -484,20 +478,15 @@ button:hover{
     line-height: 50px;
     text-transform: uppercase;
     color: #666;
+    border-bottom: none;
 }
 
 .order-summary {
+    position: relative;
     width: 35%;
     display:flex;
     flex-direction: column;
     margin: 20px 20px 20px 0;
-}
-
-.ordered-drink-row .remove,
-.ordered-drink-row .decrease,
-.ordered-drink-row .increase {
-    display: inline-block;
-    margin-right: 10px;
 }
 
 .currentOrder, .summary-control {
@@ -524,34 +513,105 @@ button:hover{
     border: 2px solid #CCC;
 }
 
+.orderQuantity {
+    display: inline-flex;
+}
+
 .order-summary ul{list-style-type:none;}
 .order-summary span.orderQuantity{
     float:right;
-    width:100px;
+    display: inline-block;
+    /*width:130px;*/
     text-align:center;
+    padding: 0 10px;
 }
 
-.order-summary span.orderQuantity span.decrease-ol{
-    float:left;
+.quantity {
+    padding: 0 15px;
 }
-.order-summary span.orderQuantity span.increase-ol{
-    float:right;
+
+.undo,
+.redo {
+    position: absolute;
+    top: 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.undo {
+    right: 90px;
+}
+
+.redo {
+    right: 20px;
 }
 
 .summary-control{
+    display: flex;
     align-self:flex-end;
+    background: #FFF;
+    width: 100%;
 }
 
+.cancel,
+.order-button {
+    font-size: 20px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    height: 50px;
+}
 
-.order-summary .summary-control button{
-    float:right;
+.cancel {
+    margin-left: 15px;
+    margin-right: 50px;
+}
+.order-button {
+    flex-grow: 1;
+    margin-right: 15px;
+    background: green;
+    color: #FFF;
 }
 
 .remove, .increase-ol, .decrease-ol{
+    display: inline-block;
     color: #aaa;
     font-size: 20px;
     font-weight: bold;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     text-align: center;
     background: #cecece;
+    cursor: pointer;
+}
+
+.remove {
+    color: #FFF;
+}
+
+.decrease-ol,
+.increase-ol {
+    color: #FFF;
+}
+.decrease-ol {
+    background: #dc3d3d;
+}
+
+.increase-ol {
+    background: #86dc3d;
+}
+
+.bSum {
+    margin-left: 10px;
+}
+
+.remove {
+    margin-right: 15px;
+}
+
+.logged-out .order-summary {
+    display: none;
+}
+
+.logged-out .drink-quantity {
+    display: none;
 }

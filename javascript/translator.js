@@ -110,6 +110,8 @@ function translateText(){
         // alert("translating key:" + arg);
         div.innerHTML = getText(arg);
     }
+    $('.username-field').attr('placeholder', getText('username'));
+    $('.password-field').attr('placeholder', getText('password'));
 }
 
 function getLangSwapImgSrc(){
@@ -118,6 +120,8 @@ function getLangSwapImgSrc(){
     }
     return 'resources/en-flag.png';
 }
+
+
 
 
 function setLangButtonImage(){
@@ -133,5 +137,4 @@ function setLangButtonImage(){
         // button.style.height = "40px";
         // button.innerHTML ="<img src='resources/en-flag.png' draggable = 'false'>";
     }
-
 }

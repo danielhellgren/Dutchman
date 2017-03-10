@@ -53,8 +53,13 @@ function changeLoginButton() {
         var userName=myUserArray[1]; //Get the userName from the array.
         console.log(userName);
 
+        $('body').addClass('logged-in');
+
         if ($('body.customer').length) {
             getAndShowCredits(userName);
         }
+    }
+    else {
+        $('body').addClass('logged-out');
     }
 }

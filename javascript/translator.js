@@ -28,6 +28,7 @@ $(document).ready(function() {
         // console.log(lexicon);
         translateText();
         changeLoginButton();
+        setLangButtonImage();
     });
 });
 
@@ -109,4 +110,28 @@ function translateText(){
         // alert("translating key:" + arg);
         div.innerHTML = getText(arg);
     }
+}
+
+function getLangSwapImgSrc(){
+    if(lang != "se"){
+        return 'resources/se-flag.png';
+    }
+    return 'resources/en-flag.png';
+}
+
+
+function setLangButtonImage(){
+    var button = document.getElementsByClassName("language")[0];
+    if( lang != "se"){
+        // button.backgroundImage = "resources/se-flag.png";
+        button.innerHTML ="<img id = 'lang-swap-img' src='resources/se-flag.png' height='40px' width='80px' class='lan-swap-img' draggable = 'false'>";
+    }
+    else{
+        button.innerHTML ="<img src='resources/en-flag.png' height='40px' width='80px' draggable = 'false'>";
+        // button.ima = "resources/en-flag.png";
+        // button.style.width = "80px";
+        // button.style.height = "40px";
+        // button.innerHTML ="<img src='resources/en-flag.png' draggable = 'false'>";
+    }
+
 }

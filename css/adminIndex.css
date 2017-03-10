@@ -177,7 +177,8 @@
     float:right;
     height:30px;
     width:80px;
-    background:green;
+    background:#11ad17;
+    color: white;
 }
 
 .drinks-grid .drink:first-child {
@@ -322,8 +323,8 @@
     left: 50%;
     height: 100px;
     width: 200px;
-    background-color: #5298e6;
-    color: black;
+    background-color: #11ad17;
+    color: white;
     font-weight: bold;
     font-size: medium;
 }
@@ -335,8 +336,8 @@
     left: 50%;
     height: 100px;
     width: 200px;
-    background-color: #5298e6;
-    color: black;
+    background-color: #11ad17;
+    color: white;
     font-weight: bold;
     font-size: medium;
 }

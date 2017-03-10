@@ -272,8 +272,8 @@ button:hover{
 
 .order-button,
 .language {
-    color: #FFF;
-    background:green;
+    color: white;
+    background:#11ad17;
 }
 
 .credits {
@@ -405,7 +405,7 @@ button:hover{
 
 .drink-image {
     display: block;
-    height: 150px;
+    height: 130px;
     margin: 0 auto;
 }
 
@@ -417,7 +417,7 @@ button:hover{
 }
 
 .drink .drink-image img {
-    width: 50px;
+    width: 45px;
     margin: 0 auto;
     display: block;
 }

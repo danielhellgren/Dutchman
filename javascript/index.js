@@ -198,12 +198,10 @@ function renderDrink(inventoryGetDrink, beerDataGetDrink) {
     //Add the beer name to div
     beerInfoDiv.appendChild(beerNameDiv);
 
-    //Get image for drink and add it
+    //Get image for drink and add it in the if-statements for the different drink categories.
     var beerImage = document.createElement('div');
     beerImage.className = 'drink-image';
 
-    beerImage.innerHTML = '<img src="resources/beer.png" draggable="false">';
-    beerInfoDiv.appendChild(beerImage);
 
     //Get alcohol % of drink and add it
     var alcDiv = document.createElement('div');
@@ -265,19 +263,27 @@ function renderDrink(inventoryGetDrink, beerDataGetDrink) {
      */
     var drinkType = beerDataGetDrink.varugrupp;
 
-    if (drinkType.includes("Alkoholfritt")) { //Alkoholfritt first because a drink can both be alcoholfree and a beer.
+    if (drinkType.includes("Alkoholfritt")) {//Alkoholfritt first because a drink can both be alcoholfree and a beer.
+        beerImage.innerHTML = '<img src="resources/soda.png" draggable="false">';
+        beerInfoDiv.appendChild(beerImage);
         document.getElementsByClassName("na-grid")[0]
             .appendChild(beerDiv);
     }
     else if (drinkType.includes("Rött vin") || drinkType.includes("Vitt vin")) {
+        beerImage.innerHTML = '<img src="resources/wine.png" draggable="false">';
+        beerInfoDiv.appendChild(beerImage);
         document.getElementsByClassName("wine-grid")[0]
             .appendChild(beerDiv);
     }
     else if (drinkType.includes("Cider") || drinkType.includes("Blanddrycker")) {
+        beerImage.innerHTML = '<img src="resources/cider.png" draggable="false">';
+        beerInfoDiv.appendChild(beerImage);
         document.getElementsByClassName("cider-grid")[0]
             .appendChild(beerDiv);
     }
     else if (drinkType.includes("Öl")) {
+        beerImage.innerHTML = '<img src="resources/beer.png" draggable="false">';
+        beerInfoDiv.appendChild(beerImage);
         document.getElementsByClassName("drinks-grid")[0]
             .appendChild(beerDiv);
     }

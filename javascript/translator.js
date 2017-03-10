@@ -10,8 +10,6 @@ $(document).ready(function() {
     $.getJSON("./language.json", function(data) {
         lexicon = data;
         // console.log(lexicon);
-        // lang = ;
-        // alert(lang);
         translateText();
         changeLoginButton();
     });
@@ -25,7 +23,6 @@ $(document).ready(function() {
 function getText(arg){
     // if url is messed up or function returned something bad - default to english
     //  console.log(lexicon);
-    // console.log("getText: " + arg + ", lang: " + lang);
     if (lang != "en" && lang != "se"){
         lang = "en";
     }

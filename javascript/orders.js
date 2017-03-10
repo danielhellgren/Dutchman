@@ -15,10 +15,15 @@ function getOrders(){
 
         function(data) {
             var orders = [];
-            for (var i = 0; i< data.payload.length; i++) {
-                if (data.payload[i].namn !=="") { //remove drinks with no name.
+            var size = data.payload.length - 1;
+
+            // console.log("payload length: " + data.payload.length + data.payload[size-1]);
+            for (var i = 0; i < size + 1; i++) {
+                // console.log(i);
+                if (data.payload[size - i].namn !== "") { //remove drinks with no name.
                     //drinkId[i-7] = data.payload[i].beer_id;
-                    orders.push(data.payload[i]);
+                    // console.log("adding order: " + (size - i));
+                    orders.push(data.payload[size - i]);
                 }
             }
             renderOrders(orders);
@@ -58,8 +63,10 @@ function renderOrder(order){
     var beerDiv = document.createElement('div');
     beerDiv.className = "drink-name";
     beerDiv.innerHTML = order.namn;
-    if(order.namn2 != "")
+    if(order.namn2 != "") {
         beerDiv.innerHTML += " <br> " + order.namn2;
+        beerDiv.style.lineHeight = "15px";
+    }
     //add to div
     orderDiv.appendChild(beerDiv);
 

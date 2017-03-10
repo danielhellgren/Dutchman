@@ -10,6 +10,7 @@
 .orders-grid .order-item:first-child {
     font-weight: bold;
     line-height: 50px;
+    background-color: rgba(0,0,255,0.05);
 }
 
 .orders-grid .order-item:first-child .drink-name{
@@ -29,11 +30,11 @@
 }
 
 .order-item{
-    display:flex;
+    /*display:flex;*/
     width: calc(100% - 5px);
-    height: 40px;
+    height: 100%;
     line-height: 40px;
-    margin: 20px;
+    margin: 2px;
     border: 2px solid #BBB;
     background: #FCFCFC;
 }
@@ -50,12 +51,13 @@
     height: 100%;
     float:left;
     margin-right: 10px;
+    margin-left: 5px;
     /*padding: 5px 0 0 5px;*/
     /*line-height: 15px; !* Because of 2 lines *!*/
 }
 
 .price {
-    width: 25%;
+    /*width: 25%;*/
     height: 100%;
     float:left;
 }
@@ -70,7 +72,7 @@
     width: 25%;
     height: 100%;
     float:left;
-    line-height: 15px; /*Because of 2 lines*/
+    /*line-height: 15px; !*Because of 2 lines*!*/
 }
 
 .admin-link {

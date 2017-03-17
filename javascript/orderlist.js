@@ -158,7 +158,14 @@ function drawOrderList(list){
     resetDrawQuantity();
     if (list.length == 0){
         $("ul").remove(".orderList");
+        var orderButton = document.getElementsByClassName("order-button")[0];
 
+        if (orderButton) {
+            orderButton.innerHTML = getText('order');
+        }
+        else {
+            document.getElementsByClassName("order-button-admin")[0].innerHTML = getText('order');
+        }
         return;
     }
 

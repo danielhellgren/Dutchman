@@ -1,6 +1,6 @@
 /*
 This document behaves in a similar way as index.js. It creates information for different drinks
-together with tabs for the different drink-categories.
+together with tabs for the different drink-categories in the bartender view of the application.
  */
 
 var orders = new Orderlist();
@@ -182,17 +182,18 @@ function createEventHandlers() {
         changeCategoryColor(this.id);
     });
 
+    // show the payment screen when the order button is pressed
     $(document).on('click', '.order-button-admin', function () { //THIS IS NOT WORKING
         showPaymentDiv();
     });
 
-    //numpad paybutton
+    //numpad paybutton when entering cash payment
     $(document).on('click', '.numpad-button', function () {
        var inputForm = document.getElementsByClassName('added-payment')[0];
        inputForm.value += this.value;
     });
 
-    //Erase value input to numpad
+    //Erase the values entered when doing a cash payment
     $(document).on('click', '.numpad-erase-button', function () {
        var inputForm =  document.getElementsByClassName('added-payment')[0];
         inputForm.value = "";
@@ -275,7 +276,7 @@ function createEventHandlers() {
 }
 
 /*
-Put another div ontop of the menu where the admin can put in information about the payment.
+Put another div on top of the menu where the admin can put in information about the payment.
  */
 function showPaymentDiv() {
     var paymentDiv = document.getElementsByClassName("payment")[0];
@@ -284,7 +285,7 @@ function showPaymentDiv() {
 
 /*
 Calculate the total amount of the order and check the entered amount so that it can look
-if the entered amount is less than the total. Then the payment will not go through.
+if the entered amount is less than the total. If it is less then the payment will not go through.
  */
 function completeAdminPurchase(orderList, enteredPayment) {
     var totalAmount = 0;

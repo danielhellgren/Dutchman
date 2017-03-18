@@ -5,7 +5,7 @@
     <title>The Flying Dutchman</title>
 
     <link rel="stylesheet" href="css/index.css">
-    <!--<link rel="stylesheet" href="css/adminIndex.css">-->
+    <link rel="stylesheet" href="css/adminIndex.css">
     <link rel="stylesheet" href="css/orders.css">
 
     <script
@@ -23,7 +23,7 @@
         <h1 class="header-text">
             <script>
                 var adminref = "adminindex.html";
-                document.write("<a href="+ adminref + langRef() + " class='text-translate' data-translate-key='drinks'>The Flying Dutchman</a>");
+                document.write("<a href="+ adminref + langRef() + ">The Flying Dutchman</a>");
             </script>
         </h1>
         <div class="admin-navigation">
@@ -33,38 +33,38 @@
                 //            console.log(adminref);
                 //            console.log(ordersref);
                 document.write("<a href="+ adminref + langRef() + " class='admin-link text-translate' data-translate-key='drinks'></a>" +
-                    "<a href=" + ordersref + langRef() + " class='admin-link text-translate' data-translate-key='orders'></a>");
+                    "<a href=" + ordersref + langRef() + " class='admin-link selected text-translate' data-translate-key='orders'></a>");
             </script>
         </div>
-        <script>
-           var loginRef = "login.html";
+        <div class="right-navigation">
+            <script>
+                var loginRef = "login.html";
                 document.write("<a class = 'login-link' href=" + loginRef + langRef() + ">");
-            document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'></button></a>");
-        </script>
+                document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'></button></a>");
+            </script>
 
-        <script>
-            document.write("<a href=" + langRef(langSwap())+ "><button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>");
-
-        </script>
+            <script>
+                document.write("<a href=" + langRef(langSwap())+ "><button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>");
+            </script>
+        </div>
     </div>
     <div class="main">
         <div class="orders card">
-            <div class="orders-grid">
-                <div class="order-item">
-                    <div class="order-item-customer-name text-translate" data-translate-key="customer-name">
-                        <!--customer name-->
-                    </div>
-                    <div class="order-item-drink-name text-translate" data-translate-key="drink-name">
-                        <!--drink name-->
-                    </div>
-                    <div class="order-item-time text-translate" data-translate-key="time">
-                        <!--time-->
-                    </div>
-                    <div class="order-item-price text-translate" data-translate-key="price">
-                        <!--price-->
-                    </div>
+            <div class="orders-header bottom-shadow">
+                <div class="order-item-customer-name text-translate" data-translate-key="customer-name">
+                    <!--customer name-->
+                </div>
+                <div class="order-item-drink-name text-translate" data-translate-key="drink-name">
+                    <!--drink name-->
+                </div>
+                <div class="order-item-time text-translate" data-translate-key="time">
+                    <!--time-->
+                </div>
+                <div class="order-item-price text-translate" data-translate-key="price">
+                    <!--price-->
                 </div>
             </div>
+            <div class="orders-grid"></div>
         </div>
     </div>
 </body>

@@ -188,11 +188,16 @@ function drawOrderList(list){
         var template =
             "<span class = remove>X</span>" +
             "<span class = beername>" + bName + "</span>" +
-            "<span class = orderQuantity>" +
-            "<span class = decrease-ol>-</span>" +
-            "<span class = quantity> " + q + " </span>" +
-            "<span class = increase-ol>+</span>"+
-            "<span class = bSum >" + bTot + " kr</span>"+
+            "<span class = quantity-and-sum>" +
+                "<span class = orderQuantity>" +
+                    "<span class='quantity-control-buttons'>" +
+                        "<span class = decrease-ol>-</span>" +
+                        "<span class = quantity> " + q + " </span>" +
+                        "<span class = increase-ol>+</span>"+
+                    "</span>" +
+                "</span>" +
+                "<span class = bSum >" + bTot + " kr</span>" +
+            "</span>" +
 
             "</span>";
         row.innerHTML = template;

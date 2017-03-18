@@ -5,24 +5,20 @@
     flex-direction: column;
     margin-left: 10px;
     margin-right: 10px;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
 }
-
-.orders-grid .order-item:first-child {
-    font-weight: bold;
-    line-height: 50px;
-    background-color: rgba(0,0,255,0.05);
-}
-
 
 .orders {
-    display: flex;
-    flex-direction: column;
+    /*display: flex;*/
+    /*flex-direction: column;*/
     width: 75%;
     margin: 20px;
     flex-grow: 1;
     flex-wrap: wrap;
     justify-content: center;
-    overflow-y: scroll;
+    overflow: hidden;
     /* background: green; */
 }
 
@@ -34,13 +30,6 @@
     margin: 2px;
     border: 2px solid #BBB;
     background: #FCFCFC;
-}
-
-.card {
-    background: #FFF;
-    border: 2px solid #BBB;
-    box-shadow: 0 0 2px #EEE;
-    border-radius: 3px;
 }
 
 .order-item-customer-name {
@@ -72,12 +61,20 @@
     /*line-height: 15px; !*Because of 2 lines*!*/
 }
 
-.admin-link {
-    margin-left: 15px;
-}
-
 .header-text,
 .admin-navigation {
     display: inline-block;
+}
+
+.orders-header
+{
+    float: left;
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    border-bottom: 1px solid #CCC;
 }
 

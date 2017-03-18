@@ -21,6 +21,41 @@
 </head>
 <body class="admin">
 
+<div class="header">
+    <h1 class="header-text">
+        <script>
+            var adminref = "adminindex.html";
+            document.write("<a href="+ adminref + langRef() + ">The Flying Dutchman</a>");
+        </script>
+    </h1>
+
+    <div class="admin-navigation">
+        <script>
+            var adminRef = "adminindex.html";
+            var ordersRef = "orders.html";
+            document.write("<a href=" + adminRef + langRef() + " class='admin-link selected text-translate' data-translate-key='drinks'></a>");
+            document.write("<a href=" + ordersRef + langRef() + " class='admin-link text-translate' data-translate-key='orders'></a>");
+        </script>
+    </div>
+
+    <div class="right-navigation">
+        <script>
+            if(lang=="se"){
+                document.write("<a class = 'login-link' href='login.html?lang=se'>");
+            }
+            else{
+                document.write("<a class = 'login-link' href='login.html?lang=en'>");
+            }
+            document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'> </button></a>");
+        </script>
+
+        <script>
+            document.write("<a href=" + langRef(langSwap())+ "><button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>")
+        </script>
+    </div>
+
+</div>
+
 <div class="payment">
     <h1 class = 'payment-text text-translate' data-translate-key='payment-text'></h1>
     <div class="credit-option">
@@ -79,40 +114,6 @@
     </div>
 </div>
 
-<div class="header">
-    <h1 class="header-text">
-        <a href="/">The Flying Dutchman</a>
-    </h1>
-
-    <div class="admin-navigation">
-        <script>
-            var adminRef = "adminindex.html";
-            var ordersRef = "orders.html";
-//            console.log(adminref);
-//            console.log(ordersref);
-            document.write("<a href=" + adminRef + langRef() + " class='admin-link text-translate' data-translate-key='drinks'></a>");
-             document.write("<a href=" + ordersRef + langRef() + " class='admin-link text-translate' data-translate-key='orders'></a>");
-        </script>
-    </div>
-    <script>
-        if(lang=="se"){
-            document.write("<a class = 'login-link' href='login.html?lang=se'>");
-        }
-        else{
-            document.write("<a class = 'login-link' href='login.html?lang=en'>");
-        }
-        document.write("<button type = 'button' class = 'login-button text-translate' data-translate-key='login'> </button>");
-    </script>
-
-    </a>
-
-    <script>
-        document.write("<a href=" + langRef(langSwap())+ "><button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>")
-    </script>
-    <!--<button type ="button" class="language">Swedish</button>-->
-    <!--<p class="credits"></p>-->
-
-</div>
 <div class="main">
     <div class="drinks card">
 
@@ -130,80 +131,27 @@
                 <!--Non-alcoholic-->
             </button>
         </div>
-        <div class="drinks-grid">
-
-            <div class="drink">
-
-                <div class="drink-name text-translate" data-translate-key="name">
-                    <!-name-->
-                </div>
-                <div class = "alcohol text-translate" data-translate-key="alcohol">
-                    <!--Alcohol-->
-                </div>
-                <div class="price text-translate" data-translate-key="price">
-                    <!--Price-->
-                </div>
-                <div class="stock text-translate" data-translate-key="stock">
-                    <!--Stock-->
-                </div>
-                <div class="addorder text-translate" data-translate-key="addorder">
-                    <!--Quantity-->
-                </div>
-
+        <div class="drinks-header bottom-shadow">
+            <div class="drink-name text-translate" data-translate-key="name">
+                <!--Name-->
             </div>
-
-        </div>
-        <div class = "wine-grid">
-            <div class="drink">
-                <div class="drink-name text-translate" data-translate-key="name">
-                    <!-name-->
-                </div>
-                <div class = "price text-translate" data-translate-key="alcohol">
-                    <!--Alcohol-->
-                </div>
-                <div class="stock text-translate" data-translate-key="price">
-                    <!--Price-->
-                </div>
-                <div class="alcohol text-translate" data-translate-key="stock">
-                    <!--Stock-->
-                </div>
-                <!--<img class="drink-image" src="resources/beer.png" />-->
+            <div class = "alcohol text-translate" data-translate-key="alcohol">
+                <!--Alcohol-->
+            </div>
+            <div class="price text-translate" data-translate-key="price">
+                <!--Price-->
+            </div>
+            <div class="stock text-translate" data-translate-key="stock">
+                <!--Stock-->
+            </div>
+            <div class="addorder text-translate" data-translate-key="addorder">
+                <!--Quantity-->
             </div>
         </div>
-        <div class = "cider-grid">
-            <div class="drink">
-                <div class="drink-name text-translate" data-translate-key="name">
-                    <!-name-->
-                </div>
-                <div class = "price text-translate" data-translate-key="alcohol">
-                    <!--Alcohol-->
-                </div>
-                <div class="stock text-translate" data-translate-key="price">
-                    <!--Price-->
-                </div>
-                <div class="alcohol text-translate" data-translate-key="stock">
-                    <!--Stock-->
-                </div>
-                <!--<img class="drink-image" src="resources/beer.png" />-->
-            </div>
-        </div>
-        <div class = "na-grid">
-            <div class="drink">
-                <div class="drink-name text-translate" data-translate-key="name">
-                    <!-name-->
-                </div>
-                <div class = "price text-translate" data-translate-key="alcohol">
-                    <!--Alcohol-->
-                </div>
-                <div class="stock text-translate" data-translate-key="price">
-                    <!--Price-->
-                </div>
-                <div class="alcohol text-translate" data-translate-key="stock">
-                    <!--Stock-->
-                </div>
-                <!--<img class="drink-image" src="resources/beer.png" />-->
-            </div>
-        </div>
+        <div class="drinks-grid list"></div>
+        <div class="wine-grid list"></div>
+        <div class="cider-grid list"></div>
+        <div class="na-grid list"></div>
     </div>
 
     <div class="order-summary card">
@@ -211,12 +159,14 @@
         <div class="currentOrder" ondrop = "drop(event)" ondragover = "allowDrop(event)">
         </div>
         <div class="summary-control">
-             <span class="undo text-translate" data-translate-key="undo">
-                 <!--undo-->
-             </span>
-            <span class="redo text-translate" data-translate-key="redo">
-                 <!--redo-->
-             </span>
+            <div class="undo-redo-buttons">
+                <span class="undo text-translate" data-translate-key="undo">
+                    <!--undo-->
+                </span>
+                <span class="redo text-translate" data-translate-key="redo">
+                    <!--redo-->
+                </span>
+            </div>
             <button class="cancel text-translate" data-translate-key="cancel">
                  <!--cancel-->
              </button>

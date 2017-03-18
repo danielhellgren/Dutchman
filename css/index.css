@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    min-width: 800px;
 }
 
 body {
@@ -25,7 +26,8 @@ button {
     background: #FFF;
     border: 2px solid #BBB;
     box-shadow: 0 0 2px #EEE;
-    border-radius: 3px;
+    border-radius: 15px;
+    overflow: auto;
 }
 
 .info-button {
@@ -77,7 +79,7 @@ button {
 .info-box-header {
     display: flex;
     height: 49px;
-    line-height: 40px;
+    line-height: 49px;
     padding-left: 10px;
     /*font-size: 30px;*/
     background-color: #EEE;
@@ -85,8 +87,12 @@ button {
 }
 
 /* namn in header of info-box*/
-.namn {
-    font-size: 30px;
+.info-box-header .namn {
+    font-size: 24px;
+}
+
+.info-box-header .namn2 {
+    margin-left: 8px;
 }
 
 .info-box-drink-image{
@@ -100,6 +106,8 @@ button {
     width: 120px;
     /*margin-left: -60px);*/
     margin-top: -150px;
+    border-right: 1px solid #DDD;
+    box-shadow: 1px 0 3px rgba(0,0,0,0.1);
 }
 .info-header {
     margin: 0 10px;
@@ -109,9 +117,14 @@ button {
 
 }
 
+.close-info-box,
+.close-info-box-confirmation {
+    color: #AAA;
+    background: #EEE;
+}
+
 /*the close button for info window*/
 .close-info-box{
-    color: #aaa;
     /*position: fixed;*/
     float: right;
     /*margin-top: -5px;*/
@@ -120,13 +133,11 @@ button {
     width: 40px;
     text-align: center;
     background: #cecece;
-    color: #fb1414;
     height: 49px;
     line-height: 49px;
 }
 
 .close-info-box-confirmation{
-    color: #aaa;
     /*position: fixed;*/
     float: right;
     /*margin-top: -5px;*/
@@ -134,8 +145,6 @@ button {
     font-weight: bold;
     width: 40px;
     text-align: center;
-    background: #cecece;
-    color: #fb1414;
 }
 
 /*what to do on hover over close button*/
@@ -238,6 +247,7 @@ button {
     padding-left: 20px;
     font-weight: 300;
     color: #333;
+    overflow: visible;
 }
 
 .header-text {
@@ -260,27 +270,40 @@ button:hover{
 
 }
 
+.right-navigation {
+    float: right;
+}
+
 .login-button,
 .language {
+    vertical-align: top;
     position:relative;
-    float:right;
     height:40px;
-    padding: 0 15px;
     margin: 5px 5px 0 0;
     font-size: 18px;
     border: none;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.login-button {
+    padding: 0 15px;
 }
 
 .language {
     color: white;
+    padding: 0;
     /*background:#11ad17;*/
 }
 
 .credits {
-    display:block;
-    float: right;
+    display: inline-block;
     margin: 2px 15px 0;
     font-size: 20px;
+}
+
+.credits-value {
+    font-weight: 600;
 }
 
 .main {
@@ -306,6 +329,7 @@ button:hover{
     flex-shrink: 0;
     height: 50px;
     background: yellow;
+    border-bottom: 1px solid #CCC;
 }
 
 .category {
@@ -331,7 +355,6 @@ button:hover{
     flex-wrap: wrap;
     justify-content: center;
     overflow-y: scroll;
-
 }
 
 .wine-grid {
@@ -446,23 +469,6 @@ button:hover{
     line-height: 35px;
 }
 
-.admin-link {
-    margin-left: 15px;
-    font-size: 20px;
-    margin-left: 20px;
-    font-family: 'Open Sans', sans-serif;
-}
-
-.admin-out-of-stock {
-    position: absolute;
-    top: 4px;
-    bottom: 5px;
-    left: 95%;
-    right: 5px;
-    z-index: 500;
-    background-color: rgba(0,0,0,0.4);
-
-}
 .change-quantity.decrease {
     /*float: left;*/
     background: #dc3d3d;
@@ -484,9 +490,8 @@ button:hover{
     box-sizing: border-box;
     background: #CCC;
     line-height: 50px;
-    text-transform: uppercase;
     color: #666;
-    border-bottom: none;
+    border-bottom: 1px solid #CCC;
 }
 
 .order-summary {
@@ -495,18 +500,22 @@ button:hover{
     display:flex;
     flex-direction: column;
     margin: 20px 20px 20px 0;
+    overflow: hidden;
 }
 
 .currentOrder, .summary-control {
     flex-grow: 1;
+    flex-shrink: 0;
 }
 
 .currentOrder {
     /*border-radius:10px;*/
     background:white;
     /*margin:5px;*/
-    padding: 20px;
+    padding: 10px;
     flex-basis: 85%;
+    overflow: auto;
+    flex-shrink: 1;
 }
 
 .currentOrder ul {
@@ -516,7 +525,7 @@ button:hover{
 
 .currentOrder li {
     background: #EEE;
-    padding: 10px;
+    /*padding: 10px;*/
     margin-bottom: 10px;
     border: 2px solid #CCC;
 }
@@ -527,39 +536,48 @@ button:hover{
 
 .order-summary ul{list-style-type:none;}
 .order-summary span.orderQuantity{
-    float:right;
+    /*float:right;*/
     display: inline-block;
     /*width:130px;*/
     text-align:center;
-    padding: 0 10px;
+    /*padding: 0 10px;*/
+    margin-right: 10px;
 }
 
 .quantity {
     padding: 0 5px;
 }
 
+.undo-redo-buttons {
+    position: absolute;
+    top: 3px;
+    right: 8px;
+    vertical-align: top;
+}
+
 .undo,
 .redo {
-    position: absolute;
-    top: 15px;
     cursor: pointer;
     font-weight: bold;
-}
-
-.undo {
-    right: 90px;
-}
-
-.redo {
-    right: 20px;
+    background: #fff;
+    display: inline-block;
+    padding: 9px;
+    border-radius: 6px;
+    border: 2px solid #aaa;
 }
 
 .ordered-drink-row {
     display: flex;
+    line-height: 30px;
+}
+
+.quantity-control-buttons {
+    white-space: nowrap;
 }
 
 .beername {
     flex-grow: 1;
+    line-height: 40px;
 }
 
 .summary-control{
@@ -572,24 +590,26 @@ button:hover{
 .cancel,
 .order-button {
     font-size: 20px;
-    padding: 10px 15px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     height: 50px;
+    border-radius: 5px;
 }
 
 .cancel {
-    margin-left: 15px;
+    margin-left: 10px;
     margin-right: 50px;
+    padding: 0 10px;
 }
 .order-button {
     flex-grow: 1;
-    margin-right: 15px;
+    margin-right: 10px;
     background: #11ad17;
     color: #FFF;
 }
 
 .remove, .increase-ol, .decrease-ol{
     display: inline-block;
+    flex-shrink: 0;
     color: #aaa;
     font-size: 20px;
     font-weight: bold;
@@ -616,12 +636,19 @@ button:hover{
     background: #86dc3d;
 }
 
+.quantity-and-sum {
+    margin: 5px;
+}
+
 .bSum {
-    margin-left: 10px;
+    /*margin-left: 10px;*/
+    white-space: nowrap;
+    min-width: 50px;
+    display: inline-block;
 }
 
 .remove {
-    margin-right: 15px;
+    margin: 5px;
 }
 
 .logged-out .order-summary {
@@ -630,4 +657,18 @@ button:hover{
 
 .logged-out .drink-quantity {
     display: none;
+}
+
+.bottom-shadow {
+    box-shadow: 0 4px 4px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+@media (max-width: 1000px) {
+    .corder {
+        font-size: 12px;
+    }
+    .cancel {
+        margin-right: 10px;
+    }
 }

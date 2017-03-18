@@ -111,8 +111,11 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
     //Get name of beer
     var beerNameDiv = document.createElement('div');
     beerNameDiv.className = "drink-name";
-    beerNameDiv.innerHTML = inventoryGetDrink.namn + "<br>";
-    beerNameDiv.innerHTML += inventoryGetDrink.namn2;
+    beerNameDiv.innerHTML =
+        "<div class='drink-name-inner'>" +
+            "<div class='namn'>" + inventoryGetDrink.namn + "</div>" +
+            "<div class='namn2'>" + inventoryGetDrink.namn2 + "</div>" +
+        "</div>";
     //Add the beer name to div
     beerDiv.appendChild(beerNameDiv);
 
@@ -154,6 +157,7 @@ function renderDrinks(inventoryGetDrink, beerDataGetDrink) {
 
     //Add a plus button next to each drink so that it can be added to the order summary
     var qDiv = document.createElement('div');
+    qDiv.className = 'order-drink';
     var quantityControls =
         "<div class='drink-quantity'>" +
         "<button type='button' class='change-quantity increase'>+</button>" +

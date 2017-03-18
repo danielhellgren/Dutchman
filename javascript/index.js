@@ -27,7 +27,7 @@ function getAndShowCredits(userName) {
             var userInformation = data.payload;
             var userCredits = userInformation[0].assets;
             var creditsNode =document.getElementsByClassName("credits")[0];
-            creditsNode.innerHTML = getText("credit") + ": " + userCredits + ":-";
+            creditsNode.innerHTML = getText("credit") + ": <span class='credits-value'>" + userCredits + ":-</span>";
 
     });
 }
@@ -340,7 +340,7 @@ function parseBeerInfo(beer_info){
     and then add the yes or no-part.
      */
     if(beer_info[0].ekologisk == "1"){
-            bodyString += getText("yes");
+        bodyString += getText("yes");
     }
     else {
         bodyString +=  getText("no");
@@ -460,7 +460,7 @@ function createEventHandlers() {
     
     //on click increase quantity for one line in orderlist
     $(document).on('click', '.increase-ol', function(){
-        var bevId = $(this).parent().parent().attr('beverageid');
+        var bevId = $(this).closest('.ordered-drink-row').attr('beverageid');
         orders.increase(bevId);
         drawOrderList(orders.showItems());
     });
@@ -490,7 +490,7 @@ function createEventHandlers() {
 
     //on click decrease quantity for one line in orderlist
     $(document).on('click', '.decrease-ol', function(){
-        var bevId = $(this).parent().parent().attr('beverageid');
+        var bevId = $(this).closest('.ordered-drink-row').attr('beverageid');
         orders.decrease(bevId);
         drawOrderList(orders.showItems());
     });

@@ -137,7 +137,6 @@ function drop(ev) {
     var draggedDrinkId = ev.dataTransfer.getData("dragDrinkId");
 
     var correctDrinkInfo = findDrinkById(draggedDrinkId);
-    // console.log(correctDrinkInfo);
     var draggedDrinkName = correctDrinkInfo.namn;
     var secondDraggedDrinkName = correctDrinkInfo.namn2;
     var draggedDrinkPriceInt = Number(correctDrinkInfo.pub_price);
@@ -434,7 +433,6 @@ function createEventHandlers() {
     // that would result in a loss of the orderlist
     $(window).bind('beforeunload', function(){
         var num = orders.showItems().length;
-        console.log(num);
         if(num > 0) {
             return getText("leave-confirm");
         }
@@ -578,7 +576,6 @@ function addOrderToSystem(orderList, userName) {
     for (var i = 0; i < orderList.length; i++) {
         var singleDrink = orderList[i];
         var singleDrinkId = singleDrink[0];
-        console.log("drinkid = " + singleDrinkId);
         var quantity = singleDrink[2];
         if (quantity > 1) { //If a customer orders two or more of a single beer.
             for (var j = 0; j < quantity; j++) {
@@ -682,7 +679,6 @@ This function is called if an user presses the order button without adding somet
 his/her orders first, since you have to add an item before ordering.
  */
 function showZeroDrinksErrorMessage() {
-    console.log("zero function is called");
     showErrorAndConfirmationOverlay();
     var errorHeader = getText("error-header");
     var errorMessage = getText("error-zero-drink-order");

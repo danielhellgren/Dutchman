@@ -2,7 +2,6 @@
  * Created by daniel.hellgren on 2017-03-06.
  */
 $(document).ready(function() {
-    //changeLoginButton();
     getOrders();
     createEventHandlers();
 });
@@ -17,12 +16,8 @@ function getOrders(){
             var orders = [];
             var size = data.payload.length - 1;
 
-            // console.log("payload length: " + data.payload.length + data.payload[size-1]);
             for (var i = 0; i < size + 1; i++) {
-                // console.log(i);
                 if (data.payload[size - i].namn !== "") { //remove drinks with no name.
-                    //drinkId[i-7] = data.payload[i].beer_id;
-                    // console.log("adding order: " + (size - i));
                     orders.push(data.payload[size - i]);
                 }
             }
@@ -32,7 +27,6 @@ function getOrders(){
 
 //render a single order to the list
 function renderOrder(order){
-    console.log(order);
     // EXAMPLE of order:
     // namn: "",
     // namn2: "",

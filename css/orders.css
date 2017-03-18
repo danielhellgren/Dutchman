@@ -1,6 +1,4 @@
 .orders-grid{
-    /*for some reason this div is waaaay to high and i had to move it down 27% ????*/
-    /*margin-top: 12%;*/
     display: flex;
     flex-direction: column;
     margin-left: 10px;
@@ -11,19 +9,15 @@
 }
 
 .orders {
-    /*display: flex;*/
-    /*flex-direction: column;*/
     width: 75%;
     margin: 20px;
     flex-grow: 1;
     flex-wrap: wrap;
     justify-content: center;
     overflow: hidden;
-    /* background: green; */
 }
 
 .order-item{
-    /*display:flex;*/
     width: calc(100% - 5px);
     height: 100%;
     line-height: 40px;
@@ -38,12 +32,9 @@
     float:left;
     margin-right: 10px;
     margin-left: 5px;
-    /*padding: 5px 0 0 5px;*/
-    /*line-height: 15px; !* Because of 2 lines *!*/
 }
 
 .order-item-price {
-    /*width: 25%;*/
     height: 100%;
     float:left;
 }
@@ -58,7 +49,6 @@
     width: 25%;
     height: 100%;
     float:left;
-    /*line-height: 15px; !*Because of 2 lines*!*/
 }
 
 .header-text,

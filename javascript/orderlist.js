@@ -34,7 +34,6 @@ function Orderlist(){
         for (i=0;i<l;i++){
             if (cart[i][0] == bevid){
                 cart.splice(i,1);
-                console.log("removed " + bevid);
                 this._updateUndoRedo();
                 return;
             }
@@ -91,9 +90,6 @@ function Orderlist(){
                     cart[i][2]++;
                     var q = cart[i];
                     this._updateUndoRedo();
-                }
-                else {
-                    console.log("not enough in stock of " + bevid + " only " +findDrinkById(bevid).count);
                 }
             }
         }
@@ -154,7 +150,6 @@ function Orderlist(){
 }
 /*Removes and redraws the orderlist and updates quantities on the drink card.*/
 function drawOrderList(list){
-    // console.log(JSON.stringify(list));
     resetDrawQuantity();
     if (list.length == 0){
         $("ul").remove(".orderList");
@@ -205,12 +200,8 @@ function drawOrderList(list){
         //updates the quantity of the cards
         updateDrawQuantity(bevId,q);
     }
-    ////calculate and set the element for total cost of the orderlist
-    //var summary = document.createElement('div');
-    //var sumText = "<span class = 'ordersum'>Total: " + orderSum(list) + "</span>";
-    //summary.innerHTML = sumText;
-    //document.getElementsByClassName("orderList")[0].appendChild(summary);
 
+    //calculate and set the element for total cost of the orderlist
     var orderButton = document.getElementsByClassName("order-button")[0];
 
     if (orderButton) {

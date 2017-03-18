@@ -25,7 +25,6 @@ $(document).ready(function() {
     // load lexicon
     $.getJSON("./language.json", function(data) {
         lexicon = data;
-        // console.log(lexicon);
         translateText();
         changeLoginButton();
         setLangButtonImage();
@@ -37,7 +36,6 @@ $(document).ready(function() {
   * with the current language (i.e "se") specified in the url (i.e index.html?lang=en)
  */
 function getText(arg){
-    //  console.log(lexicon);
     // if lang is not specifically "en" or "se" - default to english
     if (lang != "en" && lang != "se"){
         lang = "en";
@@ -103,11 +101,9 @@ function getParameterByName(name, url) {
  */
 function translateText(){
     var divs = document.getElementsByClassName("text-translate");
-    // alert("translating divs: " + divs.length);
     for(var i = 0; i < divs.length; i++){
         var div = divs[i];
         var arg = div.getAttribute("data-translate-key");
-        // alert("translating key:" + arg);
         div.innerHTML = getText(arg);
     }
     $('.username-field').attr('placeholder', getText('username'));
@@ -121,20 +117,12 @@ function getLangSwapImgSrc(){
     return 'resources/en-flag.png';
 }
 
-
-
-
 function setLangButtonImage(){
     var button = document.getElementsByClassName("language")[0];
     if( lang != "se"){
-        // button.backgroundImage = "resources/se-flag.png";
         button.innerHTML ="<img id = 'lang-swap-img' src='resources/se-flag.png' height='40px' width='80px' class='lan-swap-img' draggable = 'false'>";
     }
     else{
         button.innerHTML ="<img src='resources/en-flag.png' height='40px' width='80px' draggable = 'false'>";
-        // button.ima = "resources/en-flag.png";
-        // button.style.width = "80px";
-        // button.style.height = "40px";
-        // button.innerHTML ="<img src='resources/en-flag.png' draggable = 'false'>";
     }
 }

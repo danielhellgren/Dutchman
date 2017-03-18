@@ -81,7 +81,6 @@ button {
     height: 49px;
     line-height: 49px;
     padding-left: 10px;
-    /*font-size: 30px;*/
     background-color: #EEE;
     color: black;
 }
@@ -104,7 +103,6 @@ button {
     left: calc(50% - 370px);
     height: 300px;
     width: 120px;
-    /*margin-left: -60px);*/
     margin-top: -150px;
     border-right: 1px solid #DDD;
     box-shadow: 1px 0 3px rgba(0,0,0,0.1);
@@ -125,9 +123,7 @@ button {
 
 /*the close button for info window*/
 .close-info-box{
-    /*position: fixed;*/
     float: right;
-    /*margin-top: -5px;*/
     font-size: 36px;
     font-weight: bold;
     width: 40px;
@@ -138,9 +134,7 @@ button {
 }
 
 .close-info-box-confirmation{
-    /*position: fixed;*/
     float: right;
-    /*margin-top: -5px;*/
     font-size: 36px;
     font-weight: bold;
     width: 40px;
@@ -166,7 +160,6 @@ button {
 .info-box-body{
     display: flex;
     padding: 10px;
-    /*flex-grow: 1;*/
     font-size: 18px;
     height: calc(100% - 10px);
     width: calc(100% - 20px);
@@ -207,7 +200,6 @@ button {
     height: 49px;
     line-height: 40px;
     padding-left: 10px;
-    /*font-size: 30px;*/
     background-color: #EEE;
     color: black;
 }
@@ -215,7 +207,6 @@ button {
 .confirmation-box-body{
     display: flex;
     padding: 10px;
-    /*flex-grow: 1;*/
     font-size: 20px;
     height: calc(100% - 10px);
     width: calc(100% - 20px);
@@ -252,7 +243,6 @@ button {
 
 .header-text {
     display:inline-block;
-    /*vertical-align: top;*/
     margin-top:0;
     margin-left:5px;
     font-family: 'Lobster', sans-serif;
@@ -264,10 +254,6 @@ button {
 
 button:hover{
     cursor:pointer;
-}
-
-.login-link {
-
 }
 
 .right-navigation {
@@ -293,7 +279,6 @@ button:hover{
 .language {
     color: white;
     padding: 0;
-    /*background:#11ad17;*/
 }
 
 .credits {
@@ -321,7 +306,6 @@ button:hover{
     flex-direction: column;
     width: 65%;
     margin: 20px;
-    /*background: green;*/
 }
 
 .drinks-categories {
@@ -343,7 +327,6 @@ button:hover{
 }
 
 .selected {
-    /*background: #5298e6;*/
     background: white;
     font-weight: 600;
     text-decoration: none;
@@ -386,7 +369,6 @@ button:hover{
 
 .drink {
     width: 180px;
-    /*height: 250px;*/
     margin: 10px 10px 10px;
     position: relative; /* So .drink-quantity can have position: absolute */
     background: #EEE;
@@ -470,7 +452,6 @@ button:hover{
 }
 
 .change-quantity.decrease {
-    /*float: left;*/
     background: #dc3d3d;
 }
 
@@ -479,7 +460,6 @@ button:hover{
 }
 
 .change-quantity.increase {
-    /*float: right;*/
     background: #86dc3d;
 }
 
@@ -509,9 +489,7 @@ button:hover{
 }
 
 .currentOrder {
-    /*border-radius:10px;*/
     background:white;
-    /*margin:5px;*/
     padding: 10px;
     flex-basis: 85%;
     overflow: auto;
@@ -525,7 +503,6 @@ button:hover{
 
 .currentOrder li {
     background: #EEE;
-    /*padding: 10px;*/
     margin-bottom: 10px;
     border: 2px solid #CCC;
 }
@@ -536,11 +513,8 @@ button:hover{
 
 .order-summary ul{list-style-type:none;}
 .order-summary span.orderQuantity{
-    /*float:right;*/
     display: inline-block;
-    /*width:130px;*/
     text-align:center;
-    /*padding: 0 10px;*/
     margin-right: 10px;
 }
 
@@ -641,7 +615,6 @@ button:hover{
 }
 
 .bSum {
-    /*margin-left: 10px;*/
     white-space: nowrap;
     min-width: 50px;
     display: inline-block;

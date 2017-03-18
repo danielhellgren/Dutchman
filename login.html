@@ -32,14 +32,14 @@
         <script>
             var indexRef = "index.html";
             document.write(
-                    "<a class='back' href=" + indexRef + langRef() +">" +
-                        "<h1 class='header-text'>The Flying Dutchman</h1>" +
+                "<a class='back' href=" + indexRef + langRef() +">" +
+                    "<h1 class='header-text'>The Flying Dutchman</h1>" +
+                "</a>" +
+                "<div class='right-navigation'>" +
+                    "<a href="+ langRef(langSwap())+">" +
+                        "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button>" +
                     "</a>" +
-                    "<div class='right-navigation'>" +
-                        "<a href="+ langRef(langSwap())+">" +
-                            "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button>" +
-                        "</a>" +
-                    "</div>"
+                "</div>"
             );
         </script>
     </div>
@@ -48,13 +48,10 @@
         <h1 class="login-text text-translate" data-translate-key="login-text">
             <!--Please enter your login information to continue!-->
         </h1>
-        <!--<form name="loginform" onSubmit="return validateForm();"-->
-              <!--action="main.html" method="post">-->
-            <input type="text" class="username-field" placeholder="Enter Username" name="uname" required>
+        <input type="text" class="username-field" placeholder="Enter Username" name="uname" required>
 
-            <input type="password" class="password-field" placeholder="Enter Password" name="psw" required>
-            <button type="submit" class="login-page-login-button text-translate" data-translate-key="login"></button>
-        <!--</form>-->
+        <input type="password" class="password-field" placeholder="Enter Password" name="psw" required>
+        <button type="submit" class="login-page-login-button text-translate" data-translate-key="login"></button>
         <div class="error-msg"></div>
     </div>
 </body>

@@ -12,7 +12,6 @@ function readCookie(name) {
         var c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1,c.length);
         if (c.indexOf(nameEQ) == 0) {
-            // console.log(c.substring(nameEQ.length,c.length));
             return c.substring(nameEQ.length,c.length);
         }
 
@@ -51,7 +50,6 @@ function changeLoginButton() {
 
         var myUserArray=isCookie.split('|'); //userId and userName are split by a "|"
         var userName=myUserArray[1]; //Get the userName from the array.
-        console.log(userName);
 
         $('body').addClass('logged-in');
 

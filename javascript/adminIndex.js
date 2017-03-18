@@ -27,7 +27,6 @@ function getDrinks() {
              "price": "12.90"
          }, */
         function(data) {
-            //var drinks = [];
             for (var i = 0; i< data.payload.length; i++) {
                 if (data.payload[i].namn !=="") { //remove drinks with no name.
                     drinks.push(data.payload[i]);
@@ -36,8 +35,6 @@ function getDrinks() {
             getDrinksInfo(drinks);
         });
 }
-
-
 
 /*
  Get the drink information from all drinks. Compare it to the
@@ -345,9 +342,7 @@ function showConfirmationMessageAndChange(enteredPayment, totalAmount) {
  add it to the pressed button so that it gets highlighted
  */
 function changeCategoryColor(buttonId) {
-    // $('.category').each(function(){
     $('.category').removeClass('selected');
-    // });
     $('#' +buttonId).addClass('selected');
     showCorrectCategory(buttonId);
 }
@@ -387,7 +382,6 @@ function readCookie(name) {
         var c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1,c.length);
         if (c.indexOf(nameEQ) == 0) {
-            console.log(c.substring(nameEQ.length,c.length));
             return c.substring(nameEQ.length,c.length);
         }
 
